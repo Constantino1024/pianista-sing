@@ -1,5 +1,6 @@
-import ApiStatus from "../components/ApiStatus";
-import Planners from "../components/Planners/PlannerList";
+import ApiStatus from "@components/ApiStatus";
+import Planners from "@components/Planners/PlannerList";
+import SolversList from "@components/Solvers/SolversList";
 
 
 export default function Home() {
@@ -8,6 +9,9 @@ export default function Home() {
       <ApiStatus />
       <div>
         <Planners />
+      </div>
+      <div>
+        <SolversList />
       </div>
     </div>
   );

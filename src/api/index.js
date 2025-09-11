@@ -11,6 +11,7 @@ export const api = axios.create({
 });
 
 export * from './planners';
+export * from './solvers';
 
 // GET /
 export const getRoot = () => api.get("/");

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getRoot } from "../api/pianista";
+import { getRoot } from "@api";
 
 export default function ApiStatus() {
   const [status, setStatus] = useState("Checking Pianista...");

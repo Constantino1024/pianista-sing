@@ -1,4 +1,4 @@
-import { api } from './pianista';
+import { api } from '.';
 
 // GET /planners
 export const getPlanners = () => api.get("/planners");
