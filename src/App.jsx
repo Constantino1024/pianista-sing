@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "@pages/Home";
 import PlannersPage from "@pages/PlannersPage";
+import SolversPage from "@pages/SolversPage";
 
 export default function App() {
   return (
@@ -12,10 +13,14 @@ export default function App() {
         <Link to="/planners" className="text-blue-600 hover:underline">
           Planners
         </Link>
+        <Link to="/solvers" className="text-blue-600 hover:underline">
+          Solvers
+        </Link>
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/planners" element={<PlannersPage />} />
+        <Route path="/solvers" element={<SolversPage />} />
       </Routes>
     </Router>
   );
