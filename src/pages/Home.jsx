@@ -1,17 +1,11 @@
 import ApiStatus from "@components/ApiStatus";
-import Planners from "@components/Planners/PlannerList";
-import SolversList from "@components/Solvers/SolversList";
-
+import { Link } from "react-router-dom";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center gap-6 bg-gray-50 p-4">
-      <ApiStatus />
-      <div>
-        <Planners />
-      </div>
-      <div>
-        <SolversList />
+    <div className="min-h-screen bg-gray-50 p-4">
+      <div className="max-w-7xl mx-auto space-y-6">
+        <ApiStatus />
       </div>
     </div>
   );

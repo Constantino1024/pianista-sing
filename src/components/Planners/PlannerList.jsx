@@ -1,7 +1,6 @@
 import ResourceList from "@components/common/ResourceList";
 import { getPlanners } from "@api";
 
-// Render function for individual planner items
 const renderPlannerItem = (planner) => (
   <div
     key={planner.id}

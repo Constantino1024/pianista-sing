@@ -4,7 +4,8 @@ export default function ResourceList({
   title, 
   fetchFunction, 
   renderItem, 
-  emptyMessage = "No items found" 
+  emptyMessage = "No items found",
+  onSelect 
 }) {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -48,7 +49,7 @@ export default function ResourceList({
       ) : (
         <>
           <div className="grid gap-2">
-            {items.map((item) => renderItem(item))}
+            {items.map((item) => renderItem(item, onSelect))}
           </div>
           <div className="mt-4 text-sm text-gray-600">
             Found {items.length} item(s)

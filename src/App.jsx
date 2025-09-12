@@ -1,13 +1,22 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "@pages/Home";
+import PlannersPage from "@pages/PlannersPage";
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <Router>
+      <nav className="mb-6 space-x-4">
+        <Link to="/" className="text-blue-600 hover:underline">
+          Home
+        </Link>
+        <Link to="/planners" className="text-blue-600 hover:underline">
+          Planners
+        </Link>
+      </nav>
       <Routes>
-        {/* Home page at "/" */}
         <Route path="/" element={<Home />} />
+        <Route path="/planners" element={<PlannersPage />} />
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }
