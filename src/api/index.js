@@ -10,6 +10,7 @@ export const api = axios.create({
   },
 });
 
+export * from './plans';
 export * from './planners';
 export * from './solvers';
 
