@@ -32,11 +32,22 @@ export default function PlanForm({
 
     try {
       const { data } = await postPlan(domain, problem, {
-        plannerId: selectedPlannerId || undefined, // only include if chosen
+        plannerId: selectedPlannerId || undefined,
         convertRealTypes,
       });
       setJobId(data.id);
     } catch (err) {
+      if (err.response?.status === 422) {
+        const validationErrors = err.response?.data?.detail;
+        if (Array.isArray(validationErrors)) {
+          const errorMessages = validationErrors
+            .map((error) => `${error.loc?.join(".")}: ${error.msg}`)
+            .join(", ");
+          setError(`Validation Error: ${errorMessages}`);
+        } else {
+          setError("Validation Error: Invalid plan ID format");
+        }
+      }
       setError(err.response?.data?.detail || "Failed to submit plan.");
     } finally {
       setLoading(false);
@@ -47,7 +58,6 @@ export default function PlanForm({
     <div className="p-6 bg-white shadow-lg rounded-2xl space-y-4">
       <h2 className="text-xl font-semibold text-gray-800">Post Plan</h2>
 
-      {/* 🔹 Planner selection notice or details */}
       {selectedPlannerDetails ? (
         <div className="p-4 border rounded bg-gray-50">
           <div className="flex justify-between items-center mb-2">

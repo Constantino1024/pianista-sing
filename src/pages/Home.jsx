@@ -2,6 +2,7 @@ import { useState } from "react";
 import ApiStatus from "@components/ApiStatus";
 import PlannersListDynamic from "@components/Planners/PlannerListDynamic";
 import PlanForm from "@components/Plan/PlanForm";
+import GetPlan from "@components/Plan/GetPlan";
 
 export default function Home() {
   const [selectedPlannerId, setSelectedPlannerId] = useState(null);
@@ -32,6 +33,9 @@ export default function Home() {
             selectedPlannerDetails={selectedPlannerDetails}
             clearPlanner={clearPlannerSelection}
           />
+        </div>
+        <div className="lg:col-span-3">
+          <GetPlan />
         </div>
       </div>
     </div>

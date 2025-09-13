@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "@pages/Home";
 import PlannersPage from "@pages/PlannersPage";
 import SolversPage from "@pages/SolversPage";
+import GetPlanPage from "@pages/GetPlanPage";
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/planners" element={<PlannersPage />} />
         <Route path="/solvers" element={<SolversPage />} />
+        <Route path="/get-plan" element={<GetPlanPage />} />
       </Routes>
     </Router>
   );
