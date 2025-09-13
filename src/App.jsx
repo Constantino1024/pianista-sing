@@ -1,8 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "@pages/Home";
-import PlannersPage from "@pages/PlannersPage";
-import SolversPage from "@pages/SolversPage";
-import GetPlanPage from "@pages/GetPlanPage";
+import Planners from "@pages/PlanPage";
+import Solvers from "@pages/SolvePage";
 
 export default function App() {
   return (
@@ -11,18 +10,11 @@ export default function App() {
         <Link to="/" className="text-blue-600 hover:underline">
           Home
         </Link>
-        <Link to="/planners" className="text-blue-600 hover:underline">
-          Planners
-        </Link>
-        <Link to="/solvers" className="text-blue-600 hover:underline">
-          Solvers
-        </Link>
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/planners" element={<PlannersPage />} />
-        <Route path="/solvers" element={<SolversPage />} />
-        <Route path="/get-plan" element={<GetPlanPage />} />
+        <Route path="/planners" element={<Planners />} />
+        <Route path="/solvers" element={<Solvers />} />
       </Routes>
     </Router>
   );
