@@ -9,6 +9,9 @@ import Converters from "@pages/ConverterPage";
 import MermaidToPddl from "@pages/Converters/MermaidToPddlPage";
 import PddlToMermaid from "@pages/Converters/PddlToMermaidPage";
 import NaturalToPddl from "@pages/Converters/NaturalToPddlPage";
+import ValidatePddlPage from "@pages/Validators/ValidatePddlPage";
+import PddlMatchValidatorPage from "@pages/Validators/PddlMatchValidatorPage";
+import PddlPlanValidatorPage from "@pages/Validators/PddlPlanValidatorPage";
 
 
 export default function App() {
@@ -26,6 +29,9 @@ export default function App() {
             <Route path="/converters/mermaid-to-pddl" element={<MermaidToPddl />} />
             <Route path="/converters/pddl-to-mermaid" element={<PddlToMermaid />} />
             <Route path="/converters/natural-to-pddl" element={<NaturalToPddl />} />
+            <Route path="/validators/pddl" element={<ValidatePddlPage />} />
+            <Route path="/validators/match" element={<PddlMatchValidatorPage />} />
+            <Route path="/validators/plan" element={<PddlPlanValidatorPage />} />
           </Routes>
         </main>
       </div>

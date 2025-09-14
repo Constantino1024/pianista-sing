@@ -16,7 +16,7 @@ export default function Home() {
               href="/planners" 
               className="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
             >
-              Go to Planners
+              Go to Planner
             </a>
           </div>
           
@@ -29,11 +29,11 @@ export default function Home() {
               href="/solvers" 
               className="inline-block bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
             >
-              Go to Solvers
+              Go to Solver
             </a>
           </div>
                     <div className="p-6 bg-white shadow-lg rounded-2xl">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">PDDL Validator</h2>
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">PDDL Validators</h2>
             <p className="text-gray-600 mb-4">
               Validate PDDL content and ensure it meets the required standards.
             </p>
@@ -41,7 +41,7 @@ export default function Home() {
               href="/validators" 
               className="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
             >
-              Go to PDDL Validator
+              Go to PDDL Validators
             </a>
           </div>
                     <div className="p-6 bg-white shadow-lg rounded-2xl">
