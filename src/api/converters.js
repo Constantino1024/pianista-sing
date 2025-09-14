@@ -10,3 +10,8 @@ export const postConvertMermaidToPddl = (text, domain = null, attempts = 1) => {
 
   return api.post(`/convert/mermaid?${params.toString()}`, body);
 };
+
+// POST /convert/mermaid/{pddl_type}
+export const postConvertPddlToMermaid = (pddl_type, pddl) => {
+  return api.post(`/convert/mermaid/${pddl_type}`, { pddl });
+};

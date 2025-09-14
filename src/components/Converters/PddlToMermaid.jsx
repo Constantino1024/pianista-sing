@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { postConvertMermaidToPddl } from "@api";
+import { postConvertPddlToMermaid } from "@api";
 
-export default function MermaidToPddl() {
-  const [mermaid, setMermaid] = useState("");
-  const [domain, setDomain] = useState("");
-  const [attempts, setAttempts] = useState(1);
+export default function PddlToMermaid() {
+  const [pddlType, setPddlType] = useState("domain");
+  const [pddl, setPddl] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
@@ -16,11 +15,9 @@ export default function MermaidToPddl() {
     setResult(null);
 
     try {
-      const { data } = await postConvertMermaidToPddl(
-        mermaid.replace(/\\n/g, "\n").replace(/\r\n/g, "\n"),
-        domain || null,
-        attempts
-      );
+      const normalizedPddl = pddl.replace(/\\n/g, "\n").replace(/\r\n/g, "\n");
+
+      const { data } = await postConvertPddlToMermaid(pddlType, normalizedPddl);
       setResult(data);
     } catch (err) {
       if (err.response?.status === 422) {
@@ -28,7 +25,9 @@ export default function MermaidToPddl() {
           "Validation Error: " + JSON.stringify(err.response.data.detail)
         );
       } else {
-        setError(err.response?.data?.message || "Failed to convert Mermaid.");
+        setError(
+          err.response?.data?.message || "Failed to convert PDDL to Mermaid."
+        );
       }
     } finally {
       setLoading(false);
@@ -36,8 +35,7 @@ export default function MermaidToPddl() {
   };
 
   const clearForm = () => {
-    setMermaid("");
-    setDomain("");
+    setPddl("");
     setResult(null);
     setError(null);
   };
@@ -46,7 +44,7 @@ export default function MermaidToPddl() {
     <div className="p-6 bg-white shadow-lg rounded-2xl space-y-4">
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold text-gray-800">
-          Convert Mermaid → PDDL
+          Convert PDDL → Mermaid
         </h2>
         <button
           type="button"
@@ -57,54 +55,43 @@ export default function MermaidToPddl() {
         </button>
       </div>
 
-      <div className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Mermaid Code *
+            PDDL Type
           </label>
-          <textarea
-            value={mermaid}
-            onChange={(e) => setMermaid(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-sm"
-            placeholder="Paste Mermaid diagram code here..."
-            rows={10}
-          />
+          <select
+            value={pddlType}
+            onChange={(e) => setPddlType(e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          >
+            <option value="domain">Domain</option>
+            <option value="problem">Problem</option>
+            <option value="plan">Plan</option>
+          </select>
         </div>
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Domain (optional)
+            PDDL Content *
           </label>
           <textarea
-            value={domain}
-            onChange={(e) => setDomain(e.target.value)}
+            value={pddl}
+            onChange={(e) => setPddl(e.target.value)}
             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-sm"
-            placeholder="Optional domain PDDL to guide conversion..."
-            rows={6}
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Attempts
-          </label>
-          <input
-            type="number"
-            min="1"
-            value={attempts}
-            onChange={(e) => setAttempts(Number(e.target.value))}
-            className="w-24 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Paste your PDDL here..."
+            rows={12}
           />
         </div>
 
         <button
-          onClick={handleSubmit}
+          type="submit"
           disabled={loading}
           className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium transition-colors"
         >
-          {loading ? "Converting..." : "Convert to PDDL"}
+          {loading ? "Converting..." : "Convert to Mermaid"}
         </button>
-      </div>
+      </form>
 
       {result && (
         <div
