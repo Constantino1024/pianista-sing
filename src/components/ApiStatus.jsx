@@ -16,7 +16,7 @@ export default function ApiStatus() {
   }, []);
 
   return (
-    <div className="p-4 border rounded bg-gray-50">
+    <div className="p-6 bg-white shadow-lg rounded-2xl space-y-4">
       <h2 className="text-xl font-bold mb-2">Pianista Status</h2>
       {error ? (
         <p className="text-red-600">Error: {JSON.stringify(error)}</p>
