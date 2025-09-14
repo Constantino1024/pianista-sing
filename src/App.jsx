@@ -3,6 +3,7 @@ import Home from "@pages/Home";
 import Planners from "@pages/PlanPage";
 import Solvers from "@pages/SolvePage";
 import Validators from "@pages/ValidatorPage";
+import Convertors from "@pages/ConvertorPage";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="/planners" element={<Planners />} />
         <Route path="/solvers" element={<Solvers />} />
         <Route path="/validators" element={<Validators />} />
+        <Route path="/converters" element={<Convertors />} />
       </Routes>
     </Router>
   );

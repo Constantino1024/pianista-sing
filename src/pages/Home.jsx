@@ -44,6 +44,18 @@ export default function Home() {
               Go to PDDL Validator
             </a>
           </div>
+                    <div className="p-6 bg-white shadow-lg rounded-2xl">
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">Converters</h2>
+            <p className="text-gray-600 mb-4">
+              Convert diagrams and models into PDDL format easily.
+            </p>
+            <a 
+              href="/converters" 
+              className="inline-block bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+            >
+              Go to Converters
+            </a>
+          </div>
         </div>
       </div>
     </div>
