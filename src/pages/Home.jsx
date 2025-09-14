@@ -47,7 +47,7 @@ export default function Home() {
                     <div className="p-6 bg-white shadow-lg rounded-2xl">
             <h2 className="text-xl font-semibold text-gray-800 mb-4">Converters</h2>
             <p className="text-gray-600 mb-4">
-              Convert diagrams and models into PDDL format easily.
+              Convert diagrams, models and natural language into PDDL format easily.
             </p>
             <a 
               href="/converters" 

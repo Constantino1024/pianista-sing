@@ -25,7 +25,7 @@ export default function ResourceList({
 
   if (loading) {
     return (
-      <div className="p-4 border rounded bg-gray-50">
+      <div className="p-6 bg-white shadow-lg rounded-2xl space-y-4">
         <h2 className="text-xl font-bold mb-2">{title}</h2>
         <p className="text-blue-600">Loading {title.toLowerCase()}...</p>
       </div>
@@ -34,7 +34,7 @@ export default function ResourceList({
 
   if (error) {
     return (
-      <div className="p-4 border rounded bg-gray-50">
+      <div className="p-6 bg-white shadow-lg rounded-2xl space-y-4">
         <h2 className="text-xl font-bold mb-2">{title}</h2>
         <p className="text-red-600">Error: {JSON.stringify(error)}</p>
       </div>
@@ -42,7 +42,7 @@ export default function ResourceList({
   }
 
   return (
-    <div className="p-4 border rounded bg-gray-50">
+    <div className="p-6 bg-white shadow-lg rounded-2xl space-y-4">
       <h2 className="text-xl font-bold mb-4">{title}</h2>
       {items.length === 0 ? (
         <p className="text-gray-600">{emptyMessage}</p>
