@@ -1,4 +1,4 @@
-import PddlMatchValidator from "@components/Validators/PddlMatchValidator";
+import PddlMatchValidator from "@components/features/validators/PddlMatchValidator";
 
 export default function PddlMatchValidatorPage() {
   return (

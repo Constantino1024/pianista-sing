@@ -1,4 +1,4 @@
-import NaturaltoPddl from "@components/Converters/NaturalToPddl";
+import NaturaltoPddl from "@components/features/converters/NaturalToPddl";
 
 export default function NaturalToPddlPage() {
   return (

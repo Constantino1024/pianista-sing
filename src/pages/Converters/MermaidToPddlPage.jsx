@@ -1,4 +1,4 @@
-import MermaidToPddl from "@components/Converters/MermaidToPddl";
+import MermaidToPddl from "@components/features/converters/MermaidToPddl";
 
 export default function MermaidToPddlPage() {
   return (

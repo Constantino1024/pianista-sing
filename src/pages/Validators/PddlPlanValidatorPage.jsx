@@ -1,4 +1,4 @@
-import PddlPlanValidator from "@components/Validators/PddlPlanValidator";
+import PddlPlanValidator from "@components/features/validators/PddlPlanValidator";
 
 export default function PddlPlanValidatorPage() {
   return (

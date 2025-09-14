@@ -1,7 +1,8 @@
 import { useState } from "react";
-import PlannersListDynamic from "@components/Planners/PlannerListDynamic";
-import PlanForm from "@components/Plan/PlanForm";
-import GetPlan from "@components/Plan/GetPlan";
+import PlannersList from "@components/common/ResourceList";
+import PlannersListDynamic from "@components/features/planners/PlannerListDynamic";
+import PlanForm from "@components/features/plan/PlanForm";
+import GetPlan from "@components/features/plan/GetPlan";
 
 export default function Planners() {
   const [selectedPlannerId, setSelectedPlannerId] = useState(null);

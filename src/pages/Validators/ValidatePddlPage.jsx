@@ -1,4 +1,4 @@
-import ValidatePddl from "@components/Validators/ValidatePddl";
+import ValidatePddl from "@components/features/validators/ValidatePddl";
 
 export default function ValidatePddlPage() {
   return (

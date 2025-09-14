@@ -1,4 +1,4 @@
-import ApiStatus from "@components/ApiStatus";
+import ApiStatus from "@components/ui/ApiStatus";
 
 export default function Home() {
   return (

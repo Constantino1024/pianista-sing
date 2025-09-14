@@ -11,7 +11,11 @@ export default defineConfig({
       "@api": "/src/api",
       "@components": "/src/components",
       "@pages": "/src/pages",
-      "@assets": "/src/assets"
+      "@assets": "/src/assets",
+      "@styles": "/src/styles",
+      "@hooks": "/src/hooks",
+      "@utils": "/src/utils",
+      "@constants": "/src/constants"
     },
   },
 });
