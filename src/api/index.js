@@ -14,7 +14,7 @@ export * from './plans';
 export * from './planners';
 export * from './solvers';
 export * from './solves';
-export * from './validatores';
+export * from './validators';
 
 // GET /
 export const getRoot = () => api.get("/");

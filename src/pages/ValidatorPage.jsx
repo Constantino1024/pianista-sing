@@ -1,5 +1,6 @@
-import ValidatePddl from "@components/Validators/ValidadePddl";
-import PddlMatchValidator from "@components/Validators/MatchValidadePddl";
+import ValidatePddl from "@components/Validators/ValidatePddl";
+import PddlMatchValidator from "@components/Validators/PddlMatchValidator";
+import PddlPlanValidator from "@components/Validators/PddlPlanValidator";
 
 export default function ValidatePddlPage() {
   return (
@@ -17,21 +18,25 @@ export default function ValidatePddlPage() {
           <PddlMatchValidator />
         </div>
 
+        <div>
+          <PddlPlanValidator />
+        </div>
+
+        {/* Optional: Info section about PDDL validation */}
         <div className="p-6 bg-white shadow-lg rounded-2xl">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">
             About PDDL Validation
           </h2>
           <div className="prose text-gray-600">
             <p className="mb-3">
-              The PDDL Validator helps you verify the syntax and structure of
-              your Planning Domain Definition Language files.
+              The PDDL Validator helps you verify the syntax, domain-problem match,
+              and precomputed plans of your Planning Domain Definition Language files.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
               <div className="p-4 bg-blue-50 rounded-lg">
                 <h3 className="font-semibold text-blue-800 mb-2">Domain</h3>
                 <p className="text-sm text-blue-700">
-                  Defines predicates, actions, and the planning domain
-                  structure.
+                  Defines predicates, actions, and the planning domain structure.
                 </p>
               </div>
               <div className="p-4 bg-green-50 rounded-lg">

@@ -15,3 +15,12 @@ export const postValidatePddlMatch = (domain, problem) => {
     problem,
   });
 };
+
+// POST /validate/plan/pddl
+export const postValidatePddlPlan = (domain, problem, plan) => {
+  return api.post("/validate/plan/pddl", {
+    domain,
+    problem,
+    plan,
+  });
+};
