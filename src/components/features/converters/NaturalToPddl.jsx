@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { postGeneratePddl } from "@api";
+import { handleAsyncOperation } from "@utils/errorHandling";
+import { normalizePddlText } from "@utils/pddlUtils";
 
 export default function GeneratePddl() {
   const [pddlType, setPddlType] = useState("domain");
@@ -17,10 +19,10 @@ export default function GeneratePddl() {
     setError(null);
     setResult(null);
 
-    try {
+    const operation = async () => {
       const prompt = {
-        text: text.replace(/\\n/g, "\n").replace(/\r\n/g, "\n"),
-        domain: domain.replace(/\\n/g, "\n").replace(/\r\n/g, "\n") || null,
+        text: normalizePddlText(text),
+        domain: domain ? normalizePddlText(domain) : null,
       };
 
       const { data } = await postGeneratePddl(
@@ -29,18 +31,14 @@ export default function GeneratePddl() {
         generateBoth,
         attempts
       );
-      setResult(data);
-    } catch (err) {
-      if (err.response?.status === 422) {
-        setError(
-          "Validation Error: " + JSON.stringify(err.response.data.detail)
-        );
-      } else {
-        setError(err.response?.data?.message || "Failed to generate PDDL.");
-      }
-    } finally {
-      setLoading(false);
+      return data;
+    };
+
+    const result = await handleAsyncOperation(operation, 'PDDL generation', setError);
+    if (result) {
+      setResult(result);
     }
+    setLoading(false);
   };
 
   const clearForm = () => {

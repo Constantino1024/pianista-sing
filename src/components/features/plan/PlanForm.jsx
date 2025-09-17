@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { postPlan } from "@api";
 import { planSchema } from "@schemas";
+import { createFormSubmissionHandler } from "@utils/errorHandling";
 
 export default function PlanForm({
   selectedPlannerId = null,
@@ -19,34 +20,18 @@ export default function PlanForm({
     formState: { errors },
   } = useForm({ resolver: zodResolver(planSchema) });
 
-  const onSubmit = async ({ domain, problem, convertRealTypes }) => {
-    setJobId(null);
-    setError(null);
-    setLoading(true);
-
-    try {
-      const { data } = await postPlan(domain, problem, {
-        plannerId: selectedPlannerId || undefined,
-        convertRealTypes,
-      });
-      setJobId(data.id);
-    } catch (err) {
-      if (err.response?.status === 422) {
-        const validationErrors = err.response?.data?.detail;
-        if (Array.isArray(validationErrors)) {
-          const errorMessages = validationErrors
-            .map((error) => `${error.loc?.join(".")}: ${error.msg}`)
-            .join(", ");
-          setError(`Validation Error: ${errorMessages}`);
-        } else {
-          setError("Validation Error: Invalid plan ID format");
-        }
-      }
-      setError(err.response?.data?.detail || "Failed to submit plan.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const onSubmit = createFormSubmissionHandler(
+    (formData) => postPlan(formData.domain, formData.problem, {
+      plannerId: selectedPlannerId || undefined,
+      convertRealTypes: formData.convertRealTypes,
+    }),
+    {
+      setLoading,
+      setError,
+      setJobId
+    },
+    { context: 'plan submission' }
+  );
 
   return (
     <div className="p-6 bg-white shadow-lg rounded-2xl space-y-4">

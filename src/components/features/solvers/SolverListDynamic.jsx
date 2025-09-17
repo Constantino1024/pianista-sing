@@ -1,5 +1,6 @@
 import ResourceList from "@components/common/ResourceList";
 import { getSolvers, getSolverById } from "@api";
+import { handleAsyncOperation } from "@utils/errorHandling";
 
 const renderSolverItem = (solver, onSelect) => (
   <button
@@ -13,11 +14,18 @@ const renderSolverItem = (solver, onSelect) => (
 
 export default function DynamicSolversList({ onSolverSelect }) {
   const handleSelect = async (id) => {
-    try {
+    const operation = async () => {
       const { data } = await getSolverById(id);
-      if (onSolverSelect) onSolverSelect(data.id, data);
-    } catch (err) {
-      console.error("Failed to fetch solver:", err.response?.data || err.message);
+      return data;
+    };
+
+    const logError = (error) => {
+      console.error("Failed to fetch solver:", error);
+    };
+
+    const result = await handleAsyncOperation(operation, 'solver fetch', logError);
+    if (result && onSolverSelect) {
+      onSolverSelect(result.id, result);
     }
   };
 

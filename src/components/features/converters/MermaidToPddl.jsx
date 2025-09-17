@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { postConvertMermaidToPddl } from "@api";
 import { config } from "@config/environment";
+import { handleAsyncOperation } from "@utils/errorHandling";
+import { normalizePddlText } from "@utils/pddlUtils";
 
 export default function MermaidToPddl() {
   const [mermaid, setMermaid] = useState("");
@@ -12,28 +14,24 @@ export default function MermaidToPddl() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
-    setResult(null);
-
-    try {
-      const { data } = await postConvertMermaidToPddl(
-        mermaid.replace(/\\n/g, "\n").replace(/\r\n/g, "\n"),
-        domain || null,
-        attempts
-      );
-      setResult(data);
-    } catch (err) {
-      if (err.response?.status === 422) {
-        setError(
-          "Validation Error: " + JSON.stringify(err.response.data.detail)
+    
+    await handleAsyncOperation(
+      () => {
+        const normalizedMermaid = normalizePddlText(mermaid);
+        return postConvertMermaidToPddl(
+          normalizedMermaid,
+          domain || null,
+          attempts
         );
-      } else {
-        setError(err.response?.data?.message || "Failed to convert Mermaid.");
+      },
+      {
+        setLoading,
+        setError,
+        clearStatesOnStart: [setResult],
+        onSuccess: (response) => setResult(response.data),
+        context: 'Mermaid to PDDL conversion'
       }
-    } finally {
-      setLoading(false);
-    }
+    );
   };
 
   const clearForm = () => {

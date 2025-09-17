@@ -1,5 +1,6 @@
 import ResourceList from "@components/common/ResourceList";
 import { getPlanners, getPlannerById } from "@api";
+import { handleAsyncOperation } from "@utils/errorHandling";
 
 const renderPlannerItem = (planner, onSelect) => (
   <button
@@ -13,11 +14,18 @@ const renderPlannerItem = (planner, onSelect) => (
 
 export default function PlannersListDynamic({ onPlannerSelect }) {
   const handleSelect = async (id) => {
-    try {
+    const operation = async () => {
       const { data } = await getPlannerById(id);
-      if (onPlannerSelect) onPlannerSelect(data.id, data);
-    } catch (err) {
-      console.error("Failed to fetch planner:", err.response?.data || err.message);
+      return data;
+    };
+
+    const logError = (error) => {
+      console.error("Failed to fetch planner:", error);
+    };
+
+    const result = await handleAsyncOperation(operation, 'planner fetch', logError);
+    if (result && onPlannerSelect) {
+      onPlannerSelect(result.id, result);
     }
   };
 

@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { postValidatePddlMatch } from "@api";
+import { handleAsyncOperation } from "@utils/errorHandling";
+import { normalizePddlText } from "@utils/pddlUtils";
 
 export default function PddlMatchValidator() {
   const [domain, setDomain] = useState("");
@@ -10,37 +12,21 @@ export default function PddlMatchValidator() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
-    setResult(null);
-
-    try {
-      const normalizedDomain = domain
-        .replace(/\\n/g, "\n")
-        .replace(/\r\n/g, "\n");
-      const normalizedProblem = problem
-        .replace(/\\n/g, "\n")
-        .replace(/\r\n/g, "\n");
-
-      const { data } = await postValidatePddlMatch(
-        normalizedDomain,
-        normalizedProblem
-      );
-      setResult(data);
-    } catch (err) {
-      if (err.response?.status === 422) {
-        setError(
-          "Validation Error: " + JSON.stringify(err.response.data.detail)
-        );
-      } else {
-        setError(
-          err.response?.data?.message ||
-            "Failed to validate domain/problem match."
-        );
+    
+    await handleAsyncOperation(
+      () => {
+        const normalizedDomain = normalizePddlText(domain);
+        const normalizedProblem = normalizePddlText(problem);
+        return postValidatePddlMatch(normalizedDomain, normalizedProblem);
+      },
+      {
+        setLoading,
+        setError,
+        clearStatesOnStart: [setResult],
+        onSuccess: (response) => setResult(response.data),
+        context: 'PDDL match validation'
       }
-    } finally {
-      setLoading(false);
-    }
+    );
   };
 
   const clearForm = () => {

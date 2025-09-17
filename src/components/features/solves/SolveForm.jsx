@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { postSolve } from "@api";
 import { solveSchema } from "@schemas";
+import { createFormSubmissionHandler } from "@utils/errorHandling";
 
 export default function SolveForm({
   selectedSolverId = null,
@@ -21,44 +22,24 @@ export default function SolveForm({
     resolver: zodResolver(solveSchema),
   });
 
-  const onSubmit = async ({ model_str, model_params }) => {
-    setJobId(null);
-    setError(null);
-    setLoading(true);
-
-    try {
+  const onSubmit = createFormSubmissionHandler(
+    (formData) => {
       let parsedParams;
       try {
-        parsedParams = JSON.parse(model_params);
+        parsedParams = JSON.parse(formData.model_params);
       } catch (parseError) {
-        setError(
-          `Invalid JSON format in model parameters: ${parseError.message}`
-        );
-        setLoading(false);
-        return;
+        throw new Error(`Invalid JSON format in model parameters: ${parseError.message}`);
       }
-
-      // Pass solver ID as third parameter (becomes query parameter solver_name)
-      const { data } = await postSolve(model_str, parsedParams, selectedSolverId);
-      setJobId(data.id);
-    } catch (err) {
-      if (err.response?.status === 422) {
-        const validationErrors = err.response?.data?.detail;
-        if (Array.isArray(validationErrors)) {
-          const errorMessages = validationErrors
-            .map((error) => `${error.loc?.join(".")}: ${error.msg}`)
-            .join(", ");
-          setError(`Validation Error: ${errorMessages}`);
-        } else {
-          setError("Validation Error: Invalid solver ID format");
-        }
-      } else {
-        setError(err.response?.data?.detail || "Failed to submit solve.");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+      
+      return postSolve(formData.model_str, parsedParams, selectedSolverId);
+    },
+    {
+      setLoading,
+      setError,
+      setJobId
+    },
+    { context: 'solve submission' }
+  );
 
   return (
     <div className="p-6 bg-white shadow-lg rounded-2xl space-y-4">

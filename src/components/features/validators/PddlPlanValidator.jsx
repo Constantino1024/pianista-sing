@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { postValidatePddlPlan } from "@api";
+import { handleAsyncOperation } from "@utils/errorHandling";
+import { normalizePddlText } from "@utils/pddlUtils";
 
 export default function PddlPlanValidator() {
   const [domain, setDomain] = useState("");
@@ -15,32 +17,24 @@ export default function PddlPlanValidator() {
     setError(null);
     setResult(null);
 
-    try {
-      const normalizedDomain = domain
-        .replace(/\\n/g, "\n")
-        .replace(/\r\n/g, "\n");
-      const normalizedProblem = problem
-        .replace(/\\n/g, "\n")
-        .replace(/\r\n/g, "\n");
-      const normalizedPlan = plan.replace(/\\n/g, "\n").replace(/\r\n/g, "\n");
+    const operation = async () => {
+      const normalizedDomain = normalizePddlText(domain);
+      const normalizedProblem = normalizePddlText(problem);
+      const normalizedPlan = normalizePddlText(plan);
 
       const { data } = await postValidatePddlPlan(
         normalizedDomain,
         normalizedProblem,
         normalizedPlan
       );
-      setResult(data);
-    } catch (err) {
-      if (err.response?.status === 422) {
-        setError(
-          "Validation Error: " + JSON.stringify(err.response.data.detail)
-        );
-      } else {
-        setError(err.response?.data?.message || "Failed to validate the plan.");
-      }
-    } finally {
-      setLoading(false);
+      return data;
+    };
+
+    const result = await handleAsyncOperation(operation, 'plan validation', setError);
+    if (result) {
+      setResult(result);
     }
+    setLoading(false);
   };
 
   const clearForm = () => {

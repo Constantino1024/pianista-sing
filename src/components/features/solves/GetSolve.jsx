@@ -3,58 +3,28 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getSolveById } from "@api";
 import { getSolveSchema } from "@schemas";
+import { createFormSubmissionHandler } from "@utils/errorHandling";
 
 export default function GetSolve() {
   const [solution, setSolution] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [isOngoing, setIsOngoing] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    getValues,
   } = useForm({ resolver: zodResolver(getSolveSchema) });
 
-  const onSubmit = async ({ solveId }) => {
-    setSolution(null);
-    setError(null);
-    setIsOngoing(false);
-    setLoading(true);
-
-    try {
-      const { data } = await getSolveById(solveId);
-      setSolution(data);
-    } catch (err) {
-      if (err.response) {
-        const { status, data } = err.response;
-        if (status === 202) {
-          setIsOngoing(true);
-          setError(
-            "Solution is still being processed. Please check back later."
-          );
-        } else if (status === 422) {
-          setError("Validation Error: " + JSON.stringify(data.detail));
-        } else if (status === 404) {
-          setError(data.detail || "Solution not found.");
-        } else {
-          setError(`Error ${status}: ${data?.message || JSON.stringify(data)}`);
-        }
-      } else {
-        setError("Network error or server unreachable.");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleRetry = () => {
-    const solveId = getValues("solveId");
-    if (solveId) {
-      onSubmit({ solveId });
-    }
-  };
+  const onSubmit = createFormSubmissionHandler(
+    (formData) => getSolveById(formData.solveId),
+    {
+      setLoading,
+      setError,
+      setResult: setSolution
+    },
+    { context: 'solution retrieval' }
+  );
 
   return (
     <div className="p-6 bg-white shadow-lg rounded-2xl space-y-4">
@@ -127,35 +97,9 @@ export default function GetSolve() {
       )}
 
       {error && (
-        <div
-          className={`p-4 border rounded-lg ${
-            isOngoing
-              ? "bg-yellow-50 border-yellow-200"
-              : "bg-red-50 border-red-200"
-          }`}
-        >
-          <div className="flex justify-between items-start">
-            <div>
-              <p
-                className={`font-bold ${
-                  isOngoing ? "text-yellow-700" : "text-red-700"
-                }`}
-              >
-                {isOngoing ? "Solution Not Ready" : "Error"}
-              </p>
-              <p className={isOngoing ? "text-yellow-700" : "text-red-700"}>
-                {error}
-              </p>
-            </div>
-            {isOngoing && (
-              <button
-                onClick={handleRetry}
-                className="ml-4 bg-yellow-600 text-white px-3 py-1 rounded text-sm hover:bg-yellow-700"
-              >
-                Retry
-              </button>
-            )}
-          </div>
+        <div className="p-4 border rounded-lg bg-red-50 border-red-200">
+          <p className="font-bold text-red-700">Error</p>
+          <p className="text-red-700">{error}</p>
         </div>
       )}
     </div>

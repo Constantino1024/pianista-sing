@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { postValidatePddl } from "@api";
 import { validatePddlSchema, PDDL_TYPES } from "@schemas";
+import { createFormSubmissionHandler } from "@utils/errorHandling";
+import { normalizePddlText } from "@utils/pddlUtils";
 
 export default function ValidatePddl() {
   const [validationResult, setValidationResult] = useState(null);
@@ -18,34 +20,18 @@ export default function ValidatePddl() {
     resolver: zodResolver(validatePddlSchema),
   });
 
-const onSubmit = async ({ pddl, pddl_type }) => {
-  setValidationResult(null);
-  setError(null);
-  setLoading(true);
-
-  try {
-    const normalizedPddl = pddl.replace(/\\n/g, "\n");
-
-    const { data } = await postValidatePddl(normalizedPddl, pddl_type || null);
-    setValidationResult(data);
-  } catch (err) {
-    if (err.response?.status === 422) {
-      const validationErrors = err.response?.data?.detail;
-      if (Array.isArray(validationErrors)) {
-        const errorMessages = validationErrors
-          .map((error) => `${error.loc?.join(".")}: ${error.msg}`)
-          .join(", ");
-        setError(`Validation Error: ${errorMessages}`);
-      } else {
-        setError("Validation Error: Invalid request format");
-      }
-    } else {
-      setError(err.response?.data?.message || "Failed to validate PDDL.");
-    }
-  } finally {
-    setLoading(false);
-  }
-};
+const onSubmit = createFormSubmissionHandler(
+  (formData) => {
+    const normalizedPddl = normalizePddlText(formData.pddl);
+    return postValidatePddl(normalizedPddl, formData.pddl_type || null);
+  },
+  {
+    setLoading,
+    setError,
+    setResult: setValidationResult
+  },
+  { context: 'PDDL validation' }
+);
 
 
   const clearForm = () => {

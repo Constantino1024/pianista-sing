@@ -1,19 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-
-export const handleApiError = (error) => {
-  if (error.response?.status === 422) {
-    const validationErrors = error.response?.data?.detail;
-    if (Array.isArray(validationErrors)) {
-      const errorMessages = validationErrors
-        .map((error) => `${error.loc?.join(".")}: ${error.msg}`)
-        .join(", ");
-      return `Validation Error: ${errorMessages}`;
-    }
-    return "Validation Error: Invalid format";
-  }
-  
-  return error.response?.data?.detail || error.response?.data?.message || error.message || 'An unexpected error occurred';
-};
+import { handleApiError } from './errorHandling';
 
 export const useApiCall = (apiCall) => {
   const [data, setData] = useState(null);
@@ -53,7 +39,6 @@ export const useApiData = (apiCall) => {
     execute();
   }, [execute]);
 
-  // Auto-execute on mount
   useEffect(() => {
     execute();
   }, [execute]);
