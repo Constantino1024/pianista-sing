@@ -1,14 +1,8 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { postPlan } from "@api";
-
-const schema = z.object({
-  domain: z.string().min(1, "Domain is required"),
-  problem: z.string().min(1, "Problem is required"),
-  convertRealTypes: z.boolean().default(true),
-});
+import { planSchema } from "@schemas";
 
 export default function PlanForm({
   selectedPlannerId = null,
@@ -23,7 +17,7 @@ export default function PlanForm({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: zodResolver(schema) });
+  } = useForm({ resolver: zodResolver(planSchema) });
 
   const onSubmit = async ({ domain, problem, convertRealTypes }) => {
     setJobId(null);

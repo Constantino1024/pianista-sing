@@ -1,12 +1,8 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { getPlanById } from "@api";
-
-const schema = z.object({
-  planId: z.string().min(1, "Plan ID is required"),
-});
+import { getPlanSchema } from "@schemas";
 
 export default function GetPlan() {
   const [plan, setPlan] = useState(null);
@@ -20,7 +16,7 @@ export default function GetPlan() {
     handleSubmit,
     formState: { errors },
     getValues,
-  } = useForm({ resolver: zodResolver(schema) });
+  } = useForm({ resolver: zodResolver(getPlanSchema) });
 
   const onSubmit = async ({ planId }) => {
     setPlan(null);

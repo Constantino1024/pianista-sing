@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useApiData } from "@utils/apiUtils";
 
 export default function ResourceList({ 
   title, 
@@ -7,21 +7,9 @@ export default function ResourceList({
   emptyMessage = "No items found",
   onSelect 
 }) {
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    fetchFunction()
-      .then((res) => {
-        setItems(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.response?.data || err.message);
-        setLoading(false);
-      });
-  }, [fetchFunction]);
+  const { data, loading, error } = useApiData(fetchFunction);
+  
+  const items = Array.isArray(data) ? data : [];
 
   if (loading) {
     return (
@@ -36,7 +24,7 @@ export default function ResourceList({
     return (
       <div className="p-6 bg-white shadow-lg rounded-2xl space-y-4">
         <h2 className="text-xl font-bold mb-2">{title}</h2>
-        <p className="text-red-600">Error: {JSON.stringify(error)}</p>
+        <p className="text-red-600">Error: {error}</p>
       </div>
     );
   }

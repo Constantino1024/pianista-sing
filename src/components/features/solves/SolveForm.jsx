@@ -1,13 +1,8 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { postSolve } from "@api";
-
-const schema = z.object({
-  model_str: z.string().min(1, "Model is required"),
-  model_params: z.string().min(1, "Model parameters are required"),
-});
+import { solveSchema } from "@schemas";
 
 export default function SolveForm({
   selectedSolverId = null,
@@ -23,10 +18,7 @@ export default function SolveForm({
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      model_params: "{}",
-    },
+    resolver: zodResolver(solveSchema),
   });
 
   const onSubmit = async ({ model_str, model_params }) => {

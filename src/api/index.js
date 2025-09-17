@@ -1,12 +1,12 @@
 import axios from "axios";
+import { config } from "@config/environment.js";
 
 export const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL: config.api.baseURL,
+  timeout: config.api.timeout,
   headers: {
-    "Cache-Control": "no-cache",
-    "Content-Type": "application/json",
-    Accept: "application/json",
-    "Ocp-Apim-Subscription-Key": import.meta.env.VITE_API_KEY,
+    ...config.api.headers,
+    "Ocp-Apim-Subscription-Key": config.api.key,
   },
 });
 

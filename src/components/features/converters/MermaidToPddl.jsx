@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { postConvertMermaidToPddl } from "@api";
+import { config } from "@config/environment";
 
 export default function MermaidToPddl() {
   const [mermaid, setMermaid] = useState("");
   const [domain, setDomain] = useState("");
-  const [attempts, setAttempts] = useState(1);
+  const [attempts, setAttempts] = useState(config.features.converters.defaultAttempts);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
@@ -91,6 +92,7 @@ export default function MermaidToPddl() {
           <input
             type="number"
             min="1"
+            max={config.features.converters.maxAttempts}
             value={attempts}
             onChange={(e) => setAttempts(Number(e.target.value))}
             className="w-24 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"

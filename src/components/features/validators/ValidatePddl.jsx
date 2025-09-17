@@ -1,17 +1,8 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { postValidatePddl } from "@api";
-
-const schema = z.object({
-  pddl: z.string().min(1, "PDDL content is required"),
-  pddl_type: z
-    .enum(["domain", "problem", "plan", ""], {
-      errorMap: () => ({ message: "Invalid PDDL type" }),
-    })
-    .optional(),
-});
+import { validatePddlSchema, PDDL_TYPES } from "@schemas";
 
 export default function ValidatePddl() {
   const [validationResult, setValidationResult] = useState(null);
@@ -24,11 +15,7 @@ export default function ValidatePddl() {
     formState: { errors },
     reset,
   } = useForm({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      pddl_type: "",
-      pddl: "",
-    },
+    resolver: zodResolver(validatePddlSchema),
   });
 
 const onSubmit = async ({ pddl, pddl_type }) => {
@@ -90,9 +77,11 @@ const onSubmit = async ({ pddl, pddl_type }) => {
             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="">Auto-detect</option>
-            <option value="domain">Domain</option>
-            <option value="problem">Problem</option>
-            <option value="plan">Plan</option>
+            {PDDL_TYPES.filter(type => type !== "").map(type => (
+              <option key={type} value={type}>
+                {type.charAt(0).toUpperCase() + type.slice(1)}
+              </option>
+            ))}
           </select>
         </div>
 

@@ -1,12 +1,8 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { getSolveById } from "@api";
-
-const schema = z.object({
-  solveId: z.string().min(1, "Solution ID is required"),
-});
+import { getSolveSchema } from "@schemas";
 
 export default function GetSolve() {
   const [solution, setSolution] = useState(null);
@@ -19,7 +15,7 @@ export default function GetSolve() {
     handleSubmit,
     formState: { errors },
     getValues,
-  } = useForm({ resolver: zodResolver(schema) });
+  } = useForm({ resolver: zodResolver(getSolveSchema) });
 
   const onSubmit = async ({ solveId }) => {
     setSolution(null);
