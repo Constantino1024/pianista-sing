@@ -1,6 +1,10 @@
 import { useState, useCallback } from 'react';
+import { useToast } from '@hooks';
 
-export function useAsyncOperation() {
+export function useAsyncOperation(options = {}) {
+  const { showToast = false } = options;
+  const toast = useToast();
+  
   const [state, setState] = useState({
     loading: false,
     error: null,
@@ -13,6 +17,11 @@ export function useAsyncOperation() {
     try {
       const result = await operation();
       setState(prev => ({ ...prev, loading: false, result }));
+      
+      if (showToast) {
+        toast.success(`${errorContext || 'Operation'} completed successfully!`);
+      }
+      
       return result;
     } catch (error) {
       const errorMessage = error.response?.data?.detail || 
@@ -21,9 +30,14 @@ export function useAsyncOperation() {
                           `An error occurred${errorContext ? ` during ${errorContext}` : ''}`;
       
       setState(prev => ({ ...prev, loading: false, error: errorMessage }));
+      
+      if (showToast) {
+        toast.error(errorMessage);
+      }
+      
       throw error;
     }
-  }, []);
+  }, [showToast, toast]);
 
   const reset = useCallback(() => {
     setState({ loading: false, error: null, result: null });
@@ -51,8 +65,9 @@ export function useAsyncOperation() {
   };
 }
 
-export function useAsyncForm(submitHandler) {
-  const asyncOp = useAsyncOperation();
+export function useAsyncForm(submitHandler, options = {}) {
+  const { showToast = false } = options;
+  const asyncOp = useAsyncOperation({ showToast });
 
   const handleSubmit = useCallback(async (data) => {
     try {

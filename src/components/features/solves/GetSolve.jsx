@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { getSolveById } from "@api";
 import { getSolveSchema } from "@schemas";
 import { createFormSubmissionHandler } from "@utils/errorHandling";
+import { useToast } from "@hooks";
 import { 
   Card, 
   SectionHeader, 
@@ -19,6 +20,7 @@ export default function GetSolve() {
   const [solution, setSolution] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const toast = useToast();
 
   const {
     register,
@@ -33,7 +35,11 @@ export default function GetSolve() {
       setError,
       setResult: setSolution
     },
-    { context: 'solution retrieval' }
+    { 
+      context: 'solution retrieval',
+      showToast: true,
+      toast
+    }
   );
 
   return (

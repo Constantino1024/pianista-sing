@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { postSolve } from "@api";
 import { solveSchema } from "@schemas";
 import { createFormSubmissionHandler } from "@utils/errorHandling";
+import { useToast } from "@hooks";
 import { 
   Card, 
   SectionHeader, 
@@ -21,6 +22,7 @@ export default function SolveForm({
   const [jobId, setJobId] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const toast = useToast();
 
   const {
     register,
@@ -46,7 +48,11 @@ export default function SolveForm({
       setError,
       setJobId
     },
-    { context: 'solve submission' }
+    { 
+      context: 'solve submission',
+      showToast: true,
+      toast
+    }
   );
 
   return (

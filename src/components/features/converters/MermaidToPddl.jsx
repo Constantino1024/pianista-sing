@@ -3,6 +3,15 @@ import { postConvertMermaidToPddl } from "@api";
 import { config } from "@config/environment";
 import { handleAsyncOperation } from "@utils/errorHandling";
 import { normalizePddlText } from "@utils/pddlUtils";
+import { useToast } from "@hooks";
+import { 
+  Card, 
+  SectionHeader, 
+  ResultDisplay, 
+  CodeBlock,
+  ErrorDisplay,
+  ButtonLoading
+} from "@components/ui";
 
 export default function MermaidToPddl() {
   const [mermaid, setMermaid] = useState("");
@@ -11,6 +20,7 @@ export default function MermaidToPddl() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
+  const toast = useToast();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,8 +38,18 @@ export default function MermaidToPddl() {
         setLoading,
         setError,
         clearStatesOnStart: [setResult],
-        onSuccess: (response) => setResult(response.data),
-        context: 'Mermaid to PDDL conversion'
+        onSuccess: (response) => {
+          const data = response.data;
+          setResult(data);
+          
+          if (data.result_status === "success") {
+            toast.success("Mermaid to PDDL conversion completed successfully!");
+          } else {
+            toast.error("Mermaid to PDDL conversion failed");
+          }
+        },
+        context: 'Mermaid to PDDL conversion',
+        showToast: false
       }
     );
   };
@@ -42,11 +62,12 @@ export default function MermaidToPddl() {
   };
 
   return (
-    <div className="p-6 bg-white shadow-lg rounded-2xl space-y-4">
+    <Card className="space-y-4">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-gray-800">
-          Convert Mermaid → PDDL
-        </h2>
+        <SectionHeader 
+          title="Convert Mermaid → PDDL"
+          description="Convert Mermaid diagram code into PDDL format with optional domain guidance"
+        />
         <button
           type="button"
           onClick={clearForm}
@@ -56,7 +77,7 @@ export default function MermaidToPddl() {
         </button>
       </div>
 
-      <div className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Mermaid Code *
@@ -98,47 +119,28 @@ export default function MermaidToPddl() {
         </div>
 
         <button
-          onClick={handleSubmit}
+          type="submit"
           disabled={loading}
           className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium transition-colors"
         >
-          {loading ? "Converting..." : "Convert to PDDL"}
+          <ButtonLoading isLoading={loading} loadingText="Converting...">
+            Convert to PDDL
+          </ButtonLoading>
         </button>
-      </div>
+      </form>
 
       {result && (
-        <div
-          className={`p-4 border rounded-lg ${
-            result.result_status === "success"
-              ? "bg-green-50 border-green-200"
-              : "bg-red-50 border-red-200"
-          }`}
+        <ResultDisplay
+          variant={result.result_status === "success" ? "success" : "error"}
+          title={`Conversion ${result.result_status === "success" ? "Successful" : "Failed"}`}
         >
-          <h3
-            className={`font-bold text-lg mb-3 ${
-              result.result_status === "success"
-                ? "text-green-700"
-                : "text-red-700"
-            }`}
-          >
-            Conversion{" "}
-            {result.result_status === "success" ? "Successful" : "Failed"}
-          </h3>
-
-          <div className="bg-white p-3 rounded border font-mono text-sm overflow-x-auto">
-            <pre className="font-mono text-sm text-gray-800 whitespace-pre">
-              {result.conversion_result}
-            </pre>
-          </div>
-        </div>
+          <CodeBlock>
+            {result.conversion_result}
+          </CodeBlock>
+        </ResultDisplay>
       )}
 
-      {error && (
-        <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-          <h3 className="text-sm font-medium text-red-800">Error</h3>
-          <p className="mt-1 text-sm text-red-700">{error}</p>
-        </div>
-      )}
-    </div>
+      <ErrorDisplay error={error} />
+    </Card>
   );
 }

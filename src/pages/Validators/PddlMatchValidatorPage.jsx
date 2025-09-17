@@ -1,4 +1,5 @@
 import PddlMatchValidator from "@components/features/validators/PddlMatchValidator";
+import { SectionLink, BackToHomeLink } from "@components/ui";
 
 export default function PddlMatchValidatorPage() {
   return (
@@ -9,12 +10,8 @@ export default function PddlMatchValidatorPage() {
             Domain-Problem Matcher
           </h1>
           <div className="flex space-x-4">
-            <a href="/validators" className="text-blue-600 hover:text-blue-800 font-medium">
-              ← Back to Validators
-            </a>
-            <a href="/" className="text-blue-600 hover:text-blue-800 font-medium">
-              Home
-            </a>
+            <SectionLink to="/validators" sectionName="Validators" />
+            <BackToHomeLink />
           </div>
         </div>
 

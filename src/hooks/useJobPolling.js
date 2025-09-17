@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { config } from '@config/environment';
+import { useToast } from '@hooks';
 
 export const useJobPolling = (fetchFunction, options = {}) => {
   const {
@@ -22,6 +23,7 @@ export const useJobPolling = (fetchFunction, options = {}) => {
 
   const timeoutRef = useRef(null);
   const currentIntervalRef = useRef(initialInterval);
+  const attemptCountRef = useRef(0);
   const isActiveRef = useRef(true);
 
   const getNextInterval = useCallback((currentAttempt) => {
@@ -55,6 +57,7 @@ export const useJobPolling = (fetchFunction, options = {}) => {
       setLoading(true);
       setError(null);
       setData(null);
+      attemptCountRef.current = 0;
       setAttemptCount(0);
       currentIntervalRef.current = initialInterval;
     }
@@ -72,7 +75,7 @@ export const useJobPolling = (fetchFunction, options = {}) => {
       }
       
       if (response.status === 202) {
-        const currentAttempt = isInitialCall ? 0 : attemptCount;
+        const currentAttempt = attemptCountRef.current;
         
         if (currentAttempt >= maxAttempts) {
           const timeoutError = new Error(`Job polling timed out after ${maxAttempts} attempts`);
@@ -86,6 +89,7 @@ export const useJobPolling = (fetchFunction, options = {}) => {
 
         setIsPolling(true);
         setLoading(false);
+        attemptCountRef.current = currentAttempt + 1;
         setAttemptCount(currentAttempt + 1);
         
         const nextInterval = getNextInterval(currentAttempt);
@@ -122,7 +126,7 @@ export const useJobPolling = (fetchFunction, options = {}) => {
       if (onError) onError(err);
       throw err;
     }
-  }, [enabled, fetchFunction, maxAttempts, getNextInterval, onSuccess, onError, onPending, startCountdown, attemptCount, initialInterval]);
+  }, [enabled, fetchFunction, maxAttempts, getNextInterval, onSuccess, onError, onPending, startCountdown, initialInterval]);
 
   const startPolling = useCallback((jobId) => {
     if (!jobId || !enabled) return;
@@ -148,6 +152,7 @@ export const useJobPolling = (fetchFunction, options = {}) => {
     stopPolling();
     setData(null);
     setError(null);
+    attemptCountRef.current = 0;
     setAttemptCount(0);
     currentIntervalRef.current = initialInterval;
   }, [stopPolling, initialInterval]);
@@ -186,10 +191,23 @@ export const usePlanPolling = (getPlanFunction, options = {}) => {
   });
 };
 
-export const useJobStatus = (fetchFunction, jobId, autoStart = true) => {
+export const useJobStatus = (fetchFunction, jobId, autoStart = true, options = {}) => {
+  const { showToast = false } = options;
+  const toast = useToast();
+  
   const polling = useJobPolling(fetchFunction, {
-    onSuccess: (data) => console.log('Job completed:', data),
-    onError: (error) => console.error('Job failed:', error),
+    onSuccess: (data) => {
+      console.log('Job completed:', data);
+      if (showToast) {
+        toast.success('Job completed successfully!');
+      }
+    },
+    onError: (error) => {
+      console.error('Job failed:', error);
+      if (showToast) {
+        toast.error(`Job failed: ${error.message}`);
+      }
+    },
   });
 
   useEffect(() => {

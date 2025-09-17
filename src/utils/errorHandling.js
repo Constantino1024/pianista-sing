@@ -38,7 +38,9 @@ export const handleAsyncOperation = async (operation, handlers) => {
     onFinally,
     onPending,
     clearStatesOnStart = [],
-    context = ''
+    context = '',
+    showToast = false,
+    toast = null
   } = handlers;
   
   if (setLoading) setLoading(true);
@@ -50,6 +52,11 @@ export const handleAsyncOperation = async (operation, handlers) => {
     if (onSuccess) {
       onSuccess(result);
     }
+    
+    if (showToast && toast) {
+      toast.success(`${context || 'Operation'} completed successfully!`);
+    }
+    
     return result;
   } catch (error) {
     if (isAsyncOperationPending(error)) {
@@ -59,6 +66,11 @@ export const handleAsyncOperation = async (operation, handlers) => {
       } else if (setError) {
         setError(message);
       }
+      
+      if (showToast && toast) {
+        toast.info(message);
+      }
+      
       return;
     }
     
@@ -66,6 +78,11 @@ export const handleAsyncOperation = async (operation, handlers) => {
     if (setError) {
       setError(message);
     }
+    
+    if (showToast && toast) {
+      toast.error(message);
+    }
+    
     throw error;
   } finally {
     if (setLoading) setLoading(false);
@@ -82,7 +99,7 @@ export const createFormSubmissionHandler = (apiCall, stateHandlers, options = {}
     onSuccess 
   } = stateHandlers;
   
-  const { context = 'submission' } = options;
+  const { context = 'submission', showToast = false, toast = null } = options;
 
   return async (formData) => {
     await handleAsyncOperation(
@@ -92,6 +109,8 @@ export const createFormSubmissionHandler = (apiCall, stateHandlers, options = {}
         setError,
         clearStatesOnStart: [setResult, setJobId].filter(Boolean),
         context,
+        showToast,
+        toast,
         onSuccess: (response) => {
           const { data } = response;
           
@@ -203,7 +222,7 @@ export const createJobSubmissionHandler = (apiCall, pollingHook, stateHandlers, 
     onSuccess 
   } = stateHandlers;
   
-  const { context = 'job submission' } = options;
+  const { context = 'job submission', showToast = false, toast = null } = options;
 
   return async (formData) => {
     if (setLoading) setLoading(true);
@@ -217,10 +236,20 @@ export const createJobSubmissionHandler = (apiCall, pollingHook, stateHandlers, 
         if (setJobId) setJobId(data.id);
         pollingHook.startPolling(data.id);
         if (setLoading) setLoading(false);
+        
+        if (showToast && toast) {
+          toast.info(`${context} started. Job ID: ${data.id}`);
+        }
+        
         return data;
       } else if (isSuccessResponse(status)) {
         if (onSuccess) onSuccess(data);
         if (setLoading) setLoading(false);
+        
+        if (showToast && toast) {
+          toast.success(`${context} completed successfully!`);
+        }
+        
         return data;
       } else {
         throw new Error(`Unexpected status code: ${status}`);
@@ -229,6 +258,11 @@ export const createJobSubmissionHandler = (apiCall, pollingHook, stateHandlers, 
       const message = getPianistaStatusMessage(error, context) || handleApiError(error);
       if (setError) setError(message);
       if (setLoading) setLoading(false);
+      
+      if (showToast && toast) {
+        toast.error(message);
+      }
+      
       throw error;
     }
   };

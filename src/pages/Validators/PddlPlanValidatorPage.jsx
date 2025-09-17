@@ -1,4 +1,5 @@
 import PddlPlanValidator from "@components/features/validators/PddlPlanValidator";
+import { SectionLink, BackToHomeLink } from "@components/ui";
 
 export default function PddlPlanValidatorPage() {
   return (
@@ -9,12 +10,8 @@ export default function PddlPlanValidatorPage() {
             Plan Validator
           </h1>
           <div className="flex space-x-4">
-            <a href="/validators" className="text-blue-600 hover:text-blue-800 font-medium">
-              ← Back to Validators
-            </a>
-            <a href="/" className="text-blue-600 hover:text-blue-800 font-medium">
-              Home
-            </a>
+            <SectionLink to="/validators" sectionName="Validators" />
+            <BackToHomeLink />
           </div>
         </div>
 

@@ -4,11 +4,23 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { getPlanById } from "@api";
 import { getPlanSchema } from "@schemas";
 import { usePlanPolling } from "@hooks";
+import { useToast } from "@hooks";
+import { 
+  Card, 
+  SectionHeader, 
+  StatusBadge, 
+  ResultDisplay, 
+  ResultSection, 
+  JsonDisplay,
+  ErrorDisplay,
+  ButtonLoading
+} from "@components/ui";
 
 export default function GetPlan() {
   const [plan, setPlan] = useState(null);
   const [error, setError] = useState(null);
   const [pendingMessage, setPendingMessage] = useState(null);
+  const toast = useToast();
 
   const {
     register,
@@ -23,10 +35,12 @@ export default function GetPlan() {
         setPlan(data);
         setError(null);
         setPendingMessage(null);
+        toast.success("Plan retrieved successfully!");
       },
       onError: (err) => {
         setError(err.message);
         setPendingMessage(null);
+        toast.error(`Failed to retrieve plan: ${err.message}`);
       },
       onPending: (status) => {
         setPendingMessage(
@@ -35,6 +49,7 @@ export default function GetPlan() {
           })`
         );
         setError(null);
+        toast.info("Plan is still processing...");
       }
     }
   );
@@ -52,8 +67,11 @@ export default function GetPlan() {
   };
 
   return (
-    <div className="p-6 bg-white shadow-lg rounded-2xl space-y-4">
-      <h2 className="text-xl font-semibold text-gray-800">Get Plan</h2>
+    <Card className="space-y-4">
+      <SectionHeader 
+        title="Get Plan"
+        description="Retrieve plan details using the plan ID. Note: Plans may take a few moments to process after submission."
+      />
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
         <div>
@@ -73,27 +91,33 @@ export default function GetPlan() {
           disabled={polling.loading || polling.isPolling}
           className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50"
         >
-          {polling.loading ? "Starting..." : polling.isPolling ? "Polling..." : "Get Plan"}
+          <ButtonLoading 
+            isLoading={polling.loading || polling.isPolling} 
+            loadingText={polling.loading ? "Starting..." : "Polling..."}
+          >
+            Get Plan
+          </ButtonLoading>
         </button>
       </form>
 
       {plan && (
-        <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-          <h3 className="font-bold text-green-700 mb-2">Plan Retrieved Successfully</h3>
-          <div className="bg-white p-3 rounded border">
-            <h4 className="font-semibold mb-2">Generated Plan:</h4>
-            <pre className="whitespace-pre-wrap text-sm bg-gray-50 p-3 rounded border overflow-x-auto max-h-96 overflow-y-auto">
-              {plan.plan}
-            </pre>
-          </div>
-        </div>
+        <ResultDisplay
+          variant="success"
+          title="Plan Retrieved Successfully"
+        >
+          <ResultSection title="Generated Plan:">
+            <JsonDisplay data={plan.plan} />
+          </ResultSection>
+        </ResultDisplay>
       )}
 
       {polling.isPolling && !plan && (
-        <div className="p-4 border rounded-lg bg-blue-50 border-blue-200">
+        <ResultDisplay
+          variant="info"
+          title="Planning in Progress"
+        >
           <div className="flex justify-between items-center">
             <div>
-              <p className="font-bold text-blue-700">Planning in Progress</p>
               <p className="text-blue-700">{pendingMessage}</p>
               {polling.nextPollIn && (
                 <p className="text-sm text-blue-600 mt-1">
@@ -108,20 +132,18 @@ export default function GetPlan() {
               Cancel
             </button>
           </div>
-        </div>
+        </ResultDisplay>
       )}
 
       {error && (
-        <div className="p-4 border rounded-lg bg-red-50 border-red-200">
-          <p className="font-bold text-red-700">Error</p>
-          <p className="text-red-700">{error}</p>
+        <ErrorDisplay error={error}>
           {polling.hasTimedOut && (
             <p className="text-sm text-red-600 mt-2">
               Polling timed out after {polling.attemptCount} attempts. The plan may still be processing.
             </p>
           )}
-        </div>
+        </ErrorDisplay>
       )}
-    </div>
+    </Card>
   );
 }

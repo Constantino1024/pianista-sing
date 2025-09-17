@@ -1,5 +1,4 @@
-import { Link } from "react-router-dom";
-import { BackToHomeLink } from "@components/ui";
+import { NavigationLink, BackToHomeLink } from "@components/ui";
 
 export default function ValidatorPage() {
   const validators = [
@@ -93,12 +92,12 @@ export default function ValidatorPage() {
                 </ul>
               </div>
 
-              <a
-                href={validator.href}
-                className={`block w-full text-center ${validator.buttonColor} text-white py-3 px-4 rounded-lg font-medium transition-colors`}
-              >
-                Open Validator
-              </a>
+                              <NavigationLink 
+                  to={validator.href}
+                  className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                >
+                  Open Validator
+                </NavigationLink>
             </div>
           ))}
         </div>

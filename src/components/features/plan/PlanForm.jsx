@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { postPlan } from "@api";
 import { planSchema } from "@schemas";
 import { createFormSubmissionHandler } from "@utils/errorHandling";
+import { useToast } from "@hooks";
 
 export default function PlanForm({
   selectedPlannerId = null,
@@ -13,6 +14,7 @@ export default function PlanForm({
   const [jobId, setJobId] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const toast = useToast();
 
   const {
     register,
@@ -30,7 +32,11 @@ export default function PlanForm({
       setError,
       setJobId
     },
-    { context: 'plan submission' }
+    { 
+      context: 'plan submission',
+      showToast: true,
+      toast
+    }
   );
 
   return (

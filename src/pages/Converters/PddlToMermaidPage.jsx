@@ -1,4 +1,5 @@
 import PddlToMermaid from "@components/features/converters/PddlToMermaid";
+import { SectionLink, BackToHomeLink } from "@components/ui";
 
 export default function PddlToMermaidPage() {
   return (
@@ -9,12 +10,8 @@ export default function PddlToMermaidPage() {
             PDDL → Mermaid Converter
           </h1>
           <div className="flex space-x-4">
-            <a href="/converters" className="text-blue-600 hover:text-blue-800 font-medium">
-              ← Back to Converters
-            </a>
-            <a href="/" className="text-blue-600 hover:text-blue-800 font-medium">
-              Home
-            </a>
+            <SectionLink to="/converters" sectionName="Converters" />
+            <BackToHomeLink />
           </div>
         </div>
 

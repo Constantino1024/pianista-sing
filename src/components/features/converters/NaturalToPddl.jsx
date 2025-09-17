@@ -2,6 +2,15 @@ import { useState } from "react";
 import { postGeneratePddl } from "@api";
 import { handleAsyncOperation } from "@utils/errorHandling";
 import { normalizePddlText } from "@utils/pddlUtils";
+import { useToast } from "@hooks";
+import { 
+  Card, 
+  SectionHeader, 
+  ResultDisplay, 
+  CodeBlock,
+  ErrorDisplay,
+  ButtonLoading
+} from "@components/ui";
 
 export default function GeneratePddl() {
   const [pddlType, setPddlType] = useState("domain");
@@ -12,33 +21,29 @@ export default function GeneratePddl() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
+  const toast = useToast();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
-    setResult(null);
-
-    const operation = async () => {
-      const prompt = {
-        text: normalizePddlText(text),
-        domain: domain ? normalizePddlText(domain) : null,
-      };
-
-      const { data } = await postGeneratePddl(
-        pddlType,
-        prompt,
-        generateBoth,
-        attempts
-      );
-      return data;
-    };
-
-    const result = await handleAsyncOperation(operation, 'PDDL generation', setError);
-    if (result) {
-      setResult(result);
-    }
-    setLoading(false);
+    
+    await handleAsyncOperation(
+      () => {
+        const prompt = {
+          text: normalizePddlText(text),
+          domain: domain ? normalizePddlText(domain) : null,
+        };
+        return postGeneratePddl(pddlType, prompt, generateBoth, attempts);
+      },
+      {
+        setLoading,
+        setError,
+        clearStatesOnStart: [setResult],
+        context: 'PDDL generation',
+        showToast: true,
+        toast,
+        onSuccess: (response) => setResult(response.data)
+      }
+    );
   };
 
   const clearForm = () => {
@@ -49,11 +54,12 @@ export default function GeneratePddl() {
   };
 
   return (
-    <div className="p-6 bg-white shadow-lg rounded-2xl space-y-4">
+    <Card className="space-y-4">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-gray-800">
-          Generate PDDL from Natural Language
-        </h2>
+        <SectionHeader 
+          title="Generate PDDL from Natural Language"
+          description="Convert natural language descriptions into PDDL domain or problem files"
+        />
         <button
           type="button"
           onClick={clearForm}
@@ -142,63 +148,38 @@ export default function GeneratePddl() {
           disabled={loading || !text.trim()}
           className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium transition-colors"
         >
-          {loading ? "Generating..." : "Generate PDDL"}
+          <ButtonLoading isLoading={loading} loadingText="Generating...">
+            Generate PDDL
+          </ButtonLoading>
         </button>
       </div>
 
       {result && (
-        <div
-          className={`p-4 border rounded-lg ${
-            result.result_status === "success"
-              ? "bg-green-50 border-green-200"
-              : "bg-red-50 border-red-200"
-          }`}
+        <ResultDisplay
+          variant={result.result_status === "success" ? "success" : "error"}
+          title={`Generation ${result.result_status === "success" ? "Successful" : "Failed"}`}
         >
-          <h3
-            className={`font-bold text-lg mb-3 ${
-              result.result_status === "success"
-                ? "text-green-700"
-                : "text-red-700"
-            }`}
-          >
-            Generation{" "}
-            {result.result_status === "success" ? "Successful" : "Failed"}
-          </h3>
-
           {result.generated_domain && (
             <div className="mb-4">
-              <h4 className="font-semibold text-gray-700 mb-2">
-                Generated Domain:
-              </h4>
-              <div className="bg-white p-3 rounded border font-mono text-sm overflow-x-auto">
-                <pre className="font-mono text-sm text-gray-800 whitespace-pre">
-                  {result.generated_domain}
-                </pre>
-              </div>
+              <h4 className="font-semibold text-gray-700 mb-2">Generated Domain:</h4>
+              <CodeBlock>
+                {result.generated_domain}
+              </CodeBlock>
             </div>
           )}
 
           {result.generated_problem && (
             <div>
-              <h4 className="font-semibold text-gray-700 mb-2">
-                Generated Problem:
-              </h4>
-              <div className="bg-white p-3 rounded border font-mono text-sm overflow-x-auto">
-                <pre className="font-mono text-sm text-gray-800 whitespace-pre">
-                  {result.generated_problem}
-                </pre>
-              </div>
+              <h4 className="font-semibold text-gray-700 mb-2">Generated Problem:</h4>
+              <CodeBlock>
+                {result.generated_problem}
+              </CodeBlock>
             </div>
           )}
-        </div>
+        </ResultDisplay>
       )}
 
-      {error && (
-        <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-          <h3 className="text-sm font-medium text-red-800">Error</h3>
-          <p className="mt-1 text-sm text-red-700">{error}</p>
-        </div>
-      )}
-    </div>
+      <ErrorDisplay error={error} />
+    </Card>
   );
 }

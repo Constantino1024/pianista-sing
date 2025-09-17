@@ -2,6 +2,16 @@ import { useState } from "react";
 import { postValidatePddlMatch } from "@api";
 import { handleAsyncOperation } from "@utils/errorHandling";
 import { normalizePddlText } from "@utils/pddlUtils";
+import { useToast } from "@hooks";
+import { 
+  Card, 
+  SectionHeader, 
+  ResultDisplay, 
+  CodeBlock,
+  ErrorDisplay,
+  ButtonLoading,
+  StatusBadge
+} from "@components/ui";
 
 export default function PddlMatchValidator() {
   const [domain, setDomain] = useState("");
@@ -9,6 +19,7 @@ export default function PddlMatchValidator() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
+  const toast = useToast();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,8 +34,10 @@ export default function PddlMatchValidator() {
         setLoading,
         setError,
         clearStatesOnStart: [setResult],
-        onSuccess: (response) => setResult(response.data),
-        context: 'PDDL match validation'
+        context: 'PDDL match validation',
+        showToast: true,
+        toast,
+        onSuccess: (response) => setResult(response.data)
       }
     );
   };
@@ -37,11 +50,12 @@ export default function PddlMatchValidator() {
   };
 
   return (
-    <div className="p-6 bg-white shadow-lg rounded-2xl space-y-4">
+    <Card className="space-y-4">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-gray-800">
-          Validate Domain & Problem Match
-        </h2>
+        <SectionHeader 
+          title="Validate Domain & Problem Match"
+          description="Validate that a problem correctly matches its domain definition"
+        />
         <button
           type="button"
           onClick={clearForm}
@@ -83,71 +97,41 @@ export default function PddlMatchValidator() {
           disabled={loading}
           className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium transition-colors"
         >
-          {loading ? "Validating..." : "Validate Match"}
+          <ButtonLoading isLoading={loading} loadingText="Validating...">
+            Validate Match
+          </ButtonLoading>
         </button>
       </form>
 
       {result && (
-        <div
-          className={`p-4 border rounded-lg ${
-            result.result === "success"
-              ? "bg-green-50 border-green-200"
-              : "bg-red-50 border-red-200"
-          }`}
+        <ResultDisplay
+          variant={result.result === "success" ? "success" : "error"}
+          title={`Validation ${result.result === "success" ? "Successful" : "Failed"}`}
         >
-          <h3
-            className={`font-bold text-lg mb-3 ${
-              result.result === "success" ? "text-green-700" : "text-red-700"
-            }`}
-          >
-            Validation {result.result === "success" ? "Successful" : "Failed"}
-          </h3>
-
-          <div className="space-y-2">
-            <p>
-              <span className="font-semibold text-gray-700">Status:</span>{" "}
-              <span
-                className={`px-3 py-1 rounded-full text-sm font-medium ${
-                  result.result === "success"
-                    ? "bg-green-100 text-green-800"
-                    : "bg-red-100 text-red-800"
-                }`}
-              >
+          <div className="space-y-3">
+            <div className="flex items-center space-x-2">
+              <span className="font-semibold text-gray-700">Status:</span>
+              <StatusBadge variant={result.result === "success" ? "success" : "error"}>
                 {result.result.toUpperCase()}
-              </span>
-            </p>
-            <p>
-              <div className="flex items-center space-x-2">
-                <span className="font-semibold text-gray-700">
-                  Detected PDDL Type:
-                </span>
-                <span className="px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-800 font-medium">
-                  {result.pddl_type || "None"}
-                </span>
-              </div>
-            </p>
-            <div className="bg-white p-3 rounded border">
+              </StatusBadge>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="font-semibold text-gray-700">Detected PDDL Type:</span>
+              <StatusBadge variant="info">
+                {result.pddl_type || "None"}
+              </StatusBadge>
+            </div>
+            <div>
               <span className="font-semibold text-gray-700">Message:</span>
-              <p
-                className={`mt-2 ${
-                  result.result === "success"
-                    ? "text-green-700"
-                    : "text-red-700"
-                }`}
-              >
+              <CodeBlock className="mt-2">
                 {result.message}
-              </p>
+              </CodeBlock>
             </div>
           </div>
-        </div>
+        </ResultDisplay>
       )}
 
-      {error && (
-        <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-          <h3 className="text-sm font-medium text-red-800">Error</h3>
-          <p className="mt-2 text-sm text-red-700">{error}</p>
-        </div>
-      )}
-    </div>
+      <ErrorDisplay error={error} />
+    </Card>
   );
 }

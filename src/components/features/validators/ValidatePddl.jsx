@@ -5,11 +5,13 @@ import { postValidatePddl } from "@api";
 import { validatePddlSchema, PDDL_TYPES } from "@schemas";
 import { createFormSubmissionHandler } from "@utils/errorHandling";
 import { normalizePddlText } from "@utils/pddlUtils";
+import { useToast } from "@hooks";
 
 export default function ValidatePddl() {
   const [validationResult, setValidationResult] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const toast = useToast();
 
   const {
     register,
@@ -30,7 +32,11 @@ const onSubmit = createFormSubmissionHandler(
     setError,
     setResult: setValidationResult
   },
-  { context: 'PDDL validation' }
+  { 
+    context: 'PDDL validation',
+    showToast: true,
+    toast
+  }
 );
 
 

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { postConvertPddlToMermaid } from "@api";
 import { handleAsyncOperation } from "@utils/errorHandling";
 import { normalizePddlText } from "@utils/pddlUtils";
+import { useToast } from "@hooks";
 import { 
   Card, 
   SectionHeader, 
@@ -17,24 +18,26 @@ export default function PddlToMermaid() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
+  const toast = useToast();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
-    setResult(null);
-
-    const operation = async () => {
-      const normalizedPddl = normalizePddlText(pddl);
-      const { data } = await postConvertPddlToMermaid(pddlType, normalizedPddl);
-      return data;
-    };
-
-    const result = await handleAsyncOperation(operation, 'PDDL to Mermaid conversion', setError);
-    if (result) {
-      setResult(result);
-    }
-    setLoading(false);
+    
+    await handleAsyncOperation(
+      () => {
+        const normalizedPddl = normalizePddlText(pddl);
+        return postConvertPddlToMermaid(pddlType, normalizedPddl);
+      },
+      {
+        setLoading,
+        setError,
+        clearStatesOnStart: [setResult],
+        context: 'PDDL to Mermaid conversion',
+        showToast: true,
+        toast,
+        onSuccess: (response) => setResult(response.data)
+      }
+    );
   };
 
   const clearForm = () => {
