@@ -112,7 +112,6 @@ export const useJobPolling = (fetchFunction, options = {}) => {
         return;
       }
       
-      // Other status codes - treat as error
       throw new Error(`Unexpected status code: ${response.status}`);
       
     } catch (err) {
@@ -125,11 +124,9 @@ export const useJobPolling = (fetchFunction, options = {}) => {
     }
   }, [enabled, fetchFunction, maxAttempts, getNextInterval, onSuccess, onError, onPending, startCountdown, attemptCount, initialInterval]);
 
-  // Start polling for a job
   const startPolling = useCallback((jobId) => {
     if (!jobId || !enabled) return;
     
-    // Clear any existing polling
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
@@ -137,7 +134,6 @@ export const useJobPolling = (fetchFunction, options = {}) => {
     executeFetch(jobId, true);
   }, [enabled, executeFetch]);
 
-  // Stop polling
   const stopPolling = useCallback(() => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -148,7 +144,6 @@ export const useJobPolling = (fetchFunction, options = {}) => {
     setNextPollIn(null);
   }, []);
 
-  // Reset all state
   const reset = useCallback(() => {
     stopPolling();
     setData(null);
@@ -157,7 +152,6 @@ export const useJobPolling = (fetchFunction, options = {}) => {
     currentIntervalRef.current = initialInterval;
   }, [stopPolling, initialInterval]);
 
-  // Cleanup on unmount
   useEffect(() => {
     isActiveRef.current = true;
     return () => {
@@ -169,40 +163,29 @@ export const useJobPolling = (fetchFunction, options = {}) => {
   }, []);
 
   return {
-    // State
     data,
     loading,
     error,
     isPolling,
     attemptCount,
     nextPollIn,
-    
-    // Actions
     startPolling,
     stopPolling,
     reset,
-    
-    // Status helpers
     isActive: isPolling || loading,
     hasTimedOut: attemptCount >= maxAttempts,
     currentInterval: currentIntervalRef.current
   };
 };
 
-/**
- * Specialized hook for PDDL plan polling
- */
 export const usePlanPolling = (getPlanFunction, options = {}) => {
   return useJobPolling(getPlanFunction, {
-    maxAttempts: 25, // PDDL planning can take longer
-    maxInterval: 60000, // 1 minute max for planning
+    maxAttempts: 25,
+    maxInterval: 60000,
     ...options
   });
 };
 
-/**
- * Simplified hook for one-time job status checking with automatic polling
- */
 export const useJobStatus = (fetchFunction, jobId, autoStart = true) => {
   const polling = useJobPolling(fetchFunction, {
     onSuccess: (data) => console.log('Job completed:', data),

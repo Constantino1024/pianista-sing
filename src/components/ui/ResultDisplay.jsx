@@ -50,7 +50,6 @@ export default function ResultDisplay({
   );
 }
 
-// Sub-components for common content patterns
 export function ResultSection({ title, children, className = '' }) {
   return (
     <div className={`bg-white p-3 rounded border ${className}`}>

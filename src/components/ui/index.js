@@ -1,4 +1,3 @@
-// UI Components exports
 export { default as StatusBadge } from './StatusBadge';
 export { default as LoadingSpinner, ButtonLoading } from './LoadingSpinner';
 export { default as ErrorDisplay, ErrorText } from './ErrorDisplay';
@@ -21,6 +20,5 @@ export {
   BackToHomeLink, 
   SectionLink 
 } from './Navigation';
-
-// Existing API Status component
+export { Toast, ToastContainer } from './toast';
 export { default as ApiStatus } from './ApiStatus';

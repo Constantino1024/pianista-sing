@@ -1,7 +1,6 @@
 import ResourceList from "@components/common/ResourceList";
 import { getSolvers } from "@api";
 
-// Render function for individual solver items
 const renderSolverItem = (solver) => (
   <div
     key={solver.id}

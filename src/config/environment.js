@@ -27,32 +27,25 @@ export const apiConfig = {
 };
 
 export const featuresConfig = {
-  // Converter settings
   converters: {
     maxAttempts: 10,
     defaultAttempts: 1,
     enableRealTypeConversion: true,
   },
-  
-  // Validation settings
   validation: {
     enableAutoDetect: true,
     supportedPddlTypes: ['domain', 'problem', 'plan'],
   },
-  
-  // UI settings
   ui: {
-    autoRefreshInterval: 5000, // 5 seconds for polling
+    autoRefreshInterval: 5000,
     defaultPageSize: 20,
-    maxFileSize: 10 * 1024 * 1024, // 10MB
+    maxFileSize: 10 * 1024 * 1024,
   },
 };
 
 export const config = {
   api: apiConfig,
   features: featuresConfig,
-  
-  // Helper methods
   getApiUrl: (endpoint = '') => {
     const baseUrl = apiConfig.baseURL.replace(/\/$/, '');
     const cleanEndpoint = endpoint.replace(/^\//, '');

@@ -1,10 +1,6 @@
 import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 
-/**
- * Reusable navigation link component that uses React Router's Link
- * for proper SPA navigation instead of full page reloads
- */
 export function NavigationLink({ 
   to, 
   children, 
@@ -18,9 +14,6 @@ export function NavigationLink({
   );
 }
 
-/**
- * Pre-styled back to home link
- */
 export function BackToHomeLink({ className, ...props }) {
   return (
     <NavigationLink 
@@ -33,9 +26,6 @@ export function BackToHomeLink({ className, ...props }) {
   );
 }
 
-/**
- * Pre-styled section navigation link (e.g., back to validators, converters)
- */
 export function SectionLink({ to, sectionName, className, ...props }) {
   return (
     <NavigationLink 

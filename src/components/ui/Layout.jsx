@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 
-// Card component for consistent container styling
 export function Card({ children, className = '', padding = 'p-6' }) {
   return (
     <div className={`bg-white shadow-lg rounded-2xl ${padding} ${className}`}>
@@ -15,7 +14,6 @@ Card.propTypes = {
   padding: PropTypes.string
 };
 
-// Section header with optional description
 export function SectionHeader({ 
   title, 
   description, 
@@ -52,7 +50,6 @@ SectionHeader.propTypes = {
   className: PropTypes.string
 };
 
-// Feature list component
 export function FeatureList({ features, className = '' }) {
   return (
     <ul className={`text-sm text-gray-600 space-y-1 ${className}`}>
@@ -66,7 +63,6 @@ export function FeatureList({ features, className = '' }) {
   );
 }
 
-// Info panel for showing selected items
 export function InfoPanel({ 
   title, 
   children, 
@@ -94,7 +90,6 @@ export function InfoPanel({
   );
 }
 
-// Job ID display component
 export function JobIdDisplay({ jobId, label = "Job ID" }) {
   if (!jobId) return null;
   

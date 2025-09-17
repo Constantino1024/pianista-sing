@@ -1,9 +1,5 @@
 import { useState, useCallback } from 'react';
 
-/**
- * Hook for managing async operations with loading, error, and result states
- * Works well with the new UI components (LoadingSpinner, ErrorDisplay, ResultDisplay)
- */
 export function useAsyncOperation() {
   const [state, setState] = useState({
     loading: false,
@@ -25,7 +21,7 @@ export function useAsyncOperation() {
                           `An error occurred${errorContext ? ` during ${errorContext}` : ''}`;
       
       setState(prev => ({ ...prev, loading: false, error: errorMessage }));
-      throw error; // Re-throw so calling code can handle if needed
+      throw error;
     }
   }, []);
 
@@ -55,10 +51,6 @@ export function useAsyncOperation() {
   };
 }
 
-/**
- * Hook for managing form submission with async operations
- * Integrates with react-hook-form and provides consistent state management
- */
 export function useAsyncForm(submitHandler) {
   const asyncOp = useAsyncOperation();
 
@@ -67,7 +59,6 @@ export function useAsyncForm(submitHandler) {
       const result = await asyncOp.execute(() => submitHandler(data));
       return result;
     } catch {
-      // Error is already handled by asyncOp.execute
       return null;
     }
   }, [asyncOp, submitHandler]);

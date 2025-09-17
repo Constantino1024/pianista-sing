@@ -71,7 +71,6 @@ export default function ErrorDisplay({
   );
 }
 
-// Simple error text for inline use
 export function ErrorText({ error, className = '' }) {
   if (!error) return null;
   
@@ -104,5 +103,3 @@ ErrorText.propTypes = {
   ]),
   className: PropTypes.string
 };
-
-// ErrorDisplay is already exported as default above

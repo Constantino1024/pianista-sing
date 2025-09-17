@@ -20,12 +20,10 @@ class ErrorBoundary extends React.Component {
       errorInfo
     });
 
-    // Log error to console in development
     if (import.meta.env.DEV) {
       console.error('ErrorBoundary caught an error:', error, errorInfo);
     }
 
-    // You can also log the error to an error reporting service here
     if (this.props.onError) {
       this.props.onError(error, errorInfo);
     }
@@ -37,12 +35,10 @@ class ErrorBoundary extends React.Component {
 
   render() {
     if (this.state.hasError) {
-      // Custom fallback UI
       if (this.props.fallback) {
         return this.props.fallback;
       }
 
-      // Default error UI
       return (
         <div className="p-6">
           <ErrorDisplay
