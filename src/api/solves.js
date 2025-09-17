@@ -5,7 +5,9 @@ export const postSolve = (model_str, model_params, solver_name = null) => {
   const params = new URLSearchParams();
   if (solver_name) params.append("solver_name", solver_name);
 
-  return api.post(`/solve/minizinc?${params.toString()}`, {
+  const url = params.toString() ? `/solve/minizinc?${params.toString()}` : '/solve/minizinc';
+
+  return api.post(url, {
     model_str,
     model_params,
   });

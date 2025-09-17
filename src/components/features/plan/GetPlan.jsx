@@ -15,11 +15,13 @@ import {
   ErrorDisplay,
   ButtonLoading
 } from "@components/ui";
+import PlanGanttChart from "./PlanGanttChart";
 
 export default function GetPlan() {
   const [plan, setPlan] = useState(null);
   const [error, setError] = useState(null);
   const [pendingMessage, setPendingMessage] = useState(null);
+  const [viewMode, setViewMode] = useState('gantt'); // 'gantt' or 'json'
   const toast = useToast();
 
   const {
@@ -101,14 +103,48 @@ export default function GetPlan() {
       </form>
 
       {plan && (
-        <ResultDisplay
-          variant="success"
-          title="Plan Retrieved Successfully"
-        >
-          <ResultSection title="Generated Plan:">
-            <JsonDisplay data={plan.plan} />
-          </ResultSection>
-        </ResultDisplay>
+        <div className="space-y-4">
+          {/* View Toggle */}
+          <div className="flex justify-between items-center">
+            <h3 className="text-lg font-semibold text-green-700">Plan Retrieved Successfully</h3>
+            <div className="flex bg-gray-100 rounded-lg p-1">
+              <button
+                onClick={() => setViewMode('gantt')}
+                className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
+                  viewMode === 'gantt' 
+                    ? 'bg-blue-600 text-white' 
+                    : 'text-gray-600 hover:text-gray-800'
+                }`}
+              >
+                Timeline View
+              </button>
+              <button
+                onClick={() => setViewMode('json')}
+                className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
+                  viewMode === 'json' 
+                    ? 'bg-blue-600 text-white' 
+                    : 'text-gray-600 hover:text-gray-800'
+                }`}
+              >
+                Raw Data
+              </button>
+            </div>
+          </div>
+
+          {/* Plan Display */}
+          {viewMode === 'gantt' ? (
+            <PlanGanttChart plan={plan} title="Plan Execution Timeline" />
+          ) : (
+            <ResultDisplay
+              variant="success"
+              title="Plan Raw Data"
+            >
+              <ResultSection title="Generated Plan:">
+                <JsonDisplay data={plan.plan} />
+              </ResultSection>
+            </ResultDisplay>
+          )}
+        </div>
       )}
 
       {polling.isPolling && !plan && (

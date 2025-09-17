@@ -112,18 +112,20 @@ export const createFormSubmissionHandler = (apiCall, stateHandlers, options = {}
         showToast,
         toast,
         onSuccess: (response) => {
-          const { data } = response;
+          const { data, status } = response;
           
-          if (data?.id && setJobId) {
+          if (status === 201 && data?.id && setJobId) {
             setJobId(data.id);
+            return;
           }
           
-          if (setResult) {
+          if (status === 200 && setResult) {
             setResult(data);
+            return;
           }
           
           if (onSuccess) {
-            onSuccess(data);
+            onSuccess(response);
           }
         }
       }
@@ -212,6 +214,102 @@ export const isAsyncOperationPending = (error) => {
 
 export const isSuccessResponse = (status) => {
   return status === 200 || status === 201;
+};
+
+export const processPddlStrings = (domain, problem) => {
+  return {
+    domain: domain.replace(/\\n/g, '\n'),
+    problem: problem.replace(/\\n/g, '\n')
+  };
+};
+
+export const createPlanSubmissionHandler = (apiCall, stateHandlers, options = {}) => {
+  const { 
+    setLoading, 
+    setError, 
+    setJobId,
+    onSuccess 
+  } = stateHandlers;
+  
+  const { showToast = false, toast = null } = options;
+
+  return async (formData) => {
+    if (setLoading) setLoading(true);
+    if (setError) setError(null);
+    if (setJobId) setJobId(null);
+
+    try {
+      const { domain, problem } = processPddlStrings(formData.domain, formData.problem);
+      
+      const response = await apiCall(domain, problem, {
+        plannerId: formData.plannerId || undefined,
+        convertRealTypes: formData.convertRealTypes,
+      });
+
+      if (response.status === 201 && response.data?.id) {
+        if (setJobId) setJobId(response.data.id);
+        if (showToast && toast) {
+          toast.success(`Plan submitted successfully! Job ID: ${response.data.id}`);
+        }
+        return response.data;
+      } 
+
+      else if (response.status === 200) {
+        if (onSuccess) onSuccess(response.data);
+        if (showToast && toast) {
+          toast.success('Plan completed immediately!');
+        }
+        return response.data;
+      } 
+      else {
+        console.error('Unexpected response:', response);
+        throw new Error(`Unexpected response status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('Plan submission error:', error);
+      
+      
+      let message = 'Failed to submit plan';
+      
+      if (error.response) {
+        
+        const status = error.response.status;
+        const data = error.response.data;
+        
+        switch (status) {
+          case 401:
+            message = 'Authentication failed. Check your API key.';
+            break;
+          case 403:
+            message = 'Access forbidden. Check your API permissions.';
+            break;
+          case 422:
+            message = `Validation error: ${data?.detail || 'Invalid PDDL format'}`;
+            break;
+          case 500:
+            message = 'Server error. Please try again later.';
+            break;
+          default:
+            message = `API error (${status}): ${data?.detail || data?.message || error.message}`;
+        }
+      } else if (error.request) {
+        
+        message = 'Network error. Check your internet connection and API URL.';
+      } else {
+        
+        message = error.message || 'Unknown error occurred';
+      }
+      
+      if (setError) setError(message);
+      if (showToast && toast) {
+        toast.error(`Plan submission failed: ${message}`);
+      }
+      
+      throw error;
+    } finally {
+      if (setLoading) setLoading(false);
+    }
+  };
 };
 
 export const createJobSubmissionHandler = (apiCall, pollingHook, stateHandlers, options = {}) => {

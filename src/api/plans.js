@@ -9,11 +9,15 @@ export const postPlan = (domain, problem, options = {}) => {
     params.append("convert_real_types", options.convertRealTypes);
   }
 
-  return api.post(`/solve/pddl?${params.toString()}`, {
+  const url = params.toString() ? `/solve/pddl?${params.toString()}` : '/solve/pddl';
+
+  return api.post(url, {
     domain,
     problem,
   });
 };
 
 // GET /solve/pddl?id={id}
-export const getPlanById = (id) => api.get(`/solve/pddl`, { params: { id } });
+export const getPlanById = (id) => {
+  return api.get(`/solve/pddl`, { params: { id } });
+};

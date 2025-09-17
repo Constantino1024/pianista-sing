@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { postPlan } from "@api";
 import { planSchema } from "@schemas";
-import { createFormSubmissionHandler } from "@utils/errorHandling";
 import { useToast } from "@hooks";
+import { createPlanSubmissionHandler } from "@utils/errorHandling";
 
 export default function PlanForm({
   selectedPlannerId = null,
@@ -22,18 +22,17 @@ export default function PlanForm({
     formState: { errors },
   } = useForm({ resolver: zodResolver(planSchema) });
 
-  const onSubmit = createFormSubmissionHandler(
-    (formData) => postPlan(formData.domain, formData.problem, {
-      plannerId: selectedPlannerId || undefined,
-      convertRealTypes: formData.convertRealTypes,
+  const onSubmit = createPlanSubmissionHandler(
+    (domain, problem, options) => postPlan(domain, problem, {
+      ...options,
+      plannerId: selectedPlannerId || options.plannerId
     }),
     {
       setLoading,
       setError,
       setJobId
     },
-    { 
-      context: 'plan submission',
+    {
       showToast: true,
       toast
     }

@@ -41,7 +41,10 @@ export default function SolveForm({
         throw new Error(`Invalid JSON format in model parameters: ${parseError.message}`);
       }
       
-      return postSolve(formData.model_str, parsedParams, selectedSolverId);
+      // Process model string - convert \n to actual newlines if needed
+      const processedModelStr = formData.model_str.replace(/\\n/g, '\n');
+      
+      return postSolve(processedModelStr, parsedParams, selectedSolverId);
     },
     {
       setLoading,

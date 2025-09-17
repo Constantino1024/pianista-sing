@@ -22,3 +22,4 @@ export {
 } from './Navigation';
 export { Toast, ToastContainer } from './toast';
 export { default as ApiStatus } from './ApiStatus';
+export { default as PlanGanttChart } from '../features/plan/PlanGanttChart';

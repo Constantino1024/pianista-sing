@@ -6,7 +6,7 @@ export const useJobPolling = (fetchFunction, options = {}) => {
   const {
     initialInterval = config.features.ui.autoRefreshInterval,
     maxInterval = 30000,
-    maxAttempts = 20,
+    maxAttempts = 5,
     backoffMultiplier = 1.5,
     onSuccess,
     onError,
@@ -51,7 +51,7 @@ export const useJobPolling = (fetchFunction, options = {}) => {
   }, []);
 
   const executeFetch = useCallback(async (jobId, isInitialCall = false) => {
-    if (!enabled || !jobId) return;
+    if (!enabled || !jobId || !isActiveRef.current) return;
 
     if (isInitialCall) {
       setLoading(true);
@@ -66,6 +66,12 @@ export const useJobPolling = (fetchFunction, options = {}) => {
       const response = await fetchFunction(jobId);
       
       if (response.status === 200 || response.status === 201) {
+        // Clear any pending timeouts first
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+          timeoutRef.current = null;
+        }
+        
         setData(response.data);
         setIsPolling(false);
         setLoading(false);
@@ -118,15 +124,84 @@ export const useJobPolling = (fetchFunction, options = {}) => {
       
       throw new Error(`Unexpected status code: ${response.status}`);
       
-    } catch (err) {
-      setError(err.message);
+    } catch (error) {
+      console.error('Job polling error:', error);
+      
+      // Handle specific error cases
+      if (error.response?.status === 500) {
+        const currentAttempt = attemptCountRef.current;
+        
+        // For 500 errors, retry a few times before giving up
+        if (currentAttempt < Math.min(5, maxAttempts)) {
+          console.log(`Server error (500), retrying... (attempt ${currentAttempt + 1})`);
+          
+          setIsPolling(true);
+          setLoading(false);
+          attemptCountRef.current = currentAttempt + 1;
+          setAttemptCount(currentAttempt + 1);
+          
+          const nextInterval = getNextInterval(currentAttempt);
+          currentIntervalRef.current = nextInterval;
+          
+          if (onPending) {
+            onPending({
+              attempt: currentAttempt + 1,
+              maxAttempts,
+              nextPollIn: Math.ceil(nextInterval / 1000),
+              message: 'Server error, retrying...'
+            });
+          }
+          
+          const cleanupCountdown = startCountdown(nextInterval);
+          
+          timeoutRef.current = setTimeout(() => {
+            cleanupCountdown();
+            if (isActiveRef.current) {
+              executeFetch(jobId, false);
+            }
+          }, nextInterval);
+          
+          return;
+        } else {
+          // Give up after too many 500 errors
+          const serverError = new Error(`Server error (500): The job may have failed or the server is having issues. Job ID: ${jobId}`);
+          setError(serverError.message);
+          setIsPolling(false);
+          setLoading(false);
+          setNextPollIn(null);
+          if (onError) onError(serverError);
+          return;
+        }
+      }
+      
+      // Handle other errors (404, 403, etc.)
+      if (error.response?.status === 404) {
+        // If we already have data, the job was completed and cleaned up - don't treat as error
+        if (data && data.plan) {
+          console.log('Job completed and cleaned up (404 is expected)');
+          setIsPolling(false);
+          setLoading(false);
+          setNextPollIn(null);
+          return;
+        }
+        
+        const notFoundError = new Error(`Job not found. The job ID "${jobId}" may be invalid or expired.`);
+        setError(notFoundError.message);
+        setIsPolling(false);
+        setLoading(false);
+        setNextPollIn(null);
+        if (onError) onError(notFoundError);
+        return;
+      }
+      
+      // For other errors, show the error and stop polling
+      setError(error.message);
       setIsPolling(false);
       setLoading(false);
       setNextPollIn(null);
-      if (onError) onError(err);
-      throw err;
+      if (onError) onError(error);
     }
-  }, [enabled, fetchFunction, maxAttempts, getNextInterval, onSuccess, onError, onPending, startCountdown, initialInterval]);
+  }, [enabled, fetchFunction, maxAttempts, getNextInterval, onSuccess, onError, onPending, startCountdown, initialInterval, data]);
 
   const startPolling = useCallback((jobId) => {
     if (!jobId || !enabled) return;
