@@ -2,6 +2,14 @@ import { useState } from "react";
 import { postConvertPddlToMermaid } from "@api";
 import { handleAsyncOperation } from "@utils/errorHandling";
 import { normalizePddlText } from "@utils/pddlUtils";
+import { 
+  Card, 
+  SectionHeader, 
+  ResultDisplay, 
+  CodeBlock,
+  ErrorDisplay,
+  ButtonLoading
+} from "@components/ui";
 
 export default function PddlToMermaid() {
   const [pddlType, setPddlType] = useState("domain");
@@ -36,11 +44,12 @@ export default function PddlToMermaid() {
   };
 
   return (
-    <div className="p-6 bg-white shadow-lg rounded-2xl space-y-4">
+    <Card className="space-y-4">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-gray-800">
-          Convert PDDL → Mermaid
-        </h2>
+        <SectionHeader 
+          title="Convert PDDL → Mermaid"
+          description="Convert PDDL domain or problem files into visual Mermaid diagrams"
+        />
         <button
           type="button"
           onClick={clearForm}
@@ -84,43 +93,24 @@ export default function PddlToMermaid() {
           disabled={loading}
           className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium transition-colors"
         >
-          {loading ? "Converting..." : "Convert to Mermaid"}
+          <ButtonLoading isLoading={loading} loadingText="Converting...">
+            Convert to Mermaid
+          </ButtonLoading>
         </button>
       </form>
 
       {result && (
-        <div
-          className={`p-4 border rounded-lg ${
-            result.result_status === "success"
-              ? "bg-green-50 border-green-200"
-              : "bg-red-50 border-red-200"
-          }`}
+        <ResultDisplay
+          variant={result.result_status === "success" ? "success" : "error"}
+          title={`Conversion ${result.result_status === "success" ? "Successful" : "Failed"}`}
         >
-          <h3
-            className={`font-bold text-lg mb-3 ${
-              result.result_status === "success"
-                ? "text-green-700"
-                : "text-red-700"
-            }`}
-          >
-            Conversion{" "}
-            {result.result_status === "success" ? "Successful" : "Failed"}
-          </h3>
-
-          <div className="bg-white p-3 rounded border font-mono text-sm overflow-x-auto">
-            <pre className="font-mono text-sm text-gray-800 whitespace-pre">
-              {result.conversion_result}
-            </pre>
-          </div>
-        </div>
+          <CodeBlock>
+            {result.conversion_result}
+          </CodeBlock>
+        </ResultDisplay>
       )}
 
-      {error && (
-        <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-          <h3 className="text-sm font-medium text-red-800">Error</h3>
-          <p className="mt-1 text-sm text-red-700">{error}</p>
-        </div>
-      )}
-    </div>
+      <ErrorDisplay error={error} />
+    </Card>
   );
 }

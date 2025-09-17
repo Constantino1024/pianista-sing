@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import ApiStatus from "@components/ui/ApiStatus";
 
 export default function Home() {
@@ -12,12 +13,12 @@ export default function Home() {
             <p className="text-gray-600 mb-4">
               Create and manage PDDL planning tasks with various planners.
             </p>
-            <a 
-              href="/planners" 
+            <Link 
+              to="/planners" 
               className="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
             >
               Go to Planner
-            </a>
+            </Link>
           </div>
           
           <div className="p-6 bg-white shadow-lg rounded-2xl">
@@ -25,36 +26,36 @@ export default function Home() {
             <p className="text-gray-600 mb-4">
               Solve optimization problems using MiniZinc with different solvers.
             </p>
-            <a 
-              href="/solvers" 
+            <Link 
+              to="/solvers" 
               className="inline-block bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
             >
               Go to Solver
-            </a>
+            </Link>
           </div>
                     <div className="p-6 bg-white shadow-lg rounded-2xl">
             <h2 className="text-xl font-semibold text-gray-800 mb-4">PDDL Validators</h2>
             <p className="text-gray-600 mb-4">
               Validate PDDL content and ensure it meets the required standards.
             </p>
-            <a 
-              href="/validators" 
+            <Link 
+              to="/validators" 
               className="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
             >
               Go to PDDL Validators
-            </a>
+            </Link>
           </div>
                     <div className="p-6 bg-white shadow-lg rounded-2xl">
             <h2 className="text-xl font-semibold text-gray-800 mb-4">Converters</h2>
             <p className="text-gray-600 mb-4">
               Convert diagrams, models and natural language into PDDL format easily.
             </p>
-            <a 
-              href="/converters" 
+            <Link 
+              to="/converters" 
               className="inline-block bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
             >
               Go to Converters
-            </a>
+            </Link>
           </div>
         </div>
       </div>

@@ -4,6 +4,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { getSolveById } from "@api";
 import { getSolveSchema } from "@schemas";
 import { createFormSubmissionHandler } from "@utils/errorHandling";
+import { 
+  Card, 
+  SectionHeader, 
+  StatusBadge, 
+  ResultDisplay, 
+  ResultSection, 
+  JsonDisplay,
+  ErrorDisplay,
+  ButtonLoading
+} from "@components/ui";
 
 export default function GetSolve() {
   const [solution, setSolution] = useState(null);
@@ -27,10 +37,11 @@ export default function GetSolve() {
   );
 
   return (
-    <div className="p-6 bg-white shadow-lg rounded-2xl space-y-4">
-      <h2 className="text-xl font-semibold text-gray-800">
-        Get Minizinc Solution
-      </h2>
+    <Card className="space-y-4">
+      <SectionHeader 
+        title="Get Minizinc Solution"
+        description="Retrieve solution details using the solution ID. Note: Solutions may take a few moments to process after submission."
+      />
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
         <div>
@@ -52,56 +63,42 @@ export default function GetSolve() {
           disabled={loading}
           className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50"
         >
-          {loading ? "Fetching Solution..." : "Get Solution"}
+          <ButtonLoading isLoading={loading} loadingText="Fetching Solution...">
+            Get Solution
+          </ButtonLoading>
         </button>
       </form>
 
       {solution && (
-        <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-          <h3 className="font-bold text-green-700 mb-2">
-            Solution Retrieved Successfully
-          </h3>
+        <ResultDisplay
+          variant="success"
+          title="Solution Retrieved Successfully"
+        >
+          <ResultSection title="Status">
+            <StatusBadge
+              variant={
+                solution.status === "OPTIMAL_SOLUTION" || solution.status === "SATISFIED"
+                  ? "success"
+                  : solution.status === "UNSATISFIABLE"
+                  ? "error"
+                  : "warning"
+              }
+            >
+              {solution.status}
+            </StatusBadge>
+          </ResultSection>
 
-          <div className="space-y-4">
-            <div className="bg-white p-3 rounded border">
-              <h4 className="font-semibold mb-2">Status:</h4>
-              <div
-                className={`inline-block px-2 py-1 rounded text-sm ${
-                  solution.status === "OPTIMAL_SOLUTION" ||
-                  solution.status === "SATISFIED"
-                    ? "bg-green-100 text-green-800"
-                    : solution.status === "UNSATISFIABLE"
-                    ? "bg-red-100 text-red-800"
-                    : "bg-yellow-100 text-yellow-800"
-                }`}
-              >
-                {solution.status}
-              </div>
-            </div>
+          <ResultSection title="Solution">
+            <JsonDisplay data={solution.solution} />
+          </ResultSection>
 
-            <div className="bg-white p-3 rounded border">
-              <h4 className="font-semibold mb-2">Solution:</h4>
-              <pre className="whitespace-pre-wrap text-sm bg-gray-50 p-3 rounded border overflow-x-auto max-h-96 overflow-y-auto">
-                {JSON.stringify(solution.solution, null, 2)}
-              </pre>
-            </div>
-
-            <div className="bg-white p-3 rounded border">
-              <h4 className="font-semibold mb-2">Statistics:</h4>
-              <pre className="whitespace-pre-wrap text-sm bg-gray-50 p-3 rounded border overflow-x-auto max-h-48 overflow-y-auto">
-                {JSON.stringify(solution.statistics, null, 2)}
-              </pre>
-            </div>
-          </div>
-        </div>
+          <ResultSection title="Statistics">
+            <JsonDisplay data={solution.statistics} maxHeight="max-h-48" />
+          </ResultSection>
+        </ResultDisplay>
       )}
 
-      {error && (
-        <div className="p-4 border rounded-lg bg-red-50 border-red-200">
-          <p className="font-bold text-red-700">Error</p>
-          <p className="text-red-700">{error}</p>
-        </div>
-      )}
-    </div>
+      <ErrorDisplay error={error} />
+    </Card>
   );
 }

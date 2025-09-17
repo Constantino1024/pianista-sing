@@ -4,6 +4,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { postSolve } from "@api";
 import { solveSchema } from "@schemas";
 import { createFormSubmissionHandler } from "@utils/errorHandling";
+import { 
+  Card, 
+  SectionHeader, 
+  InfoPanel,
+  JobIdDisplay,
+  ErrorDisplay,
+  ButtonLoading
+} from "@components/ui";
 
 export default function SolveForm({
   selectedSolverId = null,
@@ -42,31 +50,22 @@ export default function SolveForm({
   );
 
   return (
-    <div className="p-6 bg-white shadow-lg rounded-2xl space-y-4">
-      <h2 className="text-xl font-semibold text-gray-800">
-        Post Minizinc Solve
-      </h2>
+    <Card className="space-y-4">
+      <SectionHeader 
+        title="Post Minizinc Solve"
+        description="Submit a MiniZinc model for solving"
+      />
 
       {selectedSolverDetails && (
-        <div className="p-4 border rounded bg-gray-50">
-          <div className="flex justify-between items-center mb-2">
-            <h2 className="text-lg font-semibold">Solver Selected:</h2>
-            {selectedSolverId !== "or-tools" && clearSolver && (
-              <button
-                onClick={clearSolver}
-                className="text-red-600 hover:text-red-800 text-sm font-medium"
-              >
-                Clear Selection
-              </button>
-            )}
-          </div>
-          <div className="space-y-1">
-            <p>
-              <span className="font-semibold">Name:</span>{" "}
-              {selectedSolverDetails.name}
-            </p>
-          </div>
-        </div>
+        <InfoPanel
+          title="Solver Selected:"
+          onClear={selectedSolverId !== "or-tools" ? clearSolver : undefined}
+        >
+          <p>
+            <span className="font-semibold">Name:</span>{" "}
+            {selectedSolverDetails.name}
+          </p>
+        </InfoPanel>
       )}
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
@@ -107,25 +106,14 @@ export default function SolveForm({
           disabled={loading}
           className="w-full bg-buttonBg py-2 px-4 rounded-lg hover:opacity-90 disabled:opacity-50"
         >
-          {loading ? "Submitting..." : "Post Solve"}
+          <ButtonLoading isLoading={loading} loadingText="Submitting...">
+            Post Solve
+          </ButtonLoading>
         </button>
       </form>
 
-      {jobId && (
-        <div className="p-4 bg-green-50 border rounded-lg">
-          <h3 className="font-bold text-green-700">Solve Submitted</h3>
-          <p>
-            <span className="font-semibold">Job ID:</span> {jobId}
-          </p>
-        </div>
-      )}
-
-      {error && (
-        <div className="p-4 bg-red-50 border rounded-lg text-red-700">
-          <p className="font-bold">Error:</p>
-          <p>{error}</p>
-        </div>
-      )}
-    </div>
+      <JobIdDisplay jobId={jobId} />
+      <ErrorDisplay error={error} />
+    </Card>
   );
 }

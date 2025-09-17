@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import PlannersList from "@components/common/ResourceList";
 import PlannersListDynamic from "@components/features/planners/PlannerListDynamic";
 import PlanForm from "@components/features/plan/PlanForm";
@@ -23,9 +24,9 @@ export default function Planners() {
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold text-gray-800">PDDL Planners</h1>
-          <a href="/" className="text-blue-600 hover:text-blue-800 font-medium">
+          <Link to="/" className="text-blue-600 hover:text-blue-800 font-medium">
             ← Back to Home
-          </a>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

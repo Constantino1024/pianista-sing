@@ -1,3 +1,6 @@
+import { Link } from "react-router-dom";
+import { BackToHomeLink } from "@components/ui";
+
 export default function ValidatorPage() {
   const validators = [
     {
@@ -52,9 +55,7 @@ export default function ValidatorPage() {
       <div className="max-w-6xl mx-auto space-y-6">
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold text-gray-800">Validator Tools</h1>
-          <a href="/" className="text-blue-600 hover:text-blue-800 font-medium">
-            ← Back to Home
-          </a>
+          <BackToHomeLink />
         </div>
 
         <div className="text-center mb-8">
