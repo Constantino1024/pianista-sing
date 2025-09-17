@@ -194,3 +194,42 @@ export const isAsyncOperationPending = (error) => {
 export const isSuccessResponse = (status) => {
   return status === 200 || status === 201;
 };
+
+export const createJobSubmissionHandler = (apiCall, pollingHook, stateHandlers, options = {}) => {
+  const { 
+    setLoading, 
+    setError, 
+    setJobId,
+    onSuccess 
+  } = stateHandlers;
+  
+  const { context = 'job submission' } = options;
+
+  return async (formData) => {
+    if (setLoading) setLoading(true);
+    if (setError) setError(null);
+    if (setJobId) setJobId(null);
+
+    try {
+      const { data, status } = await apiCall(formData);
+      
+      if (status === 202) {
+        if (setJobId) setJobId(data.id);
+        pollingHook.startPolling(data.id);
+        if (setLoading) setLoading(false);
+        return data;
+      } else if (isSuccessResponse(status)) {
+        if (onSuccess) onSuccess(data);
+        if (setLoading) setLoading(false);
+        return data;
+      } else {
+        throw new Error(`Unexpected status code: ${status}`);
+      }
+    } catch (error) {
+      const message = getPianistaStatusMessage(error, context) || handleApiError(error);
+      if (setError) setError(message);
+      if (setLoading) setLoading(false);
+      throw error;
+    }
+  };
+};
