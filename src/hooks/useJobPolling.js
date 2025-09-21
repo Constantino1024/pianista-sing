@@ -253,7 +253,8 @@ export const useJobPolling = (fetchFunction, options = {}) => {
 
 export const usePlanPolling = (getPlanFunction, options = {}) => {
   return useJobPolling(getPlanFunction, {
-    maxAttempts: 25,
+    initialInterval: 2000,
+    maxAttempts: 10,
     maxInterval: 60000,
     ...options
   });

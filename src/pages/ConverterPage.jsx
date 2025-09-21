@@ -70,7 +70,7 @@ export default function ConverterPage() {
           {converters.map((converter, index) => (
             <div
               key={index}
-              className={`p-6 ${converter.bgColor} ${converter.borderColor} border-2 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300`}
+              className={`p-6 ${converter.bgColor} ${converter.borderColor} border-2 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col h-full`}
             >
               <div className="text-center mb-4">
                 <div className="text-4xl mb-3">{converter.icon}</div>
@@ -80,7 +80,7 @@ export default function ConverterPage() {
                 <p className="text-gray-600 text-sm">{converter.description}</p>
               </div>
 
-              <div className="mb-6">
+              <div className="mb-6 flex-grow">
                 <h3 className="font-medium text-gray-700 mb-2">Features:</h3>
                 <ul className="text-sm text-gray-600 space-y-1">
                   {converter.features.map((feature, featureIndex) => (
@@ -94,7 +94,7 @@ export default function ConverterPage() {
 
               <NavigationLink
                 to={converter.href}
-                className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                className={`inline-block px-6 py-3 ${converter.buttonColor} text-white rounded-lg font-medium transition-colors`}
               >
                 Open Converter
               </NavigationLink>
@@ -109,7 +109,7 @@ export default function ConverterPage() {
           <div className="prose text-gray-600">
             <p>
               These conversion tools help you work with{" "}
-              <strong>Planning Domain Definition Language (PDDL)</strong>
+              <strong>Planning Domain Definition Language (PDDL) </strong>
               in different formats. Whether you're starting from natural
               language descriptions, visual diagrams, or existing PDDL code,
               these tools make it easy to transform between formats for your

@@ -37,7 +37,7 @@ export const featuresConfig = {
     supportedPddlTypes: ['domain', 'problem', 'plan'],
   },
   ui: {
-    autoRefreshInterval: 5000,
+    autoRefreshInterval: 2000,
     defaultPageSize: 20,
     maxFileSize: 10 * 1024 * 1024,
   },
