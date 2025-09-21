@@ -22,5 +22,6 @@ VITE_NODE_ENV=development
 ```
 After that you may use:
 ```
+npm install
 npm run dev
 ```
