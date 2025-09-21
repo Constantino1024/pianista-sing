@@ -104,7 +104,6 @@ export default function GetPlan() {
 
       {plan && (
         <div className="space-y-4">
-          {/* View Toggle */}
           <div className="flex justify-between items-center">
             <h3 className="text-lg font-semibold text-green-700">Plan Retrieved Successfully</h3>
             <div className="flex bg-gray-100 rounded-lg p-1">
@@ -131,7 +130,6 @@ export default function GetPlan() {
             </div>
           </div>
 
-          {/* Plan Display */}
           {viewMode === 'gantt' ? (
             <PlanGanttChart plan={plan} title="Plan Execution Timeline" />
           ) : (

@@ -4,33 +4,34 @@ export default function ConverterPage() {
   const converters = [
     {
       title: "Natural Language → PDDL",
-      description: "Generate PDDL domains and problems from natural language descriptions using AI",
+      description:
+        "Generate PDDL domains and problems from natural language descriptions using AI",
       features: [
         "AI-powered PDDL generation",
         "Support for both domains and problems",
         "Optional domain constraints",
-        "Multiple generation attempts"
+        "Multiple generation attempts",
       ],
       href: "/converters/natural-to-pddl",
       icon: "🧠",
       bgColor: "bg-blue-50",
       borderColor: "border-blue-200",
-      buttonColor: "bg-blue-600 hover:bg-blue-700"
+      buttonColor: "bg-blue-600 hover:bg-blue-700",
     },
     {
       title: "Mermaid → PDDL",
       description: "Convert Mermaid-style diagrams into PDDL format",
       features: [
-        "Visual diagram conversion",
+        "Mermaid code conversion",
+        "Text-based diagram processing",
         "Optional domain guidance",
         "Configurable attempts",
-        "Supports various Mermaid formats"
       ],
       href: "/converters/mermaid-to-pddl",
       icon: "📊",
       bgColor: "bg-green-50",
       borderColor: "border-green-200",
-      buttonColor: "bg-green-600 hover:bg-green-700"
+      buttonColor: "bg-green-600 hover:bg-green-700",
     },
     {
       title: "PDDL → Mermaid",
@@ -39,14 +40,14 @@ export default function ConverterPage() {
         "Visual representation of PDDL",
         "Support for domains and problems",
         "Clean diagram output",
-        "Easy to understand visualizations"
+        "Easy to understand visualizations",
       ],
       href: "/converters/pddl-to-mermaid",
       icon: "🔄",
       bgColor: "bg-purple-50",
       borderColor: "border-purple-200",
-      buttonColor: "bg-purple-600 hover:bg-purple-700"
-    }
+      buttonColor: "bg-purple-600 hover:bg-purple-700",
+    },
   ];
 
   return (
@@ -59,8 +60,9 @@ export default function ConverterPage() {
 
         <div className="text-center mb-8">
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Choose from our powerful conversion tools to work with PDDL and visual diagrams. 
-            Convert between natural language, Mermaid diagrams, and PDDL formats seamlessly.
+            Choose from our powerful conversion tools to work with PDDL and
+            visual diagrams. Convert between natural language, Mermaid diagrams,
+            and PDDL formats seamlessly.
           </p>
         </div>
 
@@ -75,9 +77,7 @@ export default function ConverterPage() {
                 <h2 className="text-xl font-semibold text-gray-800 mb-2">
                   {converter.title}
                 </h2>
-                <p className="text-gray-600 text-sm">
-                  {converter.description}
-                </p>
+                <p className="text-gray-600 text-sm">{converter.description}</p>
               </div>
 
               <div className="mb-6">
@@ -92,28 +92,33 @@ export default function ConverterPage() {
                 </ul>
               </div>
 
-                              <NavigationLink 
-                  to={converter.href}
-                  className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
-                >
-                  Open Converter
-                </NavigationLink>
+              <NavigationLink
+                to={converter.href}
+                className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
+              >
+                Open Converter
+              </NavigationLink>
             </div>
           ))}
         </div>
 
         <div className="mt-12 p-6 bg-white rounded-2xl shadow-lg">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">About PDDL Converters</h2>
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+            About PDDL Converters
+          </h2>
           <div className="prose text-gray-600">
             <p>
-              These conversion tools help you work with <strong>Planning Domain Definition Language (PDDL)</strong> 
-              in different formats. Whether you're starting from natural language descriptions, 
-              visual diagrams, or existing PDDL code, these tools make it easy to transform 
-              between formats for your planning needs.
+              These conversion tools help you work with{" "}
+              <strong>Planning Domain Definition Language (PDDL)</strong>
+              in different formats. Whether you're starting from natural
+              language descriptions, visual diagrams, or existing PDDL code,
+              these tools make it easy to transform between formats for your
+              planning needs.
             </p>
             <p className="mt-3">
-              <strong>Getting Started:</strong> Choose the converter that matches your input format. 
-              Each tool provides detailed guidance and multiple options to ensure you get the best results.
+              <strong>Getting Started:</strong> Choose the converter that
+              matches your input format. Each tool provides detailed guidance
+              and multiple options to ensure you get the best results.
             </p>
           </div>
         </div>

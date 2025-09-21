@@ -9,7 +9,7 @@ export default function ValidatorPage() {
         "Domain syntax validation",
         "Problem syntax validation", 
         "Detailed error reporting",
-        "PDDL structure analysis"
+        "PDDL type detection"
       ],
       href: "/validators/pddl",
       icon: "🔍",
@@ -22,9 +22,9 @@ export default function ValidatorPage() {
       description: "Verify that your problem file is compatible with your domain file",
       features: [
         "Domain-problem compatibility check",
-        "Object type validation",
-        "Predicate usage verification",
-        "Action applicability analysis"
+      "File relationship validation",
+      "Compatibility error reporting",    
+      "PDDL consistency checking"
       ],
       href: "/validators/match",
       icon: "🔗",
@@ -36,10 +36,10 @@ export default function ValidatorPage() {
       title: "Plan Validator",
       description: "Validate that your plan correctly solves the given problem",
       features: [
-        "Plan execution validation",
-        "Goal achievement verification",
-        "Action sequence checking",
-        "State transition analysis"
+      "Plan validity checking",
+      "Domain-problem-plan consistency",
+      "Plan format validation", 
+      "Comprehensive error reporting"
       ],
       href: "/validators/plan",
       icon: "✅",

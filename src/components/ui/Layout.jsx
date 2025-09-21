@@ -103,19 +103,6 @@ export function JobIdDisplay({ jobId, label = "Job ID" }) {
   );
 }
 
-Card.propTypes = {
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string,
-  padding: PropTypes.string
-};
-
-SectionHeader.propTypes = {
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string,
-  level: PropTypes.oneOf([1, 2, 3, 4, 5, 6]),
-  className: PropTypes.string
-};
-
 FeatureList.propTypes = {
   features: PropTypes.arrayOf(PropTypes.string).isRequired,
   className: PropTypes.string

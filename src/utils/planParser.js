@@ -3,7 +3,7 @@ export const parsePddlPlan = (planText) => {
     return { actions: [], duration: 0, metadata: {} };
   }
 
-  // Process escape sequences to actual newlines
+
   const processedPlanText = planText.replace(/\\n/g, '\n');
   
   const lines = processedPlanText.trim().split('\n').filter(line => line.trim());
@@ -11,7 +11,6 @@ export const parsePddlPlan = (planText) => {
   let maxEndTime = 0;
   let actionIndex = 0;
 
-  // Filter out header lines like "Fast Downward SequentialPlan:"
   const actionLines = lines.filter(line => {
     const trimmed = line.trim();
     return trimmed && 
@@ -53,7 +52,6 @@ const parsePddlAction = (line, actionIndex = 0) => {
   let startTime = actionIndex;
   let remaining = trimmed;
   
-  // Try to parse timestamped format first (e.g., "0.0: action")
   const timeMatch = trimmed.match(/^(\d+(?:\.\d+)?)\s*:\s*/);
   if (timeMatch) {
     startTime = parseFloat(timeMatch[1]);
@@ -63,7 +61,6 @@ const parsePddlAction = (line, actionIndex = 0) => {
   let action = '';
   let parameters = [];
   
-  // Handle parenthesized format: action(param1, param2) or (action param1 param2)
   const actionMatch = remaining.match(/^(\w+)\s*\(([^)]*)\)/);
   if (actionMatch) {
     action = actionMatch[1];
@@ -71,7 +68,6 @@ const parsePddlAction = (line, actionIndex = 0) => {
     parameters = paramString ? paramString.split(/\s*,\s*|\s+/).filter(p => p) : [];
     remaining = remaining.substring(actionMatch[0].length);
   } else {
-    // Handle space-separated format or parenthesized with spaces
     const parenMatch = remaining.match(/^\(([^)]+)\)/);
     if (parenMatch) {
       const actionParts = parenMatch[1].trim().split(/\s+/);
@@ -79,7 +75,6 @@ const parsePddlAction = (line, actionIndex = 0) => {
       parameters = actionParts.slice(1);
       remaining = remaining.substring(parenMatch[0].length);
     } else {
-      // Simple space-separated format
       const parts = remaining.split(/\s+/);
       action = parts[0];
       parameters = parts.slice(1).filter(p => !p.startsWith('[') && !p.includes('duration'));
@@ -88,7 +83,6 @@ const parsePddlAction = (line, actionIndex = 0) => {
 
   if (!action) return null;
 
-  // Parse duration if present
   let duration = 1.0;
   const durationMatch = remaining.match(/\[(?:duration\s+)?(\d+(?:\.\d+)?)\]/);
   if (durationMatch) {

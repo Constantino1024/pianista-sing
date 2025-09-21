@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { BackToHomeLink } from "@components/ui";
-import SolversList from "@components/common/ResourceList";
 import SolversListDynamic from "@components/features/solvers/SolverListDynamic";
 import GetSolve from "@components/features/solves/GetSolve";
 import SolveForm from "@components/features/solves/SolveForm";

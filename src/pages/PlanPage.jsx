@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { BackToHomeLink } from "@components/ui";
-import PlannersList from "@components/common/ResourceList";
 import PlannersListDynamic from "@components/features/planners/PlannerListDynamic";
 import PlanForm from "@components/features/plan/PlanForm";
 import GetPlan from "@components/features/plan/GetPlan";

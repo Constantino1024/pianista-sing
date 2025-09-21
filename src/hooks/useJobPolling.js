@@ -66,7 +66,6 @@ export const useJobPolling = (fetchFunction, options = {}) => {
       const response = await fetchFunction(jobId);
       
       if (response.status === 200 || response.status === 201) {
-        // Clear any pending timeouts first
         if (timeoutRef.current) {
           clearTimeout(timeoutRef.current);
           timeoutRef.current = null;
@@ -127,11 +126,9 @@ export const useJobPolling = (fetchFunction, options = {}) => {
     } catch (error) {
       console.error('Job polling error:', error);
       
-      // Handle specific error cases
       if (error.response?.status === 500) {
         const currentAttempt = attemptCountRef.current;
         
-        // For 500 errors, retry a few times before giving up
         if (currentAttempt < Math.min(5, maxAttempts)) {
           console.log(`Server error (500), retrying... (attempt ${currentAttempt + 1})`);
           
@@ -163,7 +160,6 @@ export const useJobPolling = (fetchFunction, options = {}) => {
           
           return;
         } else {
-          // Give up after too many 500 errors
           const serverError = new Error(`Server error (500): The job may have failed or the server is having issues. Job ID: ${jobId}`);
           setError(serverError.message);
           setIsPolling(false);
@@ -174,9 +170,7 @@ export const useJobPolling = (fetchFunction, options = {}) => {
         }
       }
       
-      // Handle other errors (404, 403, etc.)
       if (error.response?.status === 404) {
-        // If we already have data, the job was completed and cleaned up - don't treat as error
         if (data && data.plan) {
           console.log('Job completed and cleaned up (404 is expected)');
           setIsPolling(false);
@@ -194,7 +188,6 @@ export const useJobPolling = (fetchFunction, options = {}) => {
         return;
       }
       
-      // For other errors, show the error and stop polling
       setError(error.message);
       setIsPolling(false);
       setLoading(false);
