@@ -2,21 +2,21 @@ import PropTypes from 'prop-types';
 
 const ERROR_VARIANTS = {
   error: {
-    container: "bg-red-50 border-red-200",
-    title: "text-red-700",
-    text: "text-red-700",
+    container: "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-700",
+    title: "text-red-700 dark:text-red-300",
+    text: "text-red-700 dark:text-red-300",
     icon: "❌"
   },
   warning: {
-    container: "bg-yellow-50 border-yellow-200", 
-    title: "text-yellow-700",
-    text: "text-yellow-700",
+    container: "bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-700", 
+    title: "text-yellow-700 dark:text-yellow-300",
+    text: "text-yellow-700 dark:text-yellow-300",
     icon: "⚠️"
   },
   info: {
-    container: "bg-blue-50 border-blue-200",
-    title: "text-blue-700", 
-    text: "text-blue-700",
+    container: "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-700",
+    title: "text-blue-700 dark:text-blue-300", 
+    text: "text-blue-700 dark:text-blue-300",
     icon: "ℹ️"
   }
 };
@@ -61,7 +61,7 @@ export default function ErrorDisplay({
         {onRetry && (
           <button
             onClick={onRetry}
-            className="ml-4 px-3 py-1 bg-white border border-current rounded text-sm hover:bg-gray-50 transition-colors"
+            className="ml-4 px-3 py-1 bg-white dark:bg-gray-800 border border-current rounded text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
           >
             {retryText}
           </button>
@@ -75,7 +75,7 @@ export function ErrorText({ error, className = '' }) {
   if (!error) return null;
   
   return (
-    <p className={`text-sm text-red-600 ${className}`}>
+    <p className={`text-sm text-red-600 dark:text-red-400 ${className}`}>
       {typeof error === 'string' ? error : error.message || 'An error occurred'}
     </p>
   );

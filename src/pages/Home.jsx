@@ -3,14 +3,14 @@ import ApiStatus from "@components/ui/ApiStatus";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
       <div className="max-w-7xl mx-auto space-y-6">
         <ApiStatus />
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-          <div className="p-6 bg-white shadow-lg rounded-2xl">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">PDDL Planning</h2>
-            <p className="text-gray-600 mb-4">
+          <div className="p-6 bg-white dark:bg-gray-800 shadow-lg rounded-2xl">
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">PDDL Planning</h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
               Create and manage PDDL planning tasks with various planners.
             </p>
             <Link 
@@ -21,9 +21,9 @@ export default function Home() {
             </Link>
           </div>
           
-          <div className="p-6 bg-white shadow-lg rounded-2xl">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">MiniZinc Solving</h2>
-            <p className="text-gray-600 mb-4">
+          <div className="p-6 bg-white dark:bg-gray-800 shadow-lg rounded-2xl">
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">MiniZinc Solving</h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
               Solve optimization problems using MiniZinc with different solvers.
             </p>
             <Link 
@@ -33,9 +33,9 @@ export default function Home() {
               Go to Solver
             </Link>
           </div>
-                    <div className="p-6 bg-white shadow-lg rounded-2xl">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">PDDL Validators</h2>
-            <p className="text-gray-600 mb-4">
+                    <div className="p-6 bg-white dark:bg-gray-800 shadow-lg rounded-2xl">
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">PDDL Validators</h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
               Validate PDDL content and ensure it meets the required standards.
             </p>
             <Link 
@@ -45,9 +45,9 @@ export default function Home() {
               Go to PDDL Validators
             </Link>
           </div>
-                    <div className="p-6 bg-white shadow-lg rounded-2xl">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">Converters</h2>
-            <p className="text-gray-600 mb-4">
+                    <div className="p-6 bg-white dark:bg-gray-800 shadow-lg rounded-2xl">
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">Converters</h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
               Convert diagrams, models and natural language into PDDL format easily.
             </p>
             <Link 

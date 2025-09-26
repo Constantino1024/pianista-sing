@@ -63,7 +63,7 @@ export default function GeneratePddl() {
         <button
           type="button"
           onClick={clearForm}
-          className="text-sm text-gray-600 hover:text-gray-800"
+          className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
         >
           Clear
         </button>
@@ -72,13 +72,13 @@ export default function GeneratePddl() {
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               PDDL Type
             </label>
             <select
               value={pddlType}
               onChange={(e) => setPddlType(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
               disabled={generateBoth}
             >
               <option value="domain">Domain</option>
@@ -87,7 +87,7 @@ export default function GeneratePddl() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Attempts
             </label>
             <input
@@ -96,17 +96,17 @@ export default function GeneratePddl() {
               max="10"
               value={attempts}
               onChange={(e) => setAttempts(Number(e.target.value))}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
             />
           </div>
 
           <div className="flex items-end">
-            <label className="flex items-center space-x-2 text-sm font-medium text-gray-700 pb-3">
+            <label className="flex items-center space-x-2 text-sm font-medium text-gray-700 dark:text-gray-300 pb-3">
               <input
                 type="checkbox"
                 checked={generateBoth}
                 onChange={(e) => setGenerateBoth(e.target.checked)}
-                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                className="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 bg-white dark:bg-gray-800"
               />
               <span>Generate both domain and problem</span>
             </label>
@@ -114,26 +114,26 @@ export default function GeneratePddl() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Natural Language Prompt *
           </label>
           <textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
             placeholder="Describe what you want to model in PDDL. For example: 'Create a blocks world domain where robots can pick up and stack blocks...'"
             rows={8}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Domain PDDL (optional)
           </label>
           <textarea
             value={domain}
             onChange={(e) => setDomain(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-sm"
+            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
             placeholder="Optional: Provide existing domain PDDL to guide problem generation..."
             rows={6}
           />

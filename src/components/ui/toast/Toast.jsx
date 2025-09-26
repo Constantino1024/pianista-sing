@@ -3,28 +3,28 @@ import PropTypes from 'prop-types';
 
 const TOAST_VARIANTS = {
   success: {
-    container: "bg-green-50 border-green-200 text-green-800",
+    container: "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700 text-green-800 dark:text-green-300",
     icon: "✅",
-    title: "text-green-700",
-    progressBar: "bg-green-500"
+    title: "text-green-700 dark:text-green-300",
+    progressBar: "bg-green-500 dark:bg-green-400"
   },
   error: {
-    container: "bg-red-50 border-red-200 text-red-800",
+    container: "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-700 text-red-800 dark:text-red-300",
     icon: "❌",
-    title: "text-red-700",
-    progressBar: "bg-red-500"
+    title: "text-red-700 dark:text-red-300",
+    progressBar: "bg-red-500 dark:bg-red-400"
   },
   warning: {
-    container: "bg-yellow-50 border-yellow-200 text-yellow-800",
+    container: "bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-700 text-yellow-800 dark:text-yellow-300",
     icon: "⚠️",
-    title: "text-yellow-700",
-    progressBar: "bg-yellow-500"
+    title: "text-yellow-700 dark:text-yellow-300",
+    progressBar: "bg-yellow-500 dark:bg-yellow-400"
   },
   info: {
-    container: "bg-blue-50 border-blue-200 text-blue-800",
+    container: "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-700 text-blue-800 dark:text-blue-300",
     icon: "ℹ️",
-    title: "text-blue-700",
-    progressBar: "bg-blue-500"
+    title: "text-blue-700 dark:text-blue-300",
+    progressBar: "bg-blue-500 dark:bg-blue-400"
   }
 };
 
@@ -61,7 +61,7 @@ export default function Toast({
     >
       <button
         onClick={() => onClose(id)}
-        className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 text-lg leading-none"
+        className="absolute top-2 right-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 text-lg leading-none"
         aria-label="Close notification"
       >
         ×

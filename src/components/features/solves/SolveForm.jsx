@@ -69,7 +69,7 @@ export default function SolveForm({
           title="Solver Selected:"
           onClear={selectedSolverId !== "or-tools" ? clearSolver : undefined}
         >
-          <p>
+          <p className="text-gray-900 dark:text-gray-100">
             <span className="font-semibold">Name:</span>{" "}
             {selectedSolverDetails.name}
           </p>
@@ -78,32 +78,32 @@ export default function SolveForm({
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
             Model String *
           </label>
           <textarea
             placeholder="Enter Minizinc model"
             {...register("model_str")}
-            className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
             rows={6}
           />
           {errors.model_str && (
-            <p className="text-sm text-red-600">{errors.model_str.message}</p>
+            <p className="text-sm text-red-600 dark:text-red-400">{errors.model_str.message}</p>
           )}
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
             Model Parameters (JSON) *
           </label>
           <textarea
             placeholder='{"param1": value1, "param2": value2}'
             {...register("model_params")}
-            className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
             rows={4}
           />
           {errors.model_params && (
-            <p className="text-sm text-red-600">
+            <p className="text-sm text-red-600 dark:text-red-400">
               {errors.model_params.message}
             </p>
           )}
@@ -112,7 +112,7 @@ export default function SolveForm({
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-buttonBg py-2 px-4 rounded-lg hover:opacity-90 disabled:opacity-50"
+          className="w-full bg-buttonBg dark:text-white py-2 px-4 rounded-lg hover:opacity-90 disabled:opacity-50"
         >
           <ButtonLoading isLoading={loading} loadingText="Submitting...">
             Post Solve

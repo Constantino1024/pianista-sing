@@ -27,13 +27,13 @@ export default function PlanGanttChart({ plan, title = "Plan Timeline" }) {
     return (
       <Card className="p-4">
         <SectionHeader title={title} description="Invalid plan data structure" />
-        <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded">
-          <p className="text-yellow-800">
+        <div className="mt-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded">
+          <p className="text-yellow-800 dark:text-yellow-300">
             Plan data structure not recognized. Expected string or object with 'plan' property.
           </p>
           <details className="mt-2">
-            <summary className="cursor-pointer text-sm text-yellow-700">Show received data</summary>
-            <pre className="mt-2 text-xs bg-yellow-100 p-2 rounded overflow-auto max-h-32">
+            <summary className="cursor-pointer text-sm text-yellow-700 dark:text-yellow-300">Show received data</summary>
+            <pre className="mt-2 text-xs bg-yellow-100 dark:bg-yellow-800/30 text-yellow-900 dark:text-yellow-200 p-2 rounded overflow-auto max-h-32">
               {JSON.stringify(plan, null, 2)}
             </pre>
           </details>
@@ -48,13 +48,13 @@ export default function PlanGanttChart({ plan, title = "Plan Timeline" }) {
     return (
       <Card className="p-4">
         <SectionHeader title={title} description="No actions found in plan" />
-        <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded">
-          <p className="text-yellow-800">
+        <div className="mt-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded">
+          <p className="text-yellow-800 dark:text-yellow-300">
             Unable to parse plan actions. Plan format may not be supported.
           </p>
           <details className="mt-2">
-            <summary className="cursor-pointer text-sm text-yellow-700">Show raw plan</summary>
-            <pre className="mt-2 text-xs bg-yellow-100 p-2 rounded overflow-auto max-h-32">
+            <summary className="cursor-pointer text-sm text-yellow-700 dark:text-yellow-300">Show raw plan</summary>
+            <pre className="mt-2 text-xs bg-yellow-100 dark:bg-yellow-800/30 text-yellow-900 dark:text-yellow-200 p-2 rounded overflow-auto max-h-32">
               {plan.plan}
             </pre>
           </details>
@@ -142,22 +142,22 @@ export default function PlanGanttChart({ plan, title = "Plan Timeline" }) {
       />
 
       <div className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-gray-50 rounded-lg">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
           <div className="text-center">
-            <div className="text-2xl font-bold text-blue-600">{parsedPlan.actions.length}</div>
-            <div className="text-sm text-gray-600">Total Actions</div>
+            <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{parsedPlan.actions.length}</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">Total Actions</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-green-600">{parsedPlan.duration.toFixed(2)}s</div>
-            <div className="text-sm text-gray-600">Total Duration</div>
+            <div className="text-2xl font-bold text-green-600 dark:text-green-400">{parsedPlan.duration.toFixed(2)}s</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">Total Duration</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-purple-600">{parsedPlan.metadata.actionTypes.length}</div>
-            <div className="text-sm text-gray-600">Action Types</div>
+            <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">{parsedPlan.metadata.actionTypes.length}</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">Action Types</div>
           </div>
         </div>
 
-        <div className="border border-gray-200 rounded-lg overflow-hidden">
+        <div className="border border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden">
           <Chart
             chartType="Gantt"
             width="100%"
@@ -172,8 +172,8 @@ export default function PlanGanttChart({ plan, title = "Plan Timeline" }) {
           <ResultSection title="Action Details">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <h4 className="font-semibold text-gray-700 mb-2">Action Information</h4>
-                <div className="space-y-1 text-sm">
+                <h4 className="font-semibold text-gray-700 dark:text-gray-300 mb-2">Action Information</h4>
+                <div className="space-y-1 text-sm text-gray-900 dark:text-gray-100">
                   <div><span className="font-medium">Action:</span> {selectedAction.action}</div>
                   <div><span className="font-medium">Parameters:</span> {selectedAction.parameters.join(', ') || 'None'}</div>
                   <div><span className="font-medium">Start Time:</span> {selectedAction.start.toFixed(3)}s</div>
@@ -182,8 +182,8 @@ export default function PlanGanttChart({ plan, title = "Plan Timeline" }) {
                 </div>
               </div>
               <div>
-                <h4 className="font-semibold text-gray-700 mb-2">Original Line</h4>
-                <code className="block text-xs bg-gray-100 p-2 rounded font-mono">
+                <h4 className="font-semibold text-gray-700 dark:text-gray-300 mb-2">Original Line</h4>
+                <code className="block text-xs bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-2 rounded font-mono">
                   {selectedAction.originalLine}
                 </code>
               </div>

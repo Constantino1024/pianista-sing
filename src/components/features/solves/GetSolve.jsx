@@ -55,7 +55,7 @@ export default function GetSolve() {
             type="text"
             placeholder="Enter Solution ID"
             {...register("solveId")}
-            className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border  border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
           />
           {errors.solveId && (
             <p className="text-sm text-red-600 mt-1">

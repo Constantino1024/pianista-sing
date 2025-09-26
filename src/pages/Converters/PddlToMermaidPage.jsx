@@ -3,10 +3,10 @@ import { SectionLink, BackToHomeLink } from "@components/ui";
 
 export default function PddlToMermaidPage() {
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
       <div className="max-w-5xl mx-auto space-y-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-800">
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
             PDDL → Mermaid Converter
           </h1>
           <div className="flex space-x-4">
@@ -18,11 +18,11 @@ export default function PddlToMermaidPage() {
         <div className="space-y-4">
           <PddlToMermaid />
 
-          <div className="p-6 bg-white shadow-lg rounded-2xl">
-            <h3 className="text-lg font-semibold text-gray-800 mb-3">
+          <div className="p-6 bg-white dark:bg-gray-800 shadow-lg rounded-2xl">
+            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-3">
               About PDDL Conversion
             </h3>
-            <div className="prose text-gray-600">
+            <div className="prose text-gray-600 dark:text-gray-400">
               <p>
                 This tool allows you to convert <strong>PDDL</strong> into{" "}
                 <strong>Mermaid-style diagrams</strong> for visual representation.
@@ -39,40 +39,37 @@ export default function PddlToMermaidPage() {
             </div>
           </div>
 
-          <div className="p-6 bg-purple-50 border border-purple-200 rounded-2xl">
-            <h3 className="text-lg font-semibold text-purple-800 mb-3">
-              Visualization Types
+          <div className="p-6 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-700 rounded-2xl">
+            <h3 className="text-lg font-semibold text-purple-800 dark:text-purple-300 mb-3">
+              Supported PDDL Features
             </h3>
             <div className="space-y-3 text-sm">
               <div>
-                <strong className="text-purple-700">Domain Visualization:</strong>
-                <p className="text-gray-700 mt-1">
-                  Shows actions, predicates, and their relationships in a structured diagram.
-                  Actions are displayed with their preconditions and effects.
+                <strong className="text-purple-700 dark:text-purple-300">Actions:</strong>
+                <p className="text-gray-700 dark:text-gray-300 mt-1">
+                  Each PDDL action becomes a node in the Mermaid flowchart.
                 </p>
               </div>
               <div>
-                <strong className="text-purple-700">Problem Visualization:</strong>
-                <p className="text-gray-700 mt-1">
-                  Displays initial state, goal state, and objects in the problem.
-                  Shows the problem structure and constraints clearly.
+                <strong className="text-purple-700 dark:text-purple-300">Predicates:</strong>
+                <p className="text-gray-700 dark:text-gray-300 mt-1">
+                  State predicates are represented as decision points or conditions.
                 </p>
               </div>
               <div>
-                <strong className="text-purple-700">Plan Visualization:</strong>
-                <p className="text-gray-700 mt-1">
-                  Creates a step-by-step flow diagram of the plan execution.
-                  Shows the sequence of actions and state transitions.
+                <strong className="text-purple-700 dark:text-purple-300">Object Flow:</strong>
+                <p className="text-gray-700 dark:text-gray-300 mt-1">
+                  How objects move through the planning domain is visualized as connections.
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="p-6 bg-blue-50 border border-blue-200 rounded-2xl">
-            <h3 className="text-lg font-semibold text-blue-800 mb-3">
+          <div className="p-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-2xl">
+            <h3 className="text-lg font-semibold text-blue-800 dark:text-blue-300 mb-3">
               Using the Generated Diagrams
             </h3>
-            <div className="space-y-2 text-sm text-gray-700">
+            <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
               <p>
                 The generated Mermaid code can be used in various platforms:
               </p>

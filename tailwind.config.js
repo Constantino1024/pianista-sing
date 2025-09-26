@@ -1,5 +1,5 @@
 export default {
-  darkMode: 'media',
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {

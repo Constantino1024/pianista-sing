@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 export function Card({ children, className = '', padding = 'p-6' }) {
   return (
-    <div className={`bg-white shadow-lg rounded-2xl ${padding} ${className}`}>
+    <div className={`bg-white dark:bg-gray-800 shadow-lg rounded-2xl ${padding} ${className}`}>
       {children}
     </div>
   );
@@ -33,11 +33,11 @@ export function SectionHeader({
 
   return (
     <div className={className}>
-      <HeadingTag className={`text-gray-800 mb-2 ${sizeClasses[level]}`}>
+      <HeadingTag className={`text-gray-800 dark:text-gray-200 mb-2 ${sizeClasses[level]}`}>
         {title}
       </HeadingTag>
       {description && (
-        <p className="text-gray-600 text-sm mb-4">{description}</p>
+        <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">{description}</p>
       )}
     </div>
   );
@@ -52,10 +52,10 @@ SectionHeader.propTypes = {
 
 export function FeatureList({ features, className = '' }) {
   return (
-    <ul className={`text-sm text-gray-600 space-y-1 ${className}`}>
+    <ul className={`text-sm text-gray-600 dark:text-gray-400 space-y-1 ${className}`}>
       {features.map((feature, index) => (
         <li key={index} className="flex items-start">
-          <span className="text-green-500 mr-2 mt-0.5">✓</span>
+          <span className="text-green-500 dark:text-green-400 mr-2 mt-0.5">✓</span>
           {feature}
         </li>
       ))}
@@ -71,13 +71,13 @@ export function InfoPanel({
   className = ''
 }) {
   return (
-    <div className={`p-4 border rounded bg-gray-50 ${className}`}>
+    <div className={`p-4 border dark:border-gray-600 rounded bg-gray-50 dark:bg-gray-800 ${className}`}>
       <div className="flex justify-between items-center mb-2">
-        <h3 className="text-lg font-semibold">{title}</h3>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">{title}</h3>
         {onClear && (
           <button
             onClick={onClear}
-            className="text-red-600 hover:text-red-800 text-sm font-medium"
+            className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 text-sm font-medium"
           >
             {clearText}
           </button>
@@ -94,9 +94,9 @@ export function JobIdDisplay({ jobId, label = "Job ID" }) {
   if (!jobId) return null;
   
   return (
-    <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-      <h3 className="font-bold text-green-700 mb-2">Successfully Submitted</h3>
-      <p>
+    <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg">
+      <h3 className="font-bold text-green-700 dark:text-green-300 mb-2">Successfully Submitted</h3>
+      <p className="text-gray-900 dark:text-gray-100">
         <span className="font-semibold">{label}:</span> {jobId}
       </p>
     </div>

@@ -56,7 +56,7 @@ export default function PddlToMermaid() {
         <button
           type="button"
           onClick={clearForm}
-          className="text-sm text-gray-600 hover:text-gray-800"
+          className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
         >
           Clear
         </button>
@@ -64,13 +64,13 @@ export default function PddlToMermaid() {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             PDDL Type
           </label>
           <select
             value={pddlType}
             onChange={(e) => setPddlType(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
           >
             <option value="domain">Domain</option>
             <option value="problem">Problem</option>
@@ -79,13 +79,13 @@ export default function PddlToMermaid() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             PDDL Content *
           </label>
           <textarea
             value={pddl}
             onChange={(e) => setPddl(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-sm"
+            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
             placeholder="Paste your PDDL here..."
             rows={12}
           />

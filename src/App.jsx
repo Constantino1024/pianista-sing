@@ -21,7 +21,7 @@ export default function App() {
       <Router>
         <div className="flex">
           <Sidebar />
-          <main className="flex-1 p-6 bg-gray-50 min-h-screen">
+          <main className="flex-1 p-6 bg-gray-50 dark:bg-gray-900 min-h-screen">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/planners" element={<Planners />} />

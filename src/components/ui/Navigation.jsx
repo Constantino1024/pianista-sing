@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 export function NavigationLink({ 
   to, 
   children, 
-  className = "text-blue-600 hover:text-blue-800 font-medium",
+  className = "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium",
   ...props 
 }) {
   return (
@@ -18,7 +18,7 @@ export function BackToHomeLink({ className, ...props }) {
   return (
     <NavigationLink 
       to="/" 
-      className={className || "text-blue-600 hover:text-blue-800 font-medium"}
+      className={className || "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium"}
       {...props}
     >
       ← Back to Home
@@ -30,7 +30,7 @@ export function SectionLink({ to, sectionName, className, ...props }) {
   return (
     <NavigationLink 
       to={to}
-      className={className || "text-blue-600 hover:text-blue-800 font-medium"}
+      className={className || "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium"}
       {...props}
     >
       ← Back to {sectionName}

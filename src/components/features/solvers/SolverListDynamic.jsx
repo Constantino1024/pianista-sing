@@ -6,9 +6,9 @@ const renderSolverItem = (solver, onSelect) => (
   <button
     key={solver.id}
     onClick={() => onSelect(solver.id)}
-    className="w-full text-left p-3 bg-white border rounded shadow-sm hover:shadow-md transition-shadow"
+    className="w-full text-left p-3 bg-white dark:bg-gray-800 border dark:border-gray-600 rounded shadow-sm hover:shadow-md transition-shadow"
   >
-    <div className="font-medium text-gray-900">{solver.name}</div>
+    <div className="font-medium text-gray-900 dark:text-gray-100">{solver.name}</div>
   </button>
 );
 

@@ -14,8 +14,8 @@ export default function ConverterPage() {
       ],
       href: "/converters/natural-to-pddl",
       icon: "🧠",
-      bgColor: "bg-blue-50",
-      borderColor: "border-blue-200",
+      bgColor: "bg-blue-50 dark:bg-blue-900/20",
+      borderColor: "border-blue-200 dark:border-blue-700",
       buttonColor: "bg-blue-600 hover:bg-blue-700",
     },
     {
@@ -29,8 +29,8 @@ export default function ConverterPage() {
       ],
       href: "/converters/mermaid-to-pddl",
       icon: "📊",
-      bgColor: "bg-green-50",
-      borderColor: "border-green-200",
+      bgColor: "bg-green-50 dark:bg-green-900/20",
+      borderColor: "border-green-200 dark:border-green-700",
       buttonColor: "bg-green-600 hover:bg-green-700",
     },
     {
@@ -44,22 +44,22 @@ export default function ConverterPage() {
       ],
       href: "/converters/pddl-to-mermaid",
       icon: "🔄",
-      bgColor: "bg-purple-50",
-      borderColor: "border-purple-200",
+      bgColor: "bg-purple-50 dark:bg-purple-900/20",
+      borderColor: "border-purple-200 dark:border-purple-700",
       buttonColor: "bg-purple-600 hover:bg-purple-700",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
       <div className="max-w-6xl mx-auto space-y-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-gray-800">Converter Tools</h1>
+          <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-200">Converter Tools</h1>
           <BackToHomeLink />
         </div>
 
         <div className="text-center mb-8">
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
             Choose from our powerful conversion tools to work with PDDL and
             visual diagrams. Convert between natural language, Mermaid diagrams,
             and PDDL formats seamlessly.
@@ -74,18 +74,18 @@ export default function ConverterPage() {
             >
               <div className="text-center mb-4">
                 <div className="text-4xl mb-3">{converter.icon}</div>
-                <h2 className="text-xl font-semibold text-gray-800 mb-2">
+                <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-2">
                   {converter.title}
                 </h2>
-                <p className="text-gray-600 text-sm">{converter.description}</p>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">{converter.description}</p>
               </div>
 
               <div className="mb-6 flex-grow">
-                <h3 className="font-medium text-gray-700 mb-2">Features:</h3>
-                <ul className="text-sm text-gray-600 space-y-1">
+                <h3 className="font-medium text-gray-700 dark:text-gray-300 mb-2">Features:</h3>
+                <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
                   {converter.features.map((feature, featureIndex) => (
                     <li key={featureIndex} className="flex items-start">
-                      <span className="text-green-500 mr-2 mt-0.5">✓</span>
+                      <span className="text-green-500 dark:text-green-400 mr-2 mt-0.5">✓</span>
                       {feature}
                     </li>
                   ))}
@@ -102,11 +102,11 @@ export default function ConverterPage() {
           ))}
         </div>
 
-        <div className="mt-12 p-6 bg-white rounded-2xl shadow-lg">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+        <div className="mt-12 p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
+          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
             About PDDL Converters
           </h2>
-          <div className="prose text-gray-600">
+          <div className="prose text-gray-600 dark:text-gray-400">
             <p>
               These conversion tools help you work with{" "}
               <strong>Planning Domain Definition Language (PDDL) </strong>

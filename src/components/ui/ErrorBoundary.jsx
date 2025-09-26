@@ -50,11 +50,11 @@ class ErrorBoundary extends React.Component {
           />
           
           {import.meta.env.DEV && this.state.errorInfo && (
-            <details className="mt-4 p-3 bg-gray-100 rounded text-sm">
-              <summary className="cursor-pointer font-medium">
+            <details className="mt-4 p-3 bg-gray-100 dark:bg-gray-800 rounded text-sm">
+              <summary className="cursor-pointer font-medium text-gray-900 dark:text-gray-100">
                 Error Details (Development Mode)
               </summary>
-              <pre className="mt-2 text-xs overflow-auto">
+              <pre className="mt-2 text-xs overflow-auto text-gray-800 dark:text-gray-200">
                 {this.state.error && this.state.error.stack}
                 {'\n\nComponent Stack:'}
                 {this.state.errorInfo.componentStack}

@@ -2,29 +2,29 @@ import PropTypes from 'prop-types';
 
 const STATUS_VARIANTS = {
   success: {
-    bg: "bg-green-100",
-    text: "text-green-800",
-    border: "border-green-200"
+    bg: "bg-green-100 dark:bg-green-900",
+    text: "text-green-800 dark:text-green-200",
+    border: "border-green-200 dark:border-green-700"
   },
   error: {
-    bg: "bg-red-100", 
-    text: "text-red-800",
-    border: "border-red-200"
+    bg: "bg-red-100 dark:bg-red-900", 
+    text: "text-red-800 dark:text-red-200",
+    border: "border-red-200 dark:border-red-700"
   },
   warning: {
-    bg: "bg-yellow-100",
-    text: "text-yellow-800", 
-    border: "border-yellow-200"
+    bg: "bg-yellow-100 dark:bg-yellow-900",
+    text: "text-yellow-800 dark:text-yellow-200", 
+    border: "border-yellow-200 dark:border-yellow-700"
   },
   info: {
-    bg: "bg-blue-100",
-    text: "text-blue-800",
-    border: "border-blue-200"
+    bg: "bg-blue-100 dark:bg-blue-900",
+    text: "text-blue-800 dark:text-blue-200",
+    border: "border-blue-200 dark:border-blue-700"
   },
   neutral: {
-    bg: "bg-gray-100",
-    text: "text-gray-800",
-    border: "border-gray-200"
+    bg: "bg-gray-100 dark:bg-gray-700",
+    text: "text-gray-800 dark:text-gray-200",
+    border: "border-gray-200 dark:border-gray-600"
   }
 };
 

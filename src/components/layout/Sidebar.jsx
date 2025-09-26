@@ -4,7 +4,7 @@ import { useState } from "react";
 const navItems = [
   { label: "Home", path: "/" },
   { label: "PDDL Planning", path: "/planners" },
-  { label: "MiniZink Solving", path: "/solvers" },
+  { label: "MiniZinc Solving", path: "/solvers" },
   {
     label: "Validators",
     children: [
@@ -32,8 +32,8 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="w-64 bg-white shadow-md min-h-screen p-4">
-      <h2 className="text-xl font-bold mb-6">Pianista</h2>
+    <aside className="w-64 bg-white dark:bg-gray-800 shadow-md min-h-screen p-4">
+      <h2 className="text-xl font-bold mb-6 text-gray-900 dark:text-white">Pianista</h2>
       <nav className="space-y-2">
         {navItems.map((item) => (
           <div key={item.label}>
@@ -41,7 +41,7 @@ export default function Sidebar() {
               <>
                 <button
                   onClick={() => toggleMenu(item.label)}
-                  className="w-full text-left px-3 py-2 rounded hover:bg-blue-50 text-gray-700"
+                  className="w-full text-left px-3 py-2 rounded hover:bg-blue-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
                 >
                   {item.label}
                 </button>
@@ -51,10 +51,10 @@ export default function Sidebar() {
                       <Link
                         key={child.label}
                         to={child.path}
-                        className={`block px-3 py-1 rounded hover:bg-blue-50 ${
+                        className={`block px-3 py-1 rounded hover:bg-blue-50 dark:hover:bg-gray-700 ${
                           location.pathname === child.path
-                            ? "bg-blue-100 text-blue-700 font-medium"
-                            : "text-gray-600"
+                            ? "bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-medium"
+                            : "text-gray-600 dark:text-gray-400"
                         }`}
                       >
                         {child.label}
@@ -66,10 +66,10 @@ export default function Sidebar() {
             ) : (
               <Link
                 to={item.path}
-                className={`block px-3 py-2 rounded hover:bg-blue-50 ${
+                className={`block px-3 py-2 rounded hover:bg-blue-50 dark:hover:bg-gray-700 ${
                   location.pathname === item.path
-                    ? "bg-blue-100 text-blue-700 font-medium"
-                    : "text-gray-700"
+                    ? "bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-medium"
+                    : "text-gray-700 dark:text-gray-300"
                 }`}
               >
                 {item.label}

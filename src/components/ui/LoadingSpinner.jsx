@@ -29,8 +29,8 @@ export default function LoadingSpinner({
   if (variant === 'pulse') {
     return (
       <div className={`flex items-center justify-center space-x-2 ${className}`}>
-        <div className={`${sizeClasses[size]} bg-blue-500 rounded-full animate-pulse`}></div>
-        <span className={`text-blue-600 ${textSizeClasses[size]}`}>
+        <div className={`${sizeClasses[size]} bg-blue-500 dark:bg-blue-400 rounded-full animate-pulse`}></div>
+        <span className={`text-blue-600 dark:text-blue-400 ${textSizeClasses[size]}`}>
           {message || LOADING_VARIANTS[variant]}
         </span>
       </div>
@@ -40,13 +40,13 @@ export default function LoadingSpinner({
   if (variant === 'dots') {
     return (
       <div className={`flex items-center justify-center space-x-1 ${className}`}>
-        <span className={`text-blue-600 ${textSizeClasses[size]}`}>
+        <span className={`text-blue-600 dark:text-blue-400 ${textSizeClasses[size]}`}>
           {message || 'Loading'}
         </span>
         <div className="flex space-x-1">
-          <div className="w-1 h-1 bg-blue-600 rounded-full animate-bounce"></div>
-          <div className="w-1 h-1 bg-blue-600 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-          <div className="w-1 h-1 bg-blue-600 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+          <div className="w-1 h-1 bg-blue-600 dark:bg-blue-400 rounded-full animate-bounce"></div>
+          <div className="w-1 h-1 bg-blue-600 dark:bg-blue-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+          <div className="w-1 h-1 bg-blue-600 dark:bg-blue-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
         </div>
       </div>
     );
@@ -54,8 +54,8 @@ export default function LoadingSpinner({
 
   return (
     <div className={`flex items-center justify-center space-x-2 ${className}`}>
-      <div className={`${sizeClasses[size]} border-2 border-blue-200 border-t-blue-600 rounded-full animate-spin`}></div>
-      <span className={`text-blue-600 ${textSizeClasses[size]}`}>
+      <div className={`${sizeClasses[size]} border-2 border-blue-200 dark:border-blue-600 border-t-blue-600 dark:border-t-blue-400 rounded-full animate-spin`}></div>
+      <span className={`text-blue-600 dark:text-blue-400 ${textSizeClasses[size]}`}>
         {message || LOADING_VARIANTS[variant]}
       </span>
     </div>

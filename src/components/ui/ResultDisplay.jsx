@@ -2,23 +2,23 @@ import PropTypes from 'prop-types';
 
 const RESULT_VARIANTS = {
   success: {
-    container: "bg-green-50 border-green-200",
-    title: "text-green-700",
+    container: "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700",
+    title: "text-green-700 dark:text-green-300",
     icon: "✅"
   },
   error: {
-    container: "bg-red-50 border-red-200", 
-    title: "text-red-700",
+    container: "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-700", 
+    title: "text-red-700 dark:text-red-300",
     icon: "❌"
   },
   warning: {
-    container: "bg-yellow-50 border-yellow-200",
-    title: "text-yellow-700", 
+    container: "bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-700",
+    title: "text-yellow-700 dark:text-yellow-300", 
     icon: "⚠️"
   },
   info: {
-    container: "bg-blue-50 border-blue-200",
-    title: "text-blue-700",
+    container: "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-700",
+    title: "text-blue-700 dark:text-blue-300",
     icon: "ℹ️"
   }
 };
@@ -52,8 +52,8 @@ export default function ResultDisplay({
 
 export function ResultSection({ title, children, className = '' }) {
   return (
-    <div className={`bg-white p-3 rounded border ${className}`}>
-      {title && <h4 className="font-semibold mb-2">{title}</h4>}
+    <div className={`bg-white dark:bg-gray-800 p-3 rounded border dark:border-gray-600 ${className}`}>
+      {title && <h4 className="font-semibold mb-2 text-gray-900 dark:text-gray-100">{title}</h4>}
       {children}
     </div>
   );
@@ -61,7 +61,7 @@ export function ResultSection({ title, children, className = '' }) {
 
 export function CodeBlock({ children, maxHeight = 'max-h-96' }) {
   return (
-    <pre className={`whitespace-pre-wrap text-sm bg-gray-50 p-3 rounded border overflow-x-auto ${maxHeight} overflow-y-auto font-mono`}>
+    <pre className={`whitespace-pre-wrap text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-200 p-3 rounded border dark:border-gray-600 overflow-x-auto ${maxHeight} overflow-y-auto font-mono`}>
       {children}
     </pre>
   );

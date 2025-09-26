@@ -81,7 +81,7 @@ export default function GetPlan() {
             type="text"
             placeholder="Enter Plan ID"
             {...register("planId")}
-            className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 border rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
           />
           {errors.planId && (
             <p className="text-sm text-red-600 mt-1">{errors.planId.message}</p>

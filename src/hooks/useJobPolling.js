@@ -6,7 +6,7 @@ export const useJobPolling = (fetchFunction, options = {}) => {
   const {
     initialInterval = config.features.ui.autoRefreshInterval,
     maxInterval = 30000,
-    maxAttempts = 5,
+    maxAttempts = 10,
     backoffMultiplier = 1.5,
     onSuccess,
     onError,
