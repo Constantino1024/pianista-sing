@@ -25,4 +25,5 @@ export { default as ApiStatus } from './ApiStatus';
 export { default as ParameterForm } from './ParameterForm';
 export { default as SolutionDisplay } from './SolutionDisplay';
 export { default as DarkModeToggle } from './DarkModeToggle';
+export { HamburgerButton } from './HamburgerButton';
 export { default as PlanGanttChart } from '../features/plan/PlanGanttChart';
