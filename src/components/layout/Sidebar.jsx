@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
+import { DarkModeToggle } from "@components/ui";
 
 const navItems = [
   { label: "Home", path: "/" },
@@ -33,7 +34,10 @@ export default function Sidebar() {
 
   return (
     <aside className="w-64 bg-white dark:bg-gray-800 shadow-md min-h-screen p-4">
-      <h2 className="text-xl font-bold mb-6 text-gray-900 dark:text-white">Pianista</h2>
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white">Pianista</h2>
+        <DarkModeToggle />
+      </div>
       <nav className="space-y-2">
         {navItems.map((item) => (
           <div key={item.label}>
