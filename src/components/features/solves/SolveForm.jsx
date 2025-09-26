@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { postSolve } from "@api";
 import { solveSchema } from "@schemas";
@@ -11,7 +11,8 @@ import {
   InfoPanel,
   JobIdDisplay,
   ErrorDisplay,
-  ButtonLoading
+  ButtonLoading,
+  ParameterForm
 } from "@components/ui";
 
 export default function SolveForm({
@@ -27,18 +28,36 @@ export default function SolveForm({
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(solveSchema),
+    defaultValues: {
+      model_params: [{ name: "", value: "", type: "string" }]
+    }
   });
 
   const onSubmit = createFormSubmissionHandler(
     (formData) => {
       let parsedParams;
-      try {
-        parsedParams = JSON.parse(formData.model_params);
-      } catch (parseError) {
-        throw new Error(`Invalid JSON format in model parameters: ${parseError.message}`);
+      
+      // Handle both array (new form) and string (legacy) formats
+      if (Array.isArray(formData.model_params)) {
+        // Convert parameter array to JSON object
+        const validParams = formData.model_params
+          .filter(param => param.name.trim() !== "");
+        
+        parsedParams = validParams.reduce((acc, param) => ({ 
+          ...acc, 
+          [param.name]: param.value 
+        }), {});
+      } else {
+        // Legacy JSON string format
+        try {
+          parsedParams = JSON.parse(formData.model_params);
+        } catch (parseError) {
+          throw new Error(`Invalid JSON format in model parameters: ${parseError.message}`);
+        }
       }
       
       const processedModelStr = formData.model_str.replace(/\\n/g, '\n');
@@ -93,20 +112,17 @@ export default function SolveForm({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            Model Parameters (JSON) *
-          </label>
-          <textarea
-            placeholder='{"param1": value1, "param2": value2}'
-            {...register("model_params")}
-            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-            rows={4}
+          <Controller
+            name="model_params"
+            control={control}
+            render={({ field }) => (
+              <ParameterForm
+                parameters={field.value}
+                onChange={field.onChange}
+                error={errors.model_params?.message}
+              />
+            )}
           />
-          {errors.model_params && (
-            <p className="text-sm text-red-600 dark:text-red-400">
-              {errors.model_params.message}
-            </p>
-          )}
         </div>
 
         <button

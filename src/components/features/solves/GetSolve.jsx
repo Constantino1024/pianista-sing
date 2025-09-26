@@ -12,6 +12,7 @@ import {
   ResultDisplay, 
   ResultSection, 
   JsonDisplay,
+  SolutionDisplay,
   ErrorDisplay,
   ButtonLoading
 } from "@components/ui";
@@ -95,7 +96,7 @@ export default function GetSolve() {
           </ResultSection>
 
           <ResultSection title="Solution">
-            <JsonDisplay data={solution.solution} />
+            <SolutionDisplay solution={solution.solution} />
           </ResultSection>
 
           <ResultSection title="Statistics">
