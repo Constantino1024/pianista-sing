@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { DarkModeToggle, HamburgerButton } from "@components/ui";
 import { useSidebar } from "@hooks";
 import VisionSpaceEyeBlack from "@assets/visionspace/VisionSpace_eye_Black.png";
-import VisionSpaceEyeWhite from "@assets/visionspace/VisionSpace White SVG.svg";
+import VisionSpaceEyeWhite from "@assets/visionspace/VisionSpace_eye_White.png";
 import VisionSpaceWordmark2LineBlack from "@assets/visionspace/VisionSpace_Wordmark_2lines_Black.png";
 import VisionSpaceWordmark2LineWhite from "@assets/visionspace/VisionSpace_Wordmark_2lines_White.png";
 
@@ -66,8 +66,8 @@ export const Sidebar = () => {
       items: [
         { name: "All Converters", path: "/converters" },
         { name: "Natural to PDDL", path: "/converters/natural-to-pddl" },
-        { name: "PDDL to Mermaid", path: "/converters/pddl-to-mermaid" },
         { name: "Mermaid to PDDL", path: "/converters/mermaid-to-pddl" },
+        { name: "PDDL to Mermaid", path: "/converters/pddl-to-mermaid" },
       ],
     },
     {

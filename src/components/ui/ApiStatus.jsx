@@ -1,7 +1,7 @@
 import { getRoot } from "@api";
 import { useApiData } from "@utils/apiUtils";
 import VisionSpaceEyeBlack from "@assets/visionspace/VisionSpace_eye_Black.png";
-import VisionSpaceEyeWhite from "@assets/visionspace/VisionSpace White SVG.svg";
+import VisionSpaceEyeWhite from "@assets/visionspace/VisionSpace_eye_White.png";
 
 export default function ApiStatus() {
   const { data, loading, error } = useApiData(getRoot);

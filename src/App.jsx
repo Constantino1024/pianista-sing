@@ -17,7 +17,7 @@ import ValidatePddlPage from "@pages/Validators/ValidatePddlPage";
 import PddlMatchValidatorPage from "@pages/Validators/PddlMatchValidatorPage";
 import PddlPlanValidatorPage from "@pages/Validators/PddlPlanValidatorPage";
 import VisionSpaceEyeBlack from "@assets/visionspace/VisionSpace_eye_Black.png";
-import VisionSpaceEyeWhite from "@assets/visionspace/VisionSpace White SVG.svg";
+import VisionSpaceEyeWhite from "@assets/visionspace/VisionSpace_eye_White.png";
 
 function CollapsedSidebarButton() {
   const { isOpen, toggleSidebar } = useSidebar();
