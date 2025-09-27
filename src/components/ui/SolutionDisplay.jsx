@@ -1,10 +1,8 @@
 import PropTypes from "prop-types";
-import { JsonDisplay } from "@components/ui";
 
 export default function SolutionDisplay({ solution, className = "" }) {
   if (!solution) return null;
 
-  // Function to format solution variables in a readable way
   const formatSolutionVariables = (solutionData) => {
     if (!solutionData || typeof solutionData !== 'object') {
       return null;
@@ -31,7 +29,6 @@ export default function SolutionDisplay({ solution, className = "" }) {
     );
   };
 
-  // Function to format individual values
   const formatValue = (value) => {
     if (Array.isArray(value)) {
       if (value.length === 0) return "[]";
@@ -55,16 +52,6 @@ export default function SolutionDisplay({ solution, className = "" }) {
       </h3>
       
       {formatSolutionVariables(solution)}
-      
-      {/* Fallback to JSON display if formatting fails or for debugging */}
-      <details className="mt-4">
-        <summary className="text-sm text-gray-600 dark:text-gray-400 cursor-pointer hover:text-gray-800 dark:hover:text-gray-200">
-          View Raw JSON
-        </summary>
-        <div className="mt-2">
-          <JsonDisplay data={solution} maxHeight="max-h-48" />
-        </div>
-      </details>
     </div>
   );
 }

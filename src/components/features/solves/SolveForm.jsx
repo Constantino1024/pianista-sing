@@ -39,26 +39,13 @@ export default function SolveForm({
 
   const onSubmit = createFormSubmissionHandler(
     (formData) => {
-      let parsedParams;
+      const validParams = formData.model_params
+        .filter(param => param.name.trim() !== "");
       
-      // Handle both array (new form) and string (legacy) formats
-      if (Array.isArray(formData.model_params)) {
-        // Convert parameter array to JSON object
-        const validParams = formData.model_params
-          .filter(param => param.name.trim() !== "");
-        
-        parsedParams = validParams.reduce((acc, param) => ({ 
-          ...acc, 
-          [param.name]: param.value 
-        }), {});
-      } else {
-        // Legacy JSON string format
-        try {
-          parsedParams = JSON.parse(formData.model_params);
-        } catch (parseError) {
-          throw new Error(`Invalid JSON format in model parameters: ${parseError.message}`);
-        }
-      }
+      const parsedParams = validParams.reduce((acc, param) => ({ 
+        ...acc, 
+        [param.name]: param.value 
+      }), {});
       
       const processedModelStr = formData.model_str.replace(/\\n/g, '\n');
       
@@ -79,7 +66,7 @@ export default function SolveForm({
   return (
     <Card className="space-y-4">
       <SectionHeader 
-        title="Post Minizinc Solve"
+        title="Post MiniZinc Solve"
         description="Submit a MiniZinc model for solving"
       />
 
@@ -101,7 +88,7 @@ export default function SolveForm({
             Model String *
           </label>
           <textarea
-            placeholder="Enter Minizinc model"
+            placeholder="Enter MiniZinc model"
             {...register("model_str")}
             className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
             rows={6}

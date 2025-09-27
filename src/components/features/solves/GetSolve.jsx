@@ -46,7 +46,7 @@ export default function GetSolve() {
   return (
     <Card className="space-y-4">
       <SectionHeader 
-        title="Get Minizinc Solution"
+        title="Get MiniZinc Solution"
         description="Retrieve solution details using the solution ID. Note: Solutions may take a few moments to process after submission."
       />
 
