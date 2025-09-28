@@ -1,4 +1,3 @@
-import { Component } from 'react';
 import ErrorDisplay from './ErrorDisplay';
 
 import React from 'react';
@@ -17,16 +16,9 @@ class ErrorBoundary extends React.Component {
   componentDidCatch(error, errorInfo) {
     this.setState({
       error,
-      errorInfo
+      errorInfo,
+      hasError: true,
     });
-
-    if (import.meta.env.DEV) {
-      console.error('ErrorBoundary caught an error:', error, errorInfo);
-    }
-
-    if (this.props.onError) {
-      this.props.onError(error, errorInfo);
-    }
   }
 
   handleRetry = () => {

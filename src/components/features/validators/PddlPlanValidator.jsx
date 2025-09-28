@@ -126,20 +126,22 @@ export default function PddlPlanValidator() {
         >
           <div className="space-y-3">
             <div className="flex items-center space-x-2">
-              <span className="font-semibold text-gray-700">Status:</span>
+              <span className="font-semibold text-gray-700 dark:text-gray-300">Status:</span>
               <StatusBadge variant={result.result === "success" ? "success" : "error"}>
                 {result.result.toUpperCase()}
               </StatusBadge>
             </div>
             <div className="flex items-center space-x-2">
-              <span className="font-semibold text-gray-700">Detected PDDL Type:</span>
+              <span className="font-semibold text-gray-700 dark:text-gray-300">Detected PDDL Type:</span>
               <StatusBadge variant="info">
                 {result.pddl_type || "None"}
               </StatusBadge>
             </div>
             <div>
-              <span className="font-semibold text-gray-700">Message:</span>
-              <CodeBlock className="mt-2">
+              <CodeBlock 
+                label="Message:"
+                variant={result.result === "success" ? "success" : "error"}
+              >
                 {result.message}
               </CodeBlock>
             </div>

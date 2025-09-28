@@ -1,103 +1,121 @@
 export const parsePddlPlan = (planText) => {
   if (!planText || typeof planText !== 'string') {
-    return { actions: [], duration: 0, metadata: {} };
+    return { actions: [], duration: 0, metadata: {}, dependencies: {} };
   }
 
-
   const processedPlanText = planText.replace(/\\n/g, '\n');
-  
   const lines = processedPlanText.trim().split('\n').filter(line => line.trim());
+  
   const actions = [];
-  let maxEndTime = 0;
-  let actionIndex = 0;
-
+  const dependencies = {};
+  
   const actionLines = lines.filter(line => {
     const trimmed = line.trim();
     return trimmed && 
            !trimmed.startsWith('Fast Downward') && 
            !trimmed.startsWith('SequentialPlan') &&
-           !trimmed.includes('SequentialPlan:');
+           !trimmed.includes('SequentialPlan:') &&
+           !trimmed.includes(':');
   });
 
-  for (const line of actionLines) {
-    try {
-      const parsed = parsePddlAction(line, actionIndex);
-      if (parsed) {
-        actions.push(parsed);
-        maxEndTime = Math.max(maxEndTime, parsed.end);
-        actionIndex++;
+  actionLines.forEach((line, index) => {
+    const trimmed = line.trim();
+      
+      if (trimmed.includes('enable-task')) {
+        const match = trimmed.match(/enable-task\s*\(\s*([^,]+)\s*,\s*([^)]+)\s*\)/);
+        if (match) {
+          const [, enabledTask, dependsOnTask] = match;
+          if (!dependencies[enabledTask.trim()]) {
+            dependencies[enabledTask.trim()] = [];
+          }
+          dependencies[enabledTask.trim()].push(dependsOnTask.trim());
+        }
+        return;
       }
-    } catch (error) {
-      console.warn(`Failed to parse action line: ${line}`, error);
-    }
-  }
+      
+      const actionMatch = trimmed.match(/(\w+(?:-\w+)*)\s*\(([^)]*)\)/);
+      if (actionMatch) {
+        const [, actionName, paramString] = actionMatch;
+        const parameters = paramString ? 
+          paramString.split(',').map(p => p.trim()).filter(p => p) : 
+          [];
+        
+        actions.push({
+          id: `${actionName.replace(/[^a-zA-Z0-9]/g, '_')}_${index}`,
+          action: actionName,
+          parameters: parameters,
+          taskName: parameters[0] || `${actionName}_${index}`,
+          duration: 1.0,
+          start: index,
+          end: index + 1,
+          text: `${actionName}(${parameters.join(', ')})`,
+          originalLine: line.trim()
+        });
+      } else {
+        const parts = trimmed.split(/\s+/);
+        if (parts.length > 0 && parts[0]) {
+          const actionName = parts[0];
+          const parameters = parts.slice(1);
+          
+          actions.push({
+            id: `${actionName.replace(/[^a-zA-Z0-9]/g, '_')}_${index}`,
+            action: actionName,
+            parameters: parameters,
+            taskName: parameters[0] || `${actionName}_${index}`,
+            duration: 1.0,
+            start: index,
+            end: index + 1,
+            text: parameters.length > 0 ? `${actionName}(${parameters.join(', ')})` : actionName,
+            originalLine: line.trim()
+          });
+        }
+      }
+  });
 
+  if (Object.keys(dependencies).length > 0) {
+    const taskStartTimes = {};
+    const taskEndTimes = {};
+    
+    const processTask = (taskName) => {
+      if (taskStartTimes[taskName] !== undefined) {
+        return taskStartTimes[taskName];
+      }
+      
+      const deps = dependencies[taskName] || [];
+      let startTime = 0;
+      
+      deps.forEach(depTaskName => {
+        processTask(depTaskName);
+        const depEndTime = taskEndTimes[depTaskName] || 1;
+        startTime = Math.max(startTime, depEndTime);
+      });
+      
+      taskStartTimes[taskName] = startTime;
+      taskEndTimes[taskName] = startTime + 1;
+      
+      return startTime;
+    };
+    
+    actions.forEach(action => {
+      processTask(action.taskName);
+      action.start = taskStartTimes[action.taskName] || action.start;
+      action.end = taskEndTimes[action.taskName] || action.end;
+    });
+  }
+  
+  const maxEndTime = Math.max(...actions.map(a => a.end), 0);
   actions.sort((a, b) => a.start - b.start);
 
   return {
     actions,
     duration: maxEndTime,
+    dependencies,
     metadata: {
       totalActions: actions.length,
       actionTypes: [...new Set(actions.map(a => a.action))],
+      dependencyCount: Object.keys(dependencies).length,
       planText: processedPlanText.substring(0, 500) + (processedPlanText.length > 500 ? '...' : '')
     }
-  };
-};
-
-const parsePddlAction = (line, actionIndex = 0) => {
-  const trimmed = line.trim();
-  if (!trimmed) return null;
-
-  let startTime = actionIndex;
-  let remaining = trimmed;
-  
-  const timeMatch = trimmed.match(/^(\d+(?:\.\d+)?)\s*:\s*/);
-  if (timeMatch) {
-    startTime = parseFloat(timeMatch[1]);
-    remaining = trimmed.substring(timeMatch[0].length);
-  }
-
-  let action = '';
-  let parameters = [];
-  
-  const actionMatch = remaining.match(/^(\w+)\s*\(([^)]*)\)/);
-  if (actionMatch) {
-    action = actionMatch[1];
-    const paramString = actionMatch[2].trim();
-    parameters = paramString ? paramString.split(/\s*,\s*|\s+/).filter(p => p) : [];
-    remaining = remaining.substring(actionMatch[0].length);
-  } else {
-    const parenMatch = remaining.match(/^\(([^)]+)\)/);
-    if (parenMatch) {
-      const actionParts = parenMatch[1].trim().split(/\s+/);
-      action = actionParts[0];
-      parameters = actionParts.slice(1);
-      remaining = remaining.substring(parenMatch[0].length);
-    } else {
-      const parts = remaining.split(/\s+/);
-      action = parts[0];
-      parameters = parts.slice(1).filter(p => !p.startsWith('[') && !p.includes('duration'));
-    }
-  }
-
-  if (!action) return null;
-
-  let duration = 1.0;
-  const durationMatch = remaining.match(/\[(?:duration\s+)?(\d+(?:\.\d+)?)\]/);
-  if (durationMatch) {
-    duration = parseFloat(durationMatch[1]);
-  }
-
-  return {
-    id: `${action}-${startTime}`,
-    action: action.replace(/^[()]/g, ''),
-    parameters,
-    start: startTime,
-    duration,
-    end: startTime + duration,
-    text: `${action}(${parameters.join(', ')})`,
-    originalLine: line.trim()
   };
 };
 

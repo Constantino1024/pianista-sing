@@ -59,11 +59,22 @@ export function ResultSection({ title, children, className = '' }) {
   );
 }
 
-export function CodeBlock({ children, maxHeight = 'max-h-96' }) {
+export function CodeBlock({ children, maxHeight = 'max-h-96', className = '', label, variant }) {
+  const textColorClass = variant === 'success' 
+    ? 'text-green-700 dark:text-green-300'
+    : variant === 'error'
+    ? 'text-red-700 dark:text-red-300'
+    : 'text-gray-800 dark:text-gray-200';
+
   return (
-    <pre className={`whitespace-pre-wrap text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-200 p-3 rounded border dark:border-gray-600 overflow-x-auto ${maxHeight} overflow-y-auto font-mono`}>
-      {children}
-    </pre>
+    <div className={`bg-white dark:bg-gray-700 p-3 rounded border border-gray-300 dark:border-gray-600 ${className}`}>
+      {label && (
+        <span className="font-semibold text-gray-700 dark:text-gray-300">{label}</span>
+      )}
+      <p className={`${label ? 'mt-2' : ''} whitespace-pre-wrap text-sm ${textColorClass} overflow-x-auto ${maxHeight} overflow-y-auto`}>
+        {children}
+      </p>
+    </div>
   );
 }
 
@@ -91,7 +102,10 @@ ResultSection.propTypes = {
 
 CodeBlock.propTypes = {
   children: PropTypes.node.isRequired,
-  maxHeight: PropTypes.string
+  maxHeight: PropTypes.string,
+  className: PropTypes.string,
+  label: PropTypes.string,
+  variant: PropTypes.oneOf(['success', 'error'])
 };
 
 JsonDisplay.propTypes = {

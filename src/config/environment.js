@@ -1,24 +1,10 @@
 
-const requiredEnvVars = {
-  VITE_API_BASE_URL: import.meta.env.VITE_API_BASE_URL,
-  VITE_API_KEY: import.meta.env.VITE_API_KEY,
-};
-
-const missingEnvVars = Object.entries(requiredEnvVars)
-  .filter(([, value]) => !value)
-  .map(([key]) => key);
-
-if (missingEnvVars.length > 0) {
-  console.error('Missing required environment variables:', missingEnvVars);
-}
-
-
 export const apiConfig = {
   baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000',
   key: import.meta.env.VITE_API_KEY || '',
-  timeout: 30000, // 30 seconds
+  timeout: 30000,
   retryAttempts: 3,
-  retryDelay: 1000, // 1 second
+  retryDelay: 1000,
   headers: {
     'Cache-Control': 'no-cache',
     'Content-Type': 'application/json',

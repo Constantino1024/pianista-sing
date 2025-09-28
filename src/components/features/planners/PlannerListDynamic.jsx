@@ -19,11 +19,7 @@ export default function PlannersListDynamic({ onPlannerSelect }) {
       return data;
     };
 
-    const logError = (error) => {
-      console.error("Failed to fetch planner:", error);
-    };
-
-    const result = await handleAsyncOperation(operation, 'planner fetch', logError);
+    const result = await handleAsyncOperation(operation, 'planner fetch');
     if (result && onPlannerSelect) {
       onPlannerSelect(result.id, result);
     }

@@ -19,11 +19,7 @@ export default function DynamicSolversList({ onSolverSelect }) {
       return data;
     };
 
-    const logError = (error) => {
-      console.error("Failed to fetch solver:", error);
-    };
-
-    const result = await handleAsyncOperation(operation, 'solver fetch', logError);
+    const result = await handleAsyncOperation(operation, 'solver fetch');
     if (result && onSolverSelect) {
       onSolverSelect(result.id, result);
     }

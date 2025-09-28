@@ -31,7 +31,6 @@ export function useTheme() {
       root.classList.remove("dark");
     }
 
-    // Only save to sessionStorage if user has made a manual choice
     if (hasUserPreference) {
       sessionStorage.setItem("theme", theme);
     }

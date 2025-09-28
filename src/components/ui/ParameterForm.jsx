@@ -14,7 +14,6 @@ export default function ParameterForm({
       if (i === index) {
         const newParam = { ...param, [field]: value };
         
-        // Auto-convert value based on type
         if (field === "type" || field === "value") {
           if (newParam.type === "number") {
             newParam.value = newParam.value === "" ? "" : Number(newParam.value) || 0;
