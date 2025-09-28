@@ -163,14 +163,16 @@ export default function GeneratePddl() {
         >
           {result.generated_domain && (
             <div className="mb-4">
-              <div className="flex justify-between items-center mb-2">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
                 <h4 className="font-semibold text-gray-700 dark:text-gray-300">Generated Domain:</h4>
-                <CopyButton 
-                  data={result.generated_domain}
-                  formatFn={copyFormatters.pddlText}
-                  size="xs"
-                  variant="ghost"
-                />
+                <div className="flex-shrink-0">
+                  <CopyButton 
+                    data={result.generated_domain}
+                    formatFn={copyFormatters.pddlText}
+                    size="xs"
+                    variant="ghost"
+                  />
+                </div>
               </div>
               <CodeBlock>
                 {result.generated_domain}
@@ -180,14 +182,16 @@ export default function GeneratePddl() {
 
           {result.generated_problem && (
             <div>
-              <div className="flex justify-between items-center mb-2">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
                 <h4 className="font-semibold text-gray-700 dark:text-gray-300">Generated Problem:</h4>
-                <CopyButton 
-                  data={result.generated_problem}
-                  formatFn={copyFormatters.pddlText}
-                  size="xs"
-                  variant="ghost"
-                />
+                <div className="flex-shrink-0">
+                  <CopyButton 
+                    data={result.generated_problem}
+                    formatFn={copyFormatters.pddlText}
+                    size="xs"
+                    variant="ghost"
+                  />
+                </div>
               </div>
               <CodeBlock>
                 {result.generated_problem}

@@ -98,27 +98,31 @@ export default function GetSolve() {
           </ResultSection>
 
           <ResultSection title="Solution">
-            <div className="flex justify-between items-center mb-2">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
               <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Solution Data:</span>
-              <CopyButton 
-                data={solution.solution}
-                formatFn={copyFormatters.solutionStats}
-                size="xs"
-                variant="ghost"
-              />
+              <div className="flex-shrink-0">
+                <CopyButton 
+                  data={solution.solution}
+                  formatFn={copyFormatters.solutionStats}
+                  size="xs"
+                  variant="ghost"
+                />
+              </div>
             </div>
             <SolutionDisplay solution={solution.solution} />
           </ResultSection>
 
           <ResultSection title="Statistics">
-            <div className="flex justify-between items-center mb-2">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
               <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Solution Statistics:</span>
-              <CopyButton 
-                data={solution.statistics}
-                formatFn={copyFormatters.solutionStats}
-                size="xs"
-                variant="ghost"
-              />
+              <div className="flex-shrink-0">
+                <CopyButton 
+                  data={solution.statistics}
+                  formatFn={copyFormatters.solutionStats}
+                  size="xs"
+                  variant="ghost"
+                />
+              </div>
             </div>
             <StatisticsDisplay statistics={solution.statistics} />
           </ResultSection>

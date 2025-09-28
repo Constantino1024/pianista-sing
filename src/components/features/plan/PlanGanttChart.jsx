@@ -367,7 +367,7 @@ export default function PlanGanttChart({ plan, title = "Plan Timeline" }) {
           
           {/* Color Legend */}
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Actions:</span>
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Resources:</span>
             {Object.entries(actionTypeColors).map(([type, color]) => (
               <div key={type} className="flex items-center gap-1">
                 <div 

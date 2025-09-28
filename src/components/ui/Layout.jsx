@@ -98,16 +98,23 @@ export function JobIdDisplay({ jobId, label = "Job ID" }) {
   return (
     <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg">
       <h3 className="font-bold text-green-700 dark:text-green-300 mb-2">Successfully Submitted</h3>
-      <div className="flex justify-between items-center">
-        <p className="text-gray-900 dark:text-gray-100">
-          <span className="font-semibold">{label}:</span> {jobId}
-        </p>
-        <CopyButton 
-          data={jobId}
-          formatFn={copyFormatters.pddlText}
-          size="xs"
-          variant="ghost"
-        />
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+        <div className="min-w-0 flex-1">
+          <p className="text-gray-900 dark:text-gray-100">
+            <span className="font-semibold">{label}:</span>
+          </p>
+          <p className="text-gray-900 dark:text-gray-100 text-sm font-mono break-all">
+            {jobId}
+          </p>
+        </div>
+        <div className="flex-shrink-0">
+          <CopyButton 
+            data={jobId}
+            formatFn={copyFormatters.pddlText}
+            size="xs"
+            variant="ghost"
+          />
+        </div>
       </div>
     </div>
   );

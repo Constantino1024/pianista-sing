@@ -31,7 +31,7 @@ const CopyButton = ({
     <button
       onClick={handleCopy}
       className={`
-        inline-flex items-center gap-2 rounded-md font-medium transition-colors
+        inline-flex items-center gap-1 sm:gap-2 rounded-md font-medium transition-colors whitespace-nowrap
         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
         dark:focus:ring-offset-gray-800 disabled:opacity-50 disabled:cursor-not-allowed
         ${sizeClasses[size]}
@@ -43,18 +43,20 @@ const CopyButton = ({
     >
       {isCopied ? (
         <>
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
-          Copied!
+          <span className="hidden sm:inline">Copied!</span>
+          <span className="sm:hidden">✓</span>
         </>
       ) : (
         <>
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
                   d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
           </svg>
-          Copy to clipboard
+          <span className="hidden sm:inline">Copy to clipboard</span>
+          <span className="sm:hidden">Copy</span>
         </>
       )}
     </button>

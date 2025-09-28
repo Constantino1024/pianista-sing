@@ -139,15 +139,17 @@ export default function GetPlan() {
               variant="success"
               title="Plan Raw Data"
             >
-              <ResultSection>
-                <div className="flex justify-between items-center mb-2">
+              <ResultSection title="Raw Plan Text:">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
                   <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Plan Actions:</span>
-                  <CopyButton 
-                    data={plan.plan}
-                    formatFn={copyFormatters.planData}
-                    size="xs"
-                    variant="ghost"
-                  />
+                  <div className="flex-shrink-0">
+                    <CopyButton 
+                      data={plan.plan}
+                      formatFn={copyFormatters.planData}
+                      size="xs"
+                      variant="ghost"
+                    />
+                  </div>
                 </div>
                 <JsonDisplay data={plan.plan} />
               </ResultSection>

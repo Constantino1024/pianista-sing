@@ -109,14 +109,16 @@ export default function PddlToMermaid() {
           variant={result.result_status === "success" ? "success" : "error"}
           title={`Conversion ${result.result_status === "success" ? "Successful" : "Failed"}`}
         >
-          <div className="flex justify-between items-center mb-2">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
             <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Mermaid Diagram Code:</span>
-            <CopyButton 
-              data={result.conversion_result}
-              formatFn={copyFormatters.mermaidCode}
-              size="xs"
-              variant="ghost"
-            />
+            <div className="flex-shrink-0">
+              <CopyButton 
+                data={result.conversion_result}
+                formatFn={copyFormatters.mermaidCode}
+                size="xs"
+                variant="ghost"
+              />
+            </div>
           </div>
           <CodeBlock>
             {result.conversion_result}
