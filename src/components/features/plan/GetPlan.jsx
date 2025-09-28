@@ -13,8 +13,10 @@ import {
   ResultSection, 
   JsonDisplay,
   ErrorDisplay,
-  ButtonLoading
+  ButtonLoading,
+  CopyButton
 } from "@components/ui";
+import { copyFormatters } from "@utils/copyFormatters";
 import PlanGanttChart from "./PlanGanttChart";
 
 export default function GetPlan() {
@@ -137,7 +139,16 @@ export default function GetPlan() {
               variant="success"
               title="Plan Raw Data"
             >
-              <ResultSection title="Raw Plan Text:">
+              <ResultSection>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Plan Actions:</span>
+                  <CopyButton 
+                    data={plan.plan}
+                    formatFn={copyFormatters.planData}
+                    size="xs"
+                    variant="ghost"
+                  />
+                </div>
                 <JsonDisplay data={plan.plan} />
               </ResultSection>
             </ResultDisplay>

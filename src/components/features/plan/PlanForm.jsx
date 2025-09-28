@@ -5,6 +5,8 @@ import { postPlan } from "@api";
 import { planSchema } from "@schemas";
 import { useToast } from "@hooks";
 import { createPlanSubmissionHandler } from "@utils/errorHandling";
+import { JobIdDisplay } from "@components/ui/Layout";
+import { CopyButton } from "@components/ui";
 
 export default function PlanForm({
   selectedPlannerId = null,
@@ -110,12 +112,7 @@ export default function PlanForm({
       </form>
 
       {jobId && (
-        <div className="p-4 bg-green-50 dark:bg-green-900/20 border dark:border-green-700 rounded-lg">
-          <h3 className="font-bold text-green-700 dark:text-green-300">Plan Submitted</h3>
-          <p className="text-gray-900 dark:text-gray-100">
-            <span className="font-semibold">Job ID:</span> {jobId}
-          </p>
-        </div>
+        <JobIdDisplay jobId={jobId} label="Plan Job ID" />
       )}
 
       {error && (

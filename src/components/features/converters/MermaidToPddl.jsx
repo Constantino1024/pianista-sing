@@ -10,8 +10,10 @@ import {
   ResultDisplay, 
   CodeBlock,
   ErrorDisplay,
-  ButtonLoading
+  ButtonLoading,
+  CopyButton
 } from "@components/ui";
+import { copyFormatters } from "@utils/copyFormatters";
 
 export default function MermaidToPddl() {
   const [mermaid, setMermaid] = useState("");
@@ -134,6 +136,15 @@ export default function MermaidToPddl() {
           variant={result.result_status === "success" ? "success" : "error"}
           title={`Conversion ${result.result_status === "success" ? "Successful" : "Failed"}`}
         >
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Generated PDDL:</span>
+            <CopyButton 
+              data={result.conversion_result}
+              formatFn={copyFormatters.pddlText}
+              size="xs"
+              variant="ghost"
+            />
+          </div>
           <CodeBlock>
             {result.conversion_result}
           </CodeBlock>

@@ -14,8 +14,10 @@ import {
   SolutionDisplay,
   StatisticsDisplay,
   ErrorDisplay,
-  ButtonLoading
+  ButtonLoading,
+  CopyButton
 } from "@components/ui";
+import { copyFormatters } from "@utils/copyFormatters";
 
 export default function GetSolve() {
   const [solution, setSolution] = useState(null);
@@ -96,10 +98,28 @@ export default function GetSolve() {
           </ResultSection>
 
           <ResultSection title="Solution">
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Solution Data:</span>
+              <CopyButton 
+                data={solution.solution}
+                formatFn={copyFormatters.solutionStats}
+                size="xs"
+                variant="ghost"
+              />
+            </div>
             <SolutionDisplay solution={solution.solution} />
           </ResultSection>
 
           <ResultSection title="Statistics">
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Solution Statistics:</span>
+              <CopyButton 
+                data={solution.statistics}
+                formatFn={copyFormatters.solutionStats}
+                size="xs"
+                variant="ghost"
+              />
+            </div>
             <StatisticsDisplay statistics={solution.statistics} />
           </ResultSection>
         </ResultDisplay>

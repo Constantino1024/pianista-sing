@@ -123,7 +123,7 @@ export default function SolveForm({
         </button>
       </form>
 
-      <JobIdDisplay jobId={jobId} />
+      <JobIdDisplay jobId={jobId} label="Solve Job ID" />
       <ErrorDisplay error={error} />
     </Card>
   );

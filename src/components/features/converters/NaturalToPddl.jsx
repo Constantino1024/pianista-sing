@@ -9,8 +9,10 @@ import {
   ResultDisplay, 
   CodeBlock,
   ErrorDisplay,
-  ButtonLoading
+  ButtonLoading,
+  CopyButton
 } from "@components/ui";
+import { copyFormatters } from "@utils/copyFormatters";
 
 export default function GeneratePddl() {
   const [pddlType, setPddlType] = useState("domain");
@@ -161,7 +163,15 @@ export default function GeneratePddl() {
         >
           {result.generated_domain && (
             <div className="mb-4">
-              <h4 className="font-semibold text-gray-700 mb-2">Generated Domain:</h4>
+              <div className="flex justify-between items-center mb-2">
+                <h4 className="font-semibold text-gray-700 dark:text-gray-300">Generated Domain:</h4>
+                <CopyButton 
+                  data={result.generated_domain}
+                  formatFn={copyFormatters.pddlText}
+                  size="xs"
+                  variant="ghost"
+                />
+              </div>
               <CodeBlock>
                 {result.generated_domain}
               </CodeBlock>
@@ -170,7 +180,15 @@ export default function GeneratePddl() {
 
           {result.generated_problem && (
             <div>
-              <h4 className="font-semibold text-gray-700 mb-2">Generated Problem:</h4>
+              <div className="flex justify-between items-center mb-2">
+                <h4 className="font-semibold text-gray-700 dark:text-gray-300">Generated Problem:</h4>
+                <CopyButton 
+                  data={result.generated_problem}
+                  formatFn={copyFormatters.pddlText}
+                  size="xs"
+                  variant="ghost"
+                />
+              </div>
               <CodeBlock>
                 {result.generated_problem}
               </CodeBlock>
