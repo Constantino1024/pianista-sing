@@ -214,7 +214,7 @@ export const Sidebar = () => {
         <div className="p-6 border-t dark:border-gray-700 space-y-4">
           <div className="flex flex-col items-center space-y-2">
             <a
-              href="https://visionspace.ai"
+              href="https://visionspace.com"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:opacity-80 transition-opacity"
