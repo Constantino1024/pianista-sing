@@ -10,20 +10,20 @@ export const HamburgerButton = () => {
       aria-label="Toggle menu"
       title="Toggle menu"
     >
-      <div className="w-5 h-5 flex flex-col justify-center items-center">
+      <div className="w-5 h-5 flex flex-col justify-center items-center relative">
+        <span
+          className={`block h-0.5 w-5 bg-gray-600 dark:bg-gray-400 transform transition-all duration-300 absolute ${
+            isOpen ? 'rotate-45' : '-translate-y-1'
+          }`}
+        />
         <span
           className={`block h-0.5 w-5 bg-gray-600 dark:bg-gray-400 transform transition-all duration-300 ${
-            isOpen ? 'rotate-45 translate-y-1' : ''
+            isOpen ? 'opacity-0 scale-0' : 'opacity-100'
           }`}
         />
         <span
-          className={`block h-0.5 w-5 bg-gray-600 dark:bg-gray-400 transform transition-all duration-300 mt-1 ${
-            isOpen ? 'opacity-0' : ''
-          }`}
-        />
-        <span
-          className={`block h-0.5 w-5 bg-gray-600 dark:bg-gray-400 transform transition-all duration-300 mt-1 ${
-            isOpen ? '-rotate-45 -translate-y-1' : ''
+          className={`block h-0.5 w-5 bg-gray-600 dark:bg-gray-400 transform transition-all duration-300 absolute ${
+            isOpen ? '-rotate-45' : 'translate-y-1'
           }`}
         />
       </div>
