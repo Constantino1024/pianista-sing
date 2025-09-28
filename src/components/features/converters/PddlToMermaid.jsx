@@ -113,7 +113,7 @@ export default function PddlToMermaid() {
             <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Mermaid Diagram Code:</span>
             <CopyButton 
               data={result.conversion_result}
-              formatFn={copyFormatters.pddlText}
+              formatFn={copyFormatters.mermaidCode}
               size="xs"
               variant="ghost"
             />

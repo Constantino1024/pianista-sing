@@ -1,7 +1,54 @@
 export const copyFormatters = {
   pddlText: (text) => {
     if (!text) return '';
-    return text.trim();
+    // Handle escaped newlines from API responses
+    const unescaped = text.replace(/\\n/g, '\n');
+    return unescaped.trim();
+  },
+
+  mermaidCode: (code) => {
+    if (!code) return '';
+    // Convert escaped newlines to actual newlines for proper Mermaid formatting
+    let unescaped = code.replace(/\\n/g, '\n').replace(/\\t/g, '\t');
+    
+    // Handle nested subgraphs by flattening only beyond first level
+    const lines = unescaped.split('\n');
+    const flattened = [];
+    let nestingLevel = 0;
+    let insideTopLevelSubgraph = false;
+    
+    for (let line of lines) {
+      const trimmedLine = line.trim();
+      
+      if (trimmedLine.startsWith('subgraph ')) {
+        nestingLevel++;
+        if (nestingLevel === 1) {
+          // Keep top-level subgraphs
+          flattened.push(line);
+          insideTopLevelSubgraph = true;
+        } else {
+          // Skip nested subgraph declarations beyond first level
+          // But we'll keep their content
+        }
+      } else if (trimmedLine === 'end') {
+        if (nestingLevel === 1) {
+          // Close top-level subgraph
+          flattened.push(line);
+          insideTopLevelSubgraph = false;
+        }
+        nestingLevel = Math.max(0, nestingLevel - 1);
+      } else if (trimmedLine && !trimmedLine.startsWith('subgraph')) {
+        // Keep all content lines, but adjust indentation for deeply nested content
+        if (nestingLevel > 1 && insideTopLevelSubgraph) {
+          // Flatten deeply nested content to be inside the top-level subgraph
+          flattened.push('        ' + trimmedLine); // 8 spaces for subgraph content
+        } else {
+          flattened.push(line);
+        }
+      }
+    }
+    
+    return flattened.join('\n').trim();
   },
 
   planData: (plan) => {
