@@ -1,27 +1,45 @@
-# React + Vite
+# Pianista Sing
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React interface for the Pianista planning engine. Submit PDDL domains/problems, get interactive Gantt charts, validate PDDL, convert between formats, and solve MiniZinc models.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🎯 **PDDL Planning**: Submit domains/problems and visualize plans
+- 📊 **Interactive Gantt Charts**: Zoom, filter, and explore plan timelines
+- ✅ **PDDL Validation**: Validate domains, problems, and plans
+- 🔄 **Format Conversion**: PDDL ↔ Mermaid, Natural Language → PDDL
+- ⚡ **MiniZinc Solving**: Submit constraint models and get solutions
+- 🌙 **Dark Mode**: Full dark/light theme support
+- 📱 **Mobile Friendly**: Responsive design with touch-optimized interface
 
-## Expanding the ESLint configuration
+## Quick Start
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-
-## Environment Setup
-
-This project requires a `.env.development` file to properly work with the following variables:
-
-```env
-VITE_API_BASE_URL=your-api-base-url
-VITE_API_KEY=your-api-key
-VITE_NODE_ENV=development
-```
-After that you may use:
-```
+1. **Clone and install:**
+```bash
+git clone https://github.com/Constantino1024/pianista-sing
+cd pianista-sing
 npm install
-npm run dev
 ```
+
+2. **Environment setup:**
+Create `.env.development`:
+```env
+VITE_API_BASE_URL=https://planner-apim.azure-api.net
+VITE_API_KEY=your-api-subscription-key
+```
+
+3. **Run:**
+```bash
+npm run dev    # Development server
+npm run build  # Production build
+```
+
+## Tech Stack
+
+- React 19 + Vite 7
+- Tailwind CSS 4.1
+- Google Charts (Gantt)
+- React Hook Form + Zod
+- Axios + Custom API Layer
+
+Built for the VisionSpace **Make Pianista Sing** challenge.
