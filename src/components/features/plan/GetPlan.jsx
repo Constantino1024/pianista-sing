@@ -137,7 +137,7 @@ export default function GetPlan() {
               variant="success"
               title="Plan Raw Data"
             >
-              <ResultSection title="Generated Plan:">
+              <ResultSection title="Raw Plan Text:">
                 <JsonDisplay data={plan.plan} />
               </ResultSection>
             </ResultDisplay>

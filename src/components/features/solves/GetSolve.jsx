@@ -11,8 +11,8 @@ import {
   StatusBadge, 
   ResultDisplay, 
   ResultSection, 
-  JsonDisplay,
   SolutionDisplay,
+  StatisticsDisplay,
   ErrorDisplay,
   ButtonLoading
 } from "@components/ui";
@@ -100,7 +100,7 @@ export default function GetSolve() {
           </ResultSection>
 
           <ResultSection title="Statistics">
-            <JsonDisplay data={solution.statistics} maxHeight="max-h-48" />
+            <StatisticsDisplay statistics={solution.statistics} />
           </ResultSection>
         </ResultDisplay>
       )}

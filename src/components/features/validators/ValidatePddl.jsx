@@ -6,6 +6,15 @@ import { validatePddlSchema, PDDL_TYPES } from "@schemas";
 import { createFormSubmissionHandler } from "@utils/errorHandling";
 import { normalizePddlText } from "@utils/pddlUtils";
 import { useToast } from "@hooks";
+import { 
+  Card, 
+  SectionHeader, 
+  ResultDisplay, 
+  StatusBadge,
+  CodeBlock,
+  ErrorDisplay,
+  ButtonLoading
+} from "@components/ui";
 
 export default function ValidatePddl() {
   const [validationResult, setValidationResult] = useState(null);
@@ -47,9 +56,12 @@ const onSubmit = createFormSubmissionHandler(
   };
 
   return (
-    <div className="p-6 bg-white dark:bg-gray-800 shadow-lg rounded-2xl space-y-4">
+    <Card className="space-y-4">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">Validate PDDL</h2>
+        <SectionHeader 
+          title="Validate PDDL"
+          description="Validate PDDL domain or problem syntax and format"
+        />
         <button
           type="button"
           onClick={clearForm}
@@ -97,74 +109,43 @@ const onSubmit = createFormSubmissionHandler(
           disabled={loading}
           className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium transition-colors"
         >
-          {loading ? "Validating..." : "Validate PDDL"}
+          <ButtonLoading isLoading={loading} loadingText="Validating...">
+            Validate PDDL
+          </ButtonLoading>
         </button>
       </form>
 
       {validationResult && (
-        <div
-          className={`p-4 border rounded-lg ${
-            validationResult.result === "success"
-              ? "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700"
-              : "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-700"
-          }`}
+        <ResultDisplay
+          variant={validationResult.result === "success" ? "success" : "error"}
+          title={`Validation ${validationResult.result === "success" ? "Successful" : "Failed"}`}
         >
-          <h3
-            className={`font-bold text-lg mb-3 ${
-              validationResult.result === "success"
-                ? "text-green-700 dark:text-green-300"
-                : "text-red-700 dark:text-red-300"
-            }`}
-          >
-            Validation{" "}
-            {validationResult.result === "success" ? "Successful" : "Failed"}
-          </h3>
-
           <div className="space-y-3">
             <div className="flex items-center space-x-2">
               <span className="font-semibold text-gray-700 dark:text-gray-300">Status:</span>
-              <span
-                className={`px-3 py-1 rounded-full text-sm font-medium ${
-                  validationResult.result === "success"
-                    ? "bg-green-100 dark:bg-green-800/30 text-green-800 dark:text-green-300"
-                    : "bg-red-100 dark:bg-red-800/30 text-red-800 dark:text-red-300"
-                }`}
-              >
+              <StatusBadge variant={validationResult.result === "success" ? "success" : "error"}>
                 {validationResult.result.toUpperCase()}
-              </span>
+              </StatusBadge>
             </div>
-
             <div className="flex items-center space-x-2">
-              <span className="font-semibold text-gray-700 dark:text-gray-300">
-                Detected PDDL Type:
-              </span>
-              <span className="px-3 py-1 rounded-full text-sm bg-blue-100 dark:bg-blue-800/30 text-blue-800 dark:text-blue-300 font-medium">
+              <span className="font-semibold text-gray-700 dark:text-gray-300">Detected PDDL Type:</span>
+              <StatusBadge variant="info">
                 {validationResult.pddl_type || "None"}
-              </span>
+              </StatusBadge>
             </div>
-
-            <div className="bg-white dark:bg-gray-700 p-3 rounded border border-gray-300 dark:border-gray-600">
-              <span className="font-semibold text-gray-700 dark:text-gray-300">Message:</span>
-              <p
-                className={`mt-2 ${
-                  validationResult.result === "success"
-                    ? "text-green-700 dark:text-green-300"
-                    : "text-red-700 dark:text-red-300"
-                }`}
+            <div>
+              <CodeBlock 
+                label="Message:"
+                variant={validationResult.result === "success" ? "success" : "error"}
               >
                 {validationResult.message}
-              </p>
+              </CodeBlock>
             </div>
           </div>
-        </div>
+        </ResultDisplay>
       )}
 
-      {error && (
-        <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg">
-          <h3 className="text-sm font-medium text-red-800 dark:text-red-300">Error</h3>
-          <p className="mt-2 text-sm text-red-700 dark:text-red-300">{error}</p>
-        </div>
-      )}
-    </div>
+      <ErrorDisplay error={error} />
+    </Card>
   );
 }
