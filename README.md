@@ -10,7 +10,7 @@ A React interface for the Pianista planning engine. Submit PDDL domains/problems
 - 🔄 **Format Conversion**: PDDL ↔ Mermaid, Natural Language → PDDL
 - ⚡ **MiniZinc Solving**: Submit constraint models and get solutions
 - 🌙 **Dark Mode**: Full dark/light theme support
-- 📱 **Mobile Friendly**: Responsive design with touch-optimized interface
+- 📱 **Mobile Friendly**: Responsive design with small devices adaptation
 
 ## Quick Start
 
@@ -33,6 +33,17 @@ VITE_API_KEY=your-api-subscription-key
 npm run dev    # Development server
 npm run build  # Production build
 ```
+
+## Project Structure
+
+- `src/components/` - React components organized by purpose (ui, features, layout)
+- `src/api/` - API integration layer with endpoint handlers
+- `src/hooks/` - Custom React hooks for state management
+- `src/pages/` - Route components for each main feature
+- `src/utils/` - Helper functions for parsing, formatting, error handling
+- `src/styles/` - Tailwind CSS configuration and custom styles
+
+The app uses a clean architecture with reusable UI components, centralized API handling, and feature-based organization.
 
 ## Tech Stack
 
